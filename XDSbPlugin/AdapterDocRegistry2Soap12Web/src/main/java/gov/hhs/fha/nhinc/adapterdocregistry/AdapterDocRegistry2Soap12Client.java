@@ -26,17 +26,41 @@
  */
 package gov.hhs.fha.nhinc.adapterdocregistry;
 
+import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.connectmgr.ConnectionManagerCache;
+import gov.hhs.fha.nhinc.document.DocumentConstants;
+import gov.hhs.fha.nhinc.messaging.client.CONNECTClient;
+import gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory;
+import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
+import gov.hhs.fha.nhinc.nhinclib.NullChecker;
+import gov.hhs.fha.nhinc.webserviceproxy.WebServiceProxyHelper;
+import ihe.iti.xds_b._2007.DocumentRegistryPortType;
+import gov.hhs.fha.nhinc.docregistry.adapter.proxy.*;
+import gov.hhs.fha.nhinc.docregistry.adapter.proxy.description.AdapterComponentDocRegistryServicePortDescriptor;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
+import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
+import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectListType;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryErrorList;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.cxf.jaxws.context.WebServiceContextImpl;
+import javax.xml.ws.handler.MessageContext;
+import org.apache.log4j.Logger;
+
 import java.util.UUID;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.api.message.Headers;
-import com.sun.xml.ws.api.message.Header;
-import com.sun.xml.ws.developer.WSBindingProvider;
+//import com.sun.xml.ws.api.message.Headers;
+//import com.sun.xml.ws.api.message.Header;
+//import com.sun.xml.ws.developer.WSBindingProvider;
+import javax.xml.ws.WebServiceContext;
+
 
 /**
  * This class calls a SOAP 1.2 enabled document registry given a SOAP 1.1 registry stored query request message.
@@ -44,7 +68,8 @@ import com.sun.xml.ws.developer.WSBindingProvider;
  * @author Anand Sastry
  */
 public class AdapterDocRegistry2Soap12Client {
-    private static Log log = LogFactory.getLog(AdapterDocRegistry2Soap12Client.class);
+    private static final Logger LOG = Logger.getLogger(AdapterDocRegistry2Soap12Client.class);
+    private WebServiceProxyHelper oProxyHelper = null;
     private static String ADAPTER_XDS_REG_DEFAULT_SERVICE_URL = "http://localhost:8080/axis2/services/xdsregistryb";
     private static ihe.iti.xds_b._2007.DocumentRegistryService service = null;
 
@@ -57,7 +82,21 @@ public class AdapterDocRegistry2Soap12Client {
      * Default constructor.
      */
     public AdapterDocRegistry2Soap12Client() {
+        oProxyHelper = createWebServiceProxyHelper();
+    }
 
+    protected WebServiceProxyHelper createWebServiceProxyHelper() {
+        return new WebServiceProxyHelper();
+    }
+
+    public ServicePortDescriptor<DocumentRegistryPortType> getServicePortDescriptor(
+            NhincConstants.ADAPTER_API_LEVEL apiLevel) {
+        switch (apiLevel) {
+        case LEVEL_a0:
+            return new AdapterComponentDocRegistryServicePortDescriptor();
+        default:
+            return new AdapterComponentDocRegistryServicePortDescriptor();
+        }
     }
 
     /**
@@ -69,30 +108,70 @@ public class AdapterDocRegistry2Soap12Client {
      *
      */
 
-    public oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse documentRegistryRegistryStoredQuery(
-            oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest body) {
-
-        oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse response = null;
-
-        log.debug("Entering AdapterDocRegistry2Soap12Client.documentRegistryRegistryStoredQuery() method");
+    public AdhocQueryResponse documentRegistryRegistryStoredQuery(
+            AdhocQueryRequest body) {
+        
+        AdhocQueryResponse response = null;
+        AssertionType assertion = null;
+        LOG.debug("Entering AdapterDocRegistry2Soap12Client.documentRegistryRegistryStoredQuery() method");
 
         try {
+            String url = oProxyHelper
+                    .getAdapterEndPointFromConnectionManager(ADAPTER_XDS_REG_SERVICE_NAME);
+            if (NullChecker.isNotNullish(url)) {
+
+                if (body == null) {
+                    LOG.error("Message was null");
+                } else {
+                    ServicePortDescriptor<DocumentRegistryPortType> portDescriptor = getServicePortDescriptor(NhincConstants.ADAPTER_API_LEVEL.LEVEL_a0);
+
+                    CONNECTClient<DocumentRegistryPortType> client = AdapterDocRegistrySoapClientFactory.getInstance()
+                            .getCONNECTClientUnsecured(portDescriptor, url, assertion);
+
+                    response = (AdhocQueryResponse) client.invokePort(DocumentRegistryPortType.class,
+                            "documentRegistryRegistryStoredQuery", body);
+                }
+            } else {
+                LOG.error("Failed to call the web service (" + NhincConstants.ADAPTER_DOC_REGISTRY_SERVICE_NAME
+                        + ").  The URL is null.");
+            }
+        } catch (Exception ex) {
+            LOG.error("Error sending Adapter Component Doc Registry Unsecured message: " + ex.getMessage(), ex);
+            response = new AdhocQueryResponse();
+            response.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
+            response.setRegistryObjectList(new RegistryObjectListType());
+
+            RegistryError registryError = new RegistryError();
+            registryError.setCodeContext("Processing Adapter Doc Query document query");
+            registryError.setErrorCode("XDSRegistryError");
+            registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
+            response.setRegistryErrorList(new RegistryErrorList());
+            response.getRegistryErrorList().getRegistryError().add(registryError);
+        }
+
+        LOG.debug("End registryStoredQuery");
+        return response;
+    }
+
+        
+
+      /*  try {
             // get a connection to the soap 1.2 registryStoreQuery document web service
             ihe.iti.xds_b._2007.DocumentRegistryPortType port = getSoap12Port(WS_REGISTRY_STORED_QUERY_ACTION);
 
             // call the soap 1.2 retrieve document web service
             response = port.documentRegistryRegistryStoredQuery(body);
-            log.debug("RetrieveDocumentSetRequest Response = " + ((response != null) ? response.getStatus() : "null"));
+            LOG.debug("RetrieveDocumentSetRequest Response = " + ((response != null) ? response.getStatus() : "null"));
         } catch (Exception e) {
             String sErrorMessage = "Failed to execute registry stored query from the soap 1.2 web service.  Error: "
                     + e.getMessage();
-            log.error(sErrorMessage, e);
+            LOG.error(sErrorMessage, e);
             throw new RuntimeException(sErrorMessage, e);
         }
 
         log.debug("Leaving AdapterDocRegistry2Soap12Client.documentRegistryRegistryStoredQuery() method");
         return response;
-    }
+    }*/
 
     /**
      * This method connects to a SOAP 1.2 enabled document registry based on the configuration found in the
@@ -102,7 +181,7 @@ public class AdapterDocRegistry2Soap12Client {
      * @param action A string representing the soap header action needed to perform a registry stored query.
      * @return Returns a DocumentRegistryPortType object which will enable the registry stored query txn.
      */
-    private ihe.iti.xds_b._2007.DocumentRegistryPortType getSoap12Port(String action) {
+   /* private ihe.iti.xds_b._2007.DocumentRegistryPortType getSoap12Port(String action) {
         log.debug("Entering AdapterDocRegistry2Soap12Client.getSoap12Port() method");
 
         ihe.iti.xds_b._2007.DocumentRegistryPortType port = null;
@@ -123,7 +202,7 @@ public class AdapterDocRegistry2Soap12Client {
                 sEndpointURL = ADAPTER_XDS_REG_DEFAULT_SERVICE_URL;
                 String sErrorMessage = "Failed to retrieve the Endpoint URL for service: '"
                         + ADAPTER_XDS_REG_SERVICE_NAME + "'.  " + "Setting this to: '" + sEndpointURL + "'";
-                log.warn(sErrorMessage);
+                LOG.warn(sErrorMessage);
             }
 
             ((javax.xml.ws.BindingProvider) port).getRequestContext().put(
@@ -154,5 +233,5 @@ public class AdapterDocRegistry2Soap12Client {
 
         log.debug("Leaving AdapterDocRegistry2Soap12Client.getSoap12Port() method");
         return port;
-    }
+    }*/
 }

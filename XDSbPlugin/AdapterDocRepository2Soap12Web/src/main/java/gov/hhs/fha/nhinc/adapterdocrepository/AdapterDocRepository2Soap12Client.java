@@ -26,17 +26,33 @@
  */
 package gov.hhs.fha.nhinc.adapterdocrepository;
 
-import gov.hhs.fha.nhinc.connectmgr.ConnectionManagerCache;
+import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
+import gov.hhs.fha.nhinc.docrepository.adapter.proxy.service.AdapterComponentDocRepositoryServicePortDescriptor;
+import gov.hhs.fha.nhinc.document.DocumentConstants;
+import gov.hhs.fha.nhinc.messaging.client.CONNECTCXFClientFactory;
+import gov.hhs.fha.nhinc.messaging.client.CONNECTClient;
+import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
+import gov.hhs.fha.nhinc.properties.PropertyAccessor;
+import gov.hhs.fha.nhinc.webserviceproxy.WebServiceProxyHelper;
+import ihe.iti.xds_b._2007.DocumentRepositoryPortType;
+import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+
 import java.util.UUID;
 import javax.xml.namespace.QName;
-import com.sun.xml.ws.api.message.Headers;
-import com.sun.xml.ws.api.message.Header;
-import com.sun.xml.ws.developer.WSBindingProvider;
+//import com.sun.xml.ws.api.message.Headers;
+//import com.sun.xml.ws.api.message.Header;
+//import com.sun.xml.ws.developer.WSBindingProvider;
 import javax.xml.ws.soap.MTOMFeature;
 
 /**
@@ -47,15 +63,27 @@ import javax.xml.ws.soap.MTOMFeature;
  * @author shawc
  */
 public class AdapterDocRepository2Soap12Client {
-    private static Log log = LogFactory.getLog(AdapterDocRepository2Soap12Client.class);
+    private static final Logger LOG = Logger.getLogger(AdapterDocRepository2Soap12Client.class);
     private static String ADAPTER_XDS_REP_DEFAULT_SERVICE_URL = "http://localhost:50967/axis2/services/xdsrepositoryb";
     private static ihe.iti.xds_b._2007.DocumentRepositoryService service = null;
+    public static final String ADAPTER_XDS_REP_SERVICE_NAME = "adapterxdsbdocregistrysoap12";
+    private WebServiceProxyHelper oProxyHelper = null;
 
     /**
      * Default constructor.
      */
     public AdapterDocRepository2Soap12Client() {
+        oProxyHelper = createWebServiceProxyHelper();
+    }
 
+    protected WebServiceProxyHelper createWebServiceProxyHelper() {
+        return new WebServiceProxyHelper();
+    }
+
+    protected CONNECTClient<DocumentRepositoryPortType> getCONNECTClientUnsecured(
+        ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor, String url, AssertionType assertion) {
+
+        return CONNECTCXFClientFactory.getInstance().getCONNECTClientUnsecured(portDescriptor, url, assertion);
     }
 
     /**
@@ -66,11 +94,11 @@ public class AdapterDocRepository2Soap12Client {
      *            stored.
      * @return Returns a RegistryResponseType indicating whether the document was successfully stored.
      */
-    public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType provideAndRegisterDocumentSet(
+  /*  public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType provideAndRegisterDocumentSet(
             ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
         oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType response = null;
 
-        log.debug("Entering AdapterDocRepository2Soap12Client.provideAndRegisterDocumentSet() method");
+        LOG.debug("Entering AdapterDocRepository2Soap12Client.provideAndRegisterDocumentSet() method");
 
         try {
 
@@ -80,17 +108,17 @@ public class AdapterDocRepository2Soap12Client {
 
             // call the soap 1.2 provide and register document set web service
             response = port.documentRepositoryProvideAndRegisterDocumentSetB(storeRequest);
-            log.debug("ProvideAndRegisterRequest Response = " + response.getStatus());
+            LOG.debug("ProvideAndRegisterRequest Response = " + response.getStatus());
 
         } catch (Exception e) {
             String sErrorMessage = "Failed to retrieve a handle to the soap 1.2 web service.  Error: " + e.getMessage();
-            log.error(sErrorMessage, e);
+            LOG.error(sErrorMessage, e);
             throw new RuntimeException(sErrorMessage, e);
         }
 
-        log.debug("Leaving AdapterDocRepository2Soap12Client.provideAndRegisterDocumentSet() method");
+        LOG.debug("Leaving AdapterDocRepository2Soap12Client.provideAndRegisterDocumentSet() method");
         return response;
-    }
+    }*/
 
     /**
      * This method connects to a soap 1.2 enabled document repository and retrieves a document with the document id
@@ -103,26 +131,64 @@ public class AdapterDocRepository2Soap12Client {
     public ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType retrieveDocument(
             ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType retrieveRequest) {
         ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType response = null;
+        AssertionType assertion = null;
 
-        log.debug("Entering AdapterDocRepository2Soap12Client.retrieveDocument() method");
-
+        LOG.debug("Entering AdapterDocRepository2Soap12Client.retrieveDocument() method");
+        
         try {
+            String xdsbHomeCommunityId = PropertyAccessor.getInstance().getProperty(
+                NhincConstants.ADAPTER_PROPERTY_FILE_NAME, NhincConstants.XDS_HOME_COMMUNITY_ID_PROPERTY);
+            String url = oProxyHelper.getAdapterEndPointFromConnectionManager(xdsbHomeCommunityId,
+                    ADAPTER_XDS_REP_SERVICE_NAME);
+
+            if (retrieveRequest == null) {
+                LOG.error("Message was null");
+            } else {
+                ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
+
+                CONNECTClient<DocumentRepositoryPortType> client = getCONNECTClientUnsecured(portDescriptor, url,
+                    assertion);
+                client.enableMtom();
+                response = (RetrieveDocumentSetResponseType) client.invokePort(DocumentRepositoryPortType.class,
+                    "documentRepositoryRetrieveDocumentSet", retrieveRequest);
+            }
+        } catch (Exception ex) {
+            LOG.error("Error sending Adapter Component Doc Repository Unsecured message: " + ex.getMessage(), ex);
+            response = new RetrieveDocumentSetResponseType();
+            RegistryResponseType regResp = new RegistryResponseType();
+
+            regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
+
+            RegistryError registryError = new RegistryError();
+            registryError.setCodeContext("Processing Adapter Doc Query document retrieve");
+            registryError.setErrorCode("XDSRepostoryError");
+            registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
+            regResp.getRegistryErrorList().getRegistryError().add(registryError);
+            response.setRegistryResponse(regResp);
+        }
+
+        LOG.debug("End retrieveDocument");
+        return response;
+    }
+
+
+      /*  try {
             // get a connection to the soap 1.2 retrieve document web service
             ihe.iti.xds_b._2007.DocumentRepositoryPortType port = getSoap12Port(NhincConstants.WS_RETRIEVE_DOCUMENT_ACTION);
 
             // call the soap 1.2 retrieve document web service
             response = port.documentRepositoryRetrieveDocumentSet(retrieveRequest);
-            log.debug("RetrieveDocumentSetRequest Response = " + response.getRegistryResponse().getStatus());
+            LOG.debug("RetrieveDocumentSetRequest Response = " + response.getRegistryResponse().getStatus());
         } catch (Exception e) {
             String sErrorMessage = "Failed to retrieve the requested document from the soap 1.2 web service.  Error: "
                     + e.getMessage();
-            log.error(sErrorMessage, e);
+            LOG.error(sErrorMessage, e);
             throw new RuntimeException(sErrorMessage, e);
         }
 
-        log.debug("Leaving AdapterDocRepository2Soap12Client.retrieveDocument() method");
+        LOG.debug("Leaving AdapterDocRepository2Soap12Client.retrieveDocument() method");
         return response;
-    }
+    }*/
 
     /**
      * This method connects to a soap 1.2 enabled document repository based on the configuration found in the
@@ -133,8 +199,8 @@ public class AdapterDocRepository2Soap12Client {
      * @param action A string representing the soap header action needed to either retrieve or store a document.
      * @return Returns a DocumentRepositoryPortType object which will enable a retrieve or store document transaction.
      */
-    private ihe.iti.xds_b._2007.DocumentRepositoryPortType getSoap12Port(String action) {
-        log.debug("Entering AdapterDocRepository2Soap12Client.getSoap12Port() method");
+   /* private ihe.iti.xds_b._2007.DocumentRepositoryPortType getSoap12Port(String action) {
+        LOG.debug("Entering AdapterDocRepository2Soap12Client.getSoap12Port() method");
 
         ihe.iti.xds_b._2007.DocumentRepositoryPortType port = null;
 
@@ -145,7 +211,7 @@ public class AdapterDocRepository2Soap12Client {
 
             // Get the real endpoint URL for this service.
             // --------------------------------------------
-            // Note, set the sEndpointURL to null and comment out the ConnectionMangerCache logic if running outside of
+            // Note, set the sEndpointURL to null and comment out the ConnectionMangerCache LOGic if running outside of
             // GF.
             String sEndpointURL = ConnectionManagerCache.getInstance().getInternalEndpointURLByServiceName(
                     NhincConstants.ADAPTER_XDS_REP_SERVICE_NAME);
@@ -155,7 +221,7 @@ public class AdapterDocRepository2Soap12Client {
                 String sErrorMessage = "Failed to retrieve the Endpoint URL for service: '"
                         + NhincConstants.ADAPTER_XDS_REP_SERVICE_NAME + "'.  " + "Setting this to: '" + sEndpointURL
                         + "'";
-                log.warn(sErrorMessage);
+                LOG.warn(sErrorMessage);
             }
 
             ((javax.xml.ws.BindingProvider) port).getRequestContext().put(
@@ -179,12 +245,12 @@ public class AdapterDocRepository2Soap12Client {
         } catch (Exception ex) {
             String sErrorMessage = "Failed to retrieve a handle to the soap 1.2 web service.  Error: "
                     + ex.getMessage();
-            log.error(sErrorMessage, ex);
+            LOG.error(sErrorMessage, ex);
             throw new RuntimeException(sErrorMessage, ex);
 
         }
 
-        log.debug("Leaving AdapterDocRepository2Soap12Client.getSoap12Port() method");
+        LOG.debug("Leaving AdapterDocRepository2Soap12Client.getSoap12Port() method");
         return port;
-    }
+    }*/
 }
