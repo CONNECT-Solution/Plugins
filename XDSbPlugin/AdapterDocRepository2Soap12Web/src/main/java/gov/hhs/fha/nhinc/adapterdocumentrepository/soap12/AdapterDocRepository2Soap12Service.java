@@ -47,8 +47,6 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author shawc
  */
-@WebService(serviceName = "DocumentRepository_Service", portName = "DocumentRepository_Port_Soap", endpointInterface = "ihe.iti.xds_b._2007.DocumentRepositoryPortType", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "WEB-INF/wsdl/AdapterDocRepository2Soap12Service/AdapterComponentDocRepository.wsdl")
-@BindingType(value = javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
 public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPortType {
     private static Log log = LogFactory.getLog(AdapterDocRepository2Soap12Service.class);
 

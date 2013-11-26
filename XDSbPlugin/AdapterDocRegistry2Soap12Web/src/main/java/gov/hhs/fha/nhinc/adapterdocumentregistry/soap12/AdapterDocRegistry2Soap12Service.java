@@ -50,8 +50,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Anand Sastry
  */
-//@WebService(serviceName = "DocumentRegistry_Service", portName = "DocumentRegistry_Port_Soap", endpointInterface = "ihe.iti.xds_b._2007.DocumentRegistryPortType", targetNamespace = "urn:ihe:iti:xds-b:2007", wsdlLocation = "WEB-INF/wsdl/AdapterDocRegistry2Soap12Service/AdapterComponentDocRegistry.wsdl")
-//@BindingType(value = javax.xml.ws.soap.SOAPBinding.SOAP12HTTP_BINDING)
+
 public class AdapterDocRegistry2Soap12Service implements DocumentRegistryPortType {
 
     private static final Logger LOG = Logger.getLogger(AdapterDocRegistry2Soap12Service.class);

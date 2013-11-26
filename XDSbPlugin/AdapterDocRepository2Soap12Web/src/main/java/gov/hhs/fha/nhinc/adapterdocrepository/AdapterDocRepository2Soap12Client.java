@@ -64,40 +64,7 @@ public class AdapterDocRepository2Soap12Client {
     }
 
 
-    /**
-     * This method connects to a soap 1.2 enabled document repository and stores a document given a
-     * ProvideAndRegisterDocumentSetRequestType object.
-     * 
-     * @param storeRequest A ProvideAndRegisterDocumentSetRequestType object containing the document and metadata to be
-     *            stored.
-     * @return Returns a RegistryResponseType indicating whether the document was successfully stored.
-     */
-  /*  public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType provideAndRegisterDocumentSet(
-            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
-        oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType response = null;
-
-        LOG.debug("Entering AdapterDocRepository2Soap12Client.provideAndRegisterDocumentSet() method");
-
-        try {
-
-            // Call Web Service Operation
-            service = new ihe.iti.xds_b._2007.DocumentRepositoryService();
-            ihe.iti.xds_b._2007.DocumentRepositoryPortType port = getSoap12Port(NhincConstants.WS_PROVIDE_AND_REGISTER_DOCUMENT_ACTION);
-
-            // call the soap 1.2 provide and register document set web service
-            response = port.documentRepositoryProvideAndRegisterDocumentSetB(storeRequest);
-            LOG.debug("ProvideAndRegisterRequest Response = " + response.getStatus());
-
-        } catch (Exception e) {
-            String sErrorMessage = "Failed to retrieve a handle to the soap 1.2 web service.  Error: " + e.getMessage();
-            LOG.error(sErrorMessage, e);
-            throw new RuntimeException(sErrorMessage, e);
-        }
-
-        LOG.debug("Leaving AdapterDocRepository2Soap12Client.provideAndRegisterDocumentSet() method");
-        return response;
-    }*/
-
+    
     /**
      * This method connects to a soap 1.2 enabled document repository and retrieves a document with the document id
      * found in the given RetrieveDocumentSetRequestType object.
