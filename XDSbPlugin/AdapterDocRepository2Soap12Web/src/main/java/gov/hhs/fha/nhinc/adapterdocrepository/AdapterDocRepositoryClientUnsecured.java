@@ -11,7 +11,7 @@ import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 
 /**
  * @author achidambaram
- *
+ * 
  */
 public class AdapterDocRepositoryClientUnsecured<T> extends CONNECTCXFClient<T> {
 
@@ -21,13 +21,14 @@ public class AdapterDocRepositoryClientUnsecured<T> extends CONNECTCXFClient<T> 
      * @param assertion
      * @param portBuilder
      */
-    protected AdapterDocRepositoryClientUnsecured(ServicePortDescriptor<T> portDescriptor, String url, AssertionType assertion) {
+    protected AdapterDocRepositoryClientUnsecured(ServicePortDescriptor<T> portDescriptor, String url,
+            AssertionType assertion) {
         super(portDescriptor, url, assertion, new CachingCXFWSAServicePortBuilder<T>(portDescriptor));
         decorateEndpoint(assertion, url, portDescriptor.getWSAddressingAction());
         serviceEndpoint.configure();
-        
+
     }
-    
+
     /**
      * @param assertion
      * @param url
@@ -41,8 +42,5 @@ public class AdapterDocRepositoryClientUnsecured<T> extends CONNECTCXFClient<T> 
     public T getPort() {
         return serviceEndpoint.getPort();
     }
-
-   
-   
 
 }

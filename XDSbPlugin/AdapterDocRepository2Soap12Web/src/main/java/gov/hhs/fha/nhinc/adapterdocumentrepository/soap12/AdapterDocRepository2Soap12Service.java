@@ -51,41 +51,6 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
     private static Log log = LogFactory.getLog(AdapterDocRepository2Soap12Service.class);
 
     /**
-     * This method supports the AdapterComponentDocRepository.wsdl for storing a document to a document repository for a
-     * given soap 1.1 request message.
-     * 
-     * @param storeRequest A ProvideAndRegisterDocumentSetRequestType object containing the desired document and
-     *            metadata to store into a document repository.
-     * @return Returns a RegistryResponseType indicating whether the document was successfully stored.
-     */
-  /*  public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
-            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
-        log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
-
-        RegistryResponseType response = null;
-        try {
-            if (storeRequest != null) {
-                log.debug("ProvideAndRegisterDocumentSetRequest was not null");
-
-                AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
-
-                response = oClient.provideAndRegisterDocumentSet(storeRequest);
-
-            } else {
-                String sErrorMessage = "The store document request message was null.";
-                log.error(sErrorMessage);
-                throw new RuntimeException(sErrorMessage);
-            }
-        } catch (Exception exp) {
-            log.error(exp.getMessage());
-            exp.printStackTrace();
-        }
-
-        log.debug("leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
-        return response;
-    }*/
-
-    /**
      * This method supports the AdapterComponentDocRepository.wsdl for retrieving a document from a document repository
      * for a given soap 1.1 request message.
      * 

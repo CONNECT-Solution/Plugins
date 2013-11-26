@@ -99,6 +99,7 @@ public class AdapterDocRegistry2Soap12Client {
 
                 if (body == null) {
                     LOG.error("Message was null");
+                    createErrorResponse(response);
                 } else {
                     ServicePortDescriptor<DocumentRegistryPortType> portDescriptor = getServicePortDescriptor(NhincConstants.ADAPTER_API_LEVEL.LEVEL_a0);
 
@@ -114,19 +115,24 @@ public class AdapterDocRegistry2Soap12Client {
             }
         } catch (Exception ex) {
             LOG.error("Error sending Adapter Component Doc Registry Unsecured message: " + ex.getMessage(), ex);
-            response = new AdhocQueryResponse();
-            response.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
-            response.setRegistryObjectList(new RegistryObjectListType());
-
-            RegistryError registryError = new RegistryError();
-            registryError.setCodeContext("Processing Adapter Doc Query document query");
-            registryError.setErrorCode("XDSRegistryError");
-            registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
-            response.setRegistryErrorList(new RegistryErrorList());
-            response.getRegistryErrorList().getRegistryError().add(registryError);
+            createErrorResponse(response);
         }
 
         LOG.debug("End registryStoredQuery");
+        return response;
+    }
+
+    private AdhocQueryResponse createErrorResponse(AdhocQueryResponse response) {
+        response = new AdhocQueryResponse();
+        response.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
+        response.setRegistryObjectList(new RegistryObjectListType());
+
+        RegistryError registryError = new RegistryError();
+        registryError.setCodeContext("Processing Adapter Doc Query document query");
+        registryError.setErrorCode("XDSRegistryError");
+        registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
+        response.setRegistryErrorList(new RegistryErrorList());
+        response.getRegistryErrorList().getRegistryError().add(registryError);
         return response;
     }
 

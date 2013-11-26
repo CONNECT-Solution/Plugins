@@ -42,7 +42,6 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * This class calls a soap 1.2 enabled document repository given a soap 1.1 retrieve document set or provide and
  * register document set request message. This class was initially created to connect to the Vangent/HIEOS document
@@ -63,8 +62,6 @@ public class AdapterDocRepository2Soap12Client {
         return new WebServiceProxyHelper();
     }
 
-
-    
     /**
      * This method connects to a soap 1.2 enabled document repository and retrieves a document with the document id
      * found in the given RetrieveDocumentSetRequestType object.
@@ -79,40 +76,46 @@ public class AdapterDocRepository2Soap12Client {
         AssertionType assertion = null;
 
         LOG.debug("Entering AdapterDocRepository2Soap12Client.retrieveDocument() method");
-        
+
         try {
             String xdsbHomeCommunityId = PropertyAccessor.getInstance().getProperty(
-                NhincConstants.ADAPTER_PROPERTY_FILE_NAME, NhincConstants.XDS_HOME_COMMUNITY_ID_PROPERTY);
+                    NhincConstants.ADAPTER_PROPERTY_FILE_NAME, NhincConstants.XDS_HOME_COMMUNITY_ID_PROPERTY);
             String url = oProxyHelper.getAdapterEndPointFromConnectionManager(xdsbHomeCommunityId,
                     ADAPTER_XDS_REP_SERVICE_NAME);
 
             if (retrieveRequest == null) {
                 LOG.error("Message was null");
+                createErrorResponse(response);
             } else {
                 ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
 
-                CONNECTClient<DocumentRepositoryPortType> client = AdapterDocRepositoryClientFactory.getInstance().getCONNECTClientUnsecured(portDescriptor, url,
-                    assertion);
+                CONNECTClient<DocumentRepositoryPortType> client = AdapterDocRepositoryClientFactory.getInstance()
+                        .getCONNECTClientUnsecured(portDescriptor, url, assertion);
                 client.enableMtom();
                 response = (RetrieveDocumentSetResponseType) client.invokePort(DocumentRepositoryPortType.class,
-                    "documentRepositoryRetrieveDocumentSet", retrieveRequest);
+                        "documentRepositoryRetrieveDocumentSet", retrieveRequest);
             }
         } catch (Exception ex) {
             LOG.error("Error sending Adapter Component Doc Repository Unsecured message: " + ex.getMessage(), ex);
-            response = new RetrieveDocumentSetResponseType();
-            RegistryResponseType regResp = new RegistryResponseType();
-
-            regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
-
-            RegistryError registryError = new RegistryError();
-            registryError.setCodeContext("Processing Adapter Doc Query document retrieve");
-            registryError.setErrorCode("XDSRepostoryError");
-            registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
-            regResp.getRegistryErrorList().getRegistryError().add(registryError);
-            response.setRegistryResponse(regResp);
+            createErrorResponse(response);
         }
 
         LOG.debug("End retrieveDocument");
+        return response;
+    }
+
+    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response) {
+        response = new RetrieveDocumentSetResponseType();
+        RegistryResponseType regResp = new RegistryResponseType();
+
+        regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
+
+        RegistryError registryError = new RegistryError();
+        registryError.setCodeContext("Processing Adapter Doc Query document retrieve");
+        registryError.setErrorCode("XDSRepostoryError");
+        registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
+        regResp.getRegistryErrorList().getRegistryError().add(registryError);
+        response.setRegistryResponse(regResp);
         return response;
     }
 }

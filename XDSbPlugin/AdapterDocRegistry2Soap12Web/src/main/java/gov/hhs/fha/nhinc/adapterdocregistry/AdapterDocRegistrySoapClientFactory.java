@@ -10,12 +10,18 @@ import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 
 /**
  * @author achidambaram
- *
+ * 
  */
-public class AdapterDocRegistrySoapClientFactory extends CONNECTClientFactory{
+public class AdapterDocRegistrySoapClientFactory extends CONNECTClientFactory {
 
-    /* (non-Javadoc)
-     * @see gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientSecured(gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType)
+    private static AdapterDocRegistrySoapClientFactory instance = new AdapterDocRegistrySoapClientFactory();
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientSecured(gov.hhs.fha.nhinc.messaging.service
+     * .port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType)
      */
     @Override
     public <T> CONNECTClient<T> getCONNECTClientSecured(ServicePortDescriptor<T> portDescriptor, String url,
@@ -24,8 +30,13 @@ public class AdapterDocRegistrySoapClientFactory extends CONNECTClientFactory{
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientSecured(gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientSecured(gov.hhs.fha.nhinc.messaging.service
+     * .port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType,
+     * java.lang.String, java.lang.String)
      */
     @Override
     public <T> CONNECTClient<T> getCONNECTClientSecured(ServicePortDescriptor<T> portDescriptor, String url,
@@ -34,8 +45,13 @@ public class AdapterDocRegistrySoapClientFactory extends CONNECTClientFactory{
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientSecured(gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType, java.lang.String, java.lang.String, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientSecured(gov.hhs.fha.nhinc.messaging.service
+     * .port.ServicePortDescriptor, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType, java.lang.String,
+     * java.lang.String, java.lang.String)
      */
     @Override
     public <T> CONNECTClient<T> getCONNECTClientSecured(ServicePortDescriptor<T> portDescriptor,
@@ -44,27 +60,36 @@ public class AdapterDocRegistrySoapClientFactory extends CONNECTClientFactory{
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientUnsecured(gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientUnsecured(gov.hhs.fha.nhinc.messaging
+     * .service.port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType,
+     * java.lang.String)
      */
-   /* @Override
-    public <T> CONNECTClient<T> getCONNECTClientUnsecured(ServicePortDescriptor<T> portDescriptor, String url,
-            AssertionType assertion, String methodName) {
-        
-       return null;
-    }*/
+    /*
+     * @Override public <T> CONNECTClient<T> getCONNECTClientUnsecured(ServicePortDescriptor<T> portDescriptor, String
+     * url, AssertionType assertion, String methodName) {
+     * 
+     * return null; }
+     */
 
-    /* (non-Javadoc)
-     * @see gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientUnsecured(gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * gov.hhs.fha.nhinc.messaging.client.CONNECTClientFactory#getCONNECTClientUnsecured(gov.hhs.fha.nhinc.messaging
+     * .service.port.ServicePortDescriptor, java.lang.String, gov.hhs.fha.nhinc.common.nhinccommon.AssertionType)
      */
     @Override
     public <T> CONNECTClient<T> getCONNECTClientUnsecured(ServicePortDescriptor<T> portDescriptor, String url,
             AssertionType assertion) {
-        return new AdapterDocRegistryClientUnsecured<T>(portDescriptor,  url, assertion);
+        return new AdapterDocRegistryClientUnsecured<T>(portDescriptor, url, assertion);
     }
-    
+
     public static CONNECTClientFactory getInstance() {
-        return new AdapterDocRegistrySoapClientFactory();
+        return AdapterDocRegistrySoapClientFactory.instance;
     }
 
 }
