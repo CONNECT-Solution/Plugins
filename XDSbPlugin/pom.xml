@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.connectopensource</groupId>
+        <artifactId>Plugins</artifactId>
+        <version>4.3.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>XDSbPlugin</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>pom</packaging>
+    <modules>
+        <module>AdapterDocRegistry2Soap12Web</module>
+        <module>AdapterDocRepository2Soap12Web</module>
+	</modules>
+	<dependencies>
+	    <dependency>
+                <groupId>commons-logging</groupId>
+                <artifactId>commons-logging</artifactId>
+                <version>1.1.1</version>
+        </dependency>
+		<dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>ConnectionManagerWebservices</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+	</dependencies>
+</project>
