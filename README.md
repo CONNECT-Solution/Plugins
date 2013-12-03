@@ -1,7 +1,7 @@
 Plugins
 =======
 
-This repository has CONNECT HIEOS Adapter interfaces which supports to submit a Document to HIEOS repository. The CONNECT can use these adapters to do a Document lookup(DocumentQuery) using DocumentRgeistry interface and CONNECT can retrieve a document from HIOES repository using DocRepository Adapter Repository.
+This repository has CONNECT HIEOS Adapter interfaces which supports to submit a Document to HIEOS repository. The CONNECT can use these adapters to do a Document lookup(DocumentQuery) using DocumentRegistry interface and CONNECT can retrieve a document from HIOES repository using DocRepository Adapter Repository.
 
 Build:
 
