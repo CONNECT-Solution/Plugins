@@ -27,6 +27,8 @@
 package gov.hhs.fha.nhinc.adapterdocumentrepository.soap12;
 
 import gov.hhs.fha.nhinc.adapterdocrepository.AdapterDocRepository2Soap12Client;
+import gov.hhs.fha.nhinc.document.DocumentConstants;
+import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import ihe.iti.xds_b._2007.DocumentRepositoryPortType;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType;
@@ -37,6 +39,8 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.ws.Action;
 import javax.xml.ws.BindingType;
+
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,30 +64,7 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
      */
     public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
             ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
-        log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
-
-        RegistryResponseType response = null;
-
-        try {
-            if (storeRequest != null) {
-                log.debug("storeRequest was not null");
-
-                AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
-
-                response = oClient.provideAndRegisterDocumentSet(storeRequest);
-
-            } else {
-                String sErrorMessage = "The store document request message was null.";
-                log.error(sErrorMessage);
-                throw new RuntimeException(sErrorMessage);
-            }
-        } catch (Exception exp) {
-            log.error(exp.getMessage());
-            exp.printStackTrace();
-        }
-
-        log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
-        return response;
+        return null;
     }
 
     /**
@@ -115,10 +96,23 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
             }
         } catch (Exception exp) {
             log.error(exp.getMessage());
-            exp.printStackTrace();
+            response = createErrorResponse(response);
         }
 
         log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
+        return response;
+    }
+
+    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response) {
+        response = new RetrieveDocumentSetResponseType();
+        RegistryResponseType regResp = new RegistryResponseType();
+        regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
+        RegistryError registryError = new RegistryError();
+        registryError.setCodeContext("Processing Adapter CONNECT HIEOS Doc Query document retrieve");
+        registryError.setErrorCode("XDSRepostoryError");
+        registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
+        regResp.getRegistryErrorList().getRegistryError().add(registryError);
+        response.setRegistryResponse(regResp);
         return response;
     }
 

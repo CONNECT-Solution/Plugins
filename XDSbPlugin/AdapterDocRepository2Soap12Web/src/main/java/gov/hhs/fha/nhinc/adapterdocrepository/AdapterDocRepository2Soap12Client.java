@@ -28,6 +28,7 @@ package gov.hhs.fha.nhinc.adapterdocrepository;
 
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.docrepository.adapter.proxy.service.AdapterComponentDocRepositoryServicePortDescriptor;
+import gov.hhs.fha.nhinc.xdcommon.XDCommonResponseHelper;
 import gov.hhs.fha.nhinc.document.DocumentConstants;
 import gov.hhs.fha.nhinc.messaging.client.CONNECTClient;
 import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
@@ -62,31 +63,34 @@ public class AdapterDocRepository2Soap12Client {
         return new WebServiceProxyHelper();
     }
     
-    /**
 
-    * This method supports the AdapterComponentDocRepository.wsdl for storing a document to a document repository for a
-    * given soap  request message.      
-    * @param storeRequest A ProvideAndRegisterDocumentSetRequestType object containing the desired document and     
-    * metadata to store into a document repository.
-    * @return Returns a RegistryResponseType indicating whether the document was successfully stored.
+    /**
+     * 
+     * This method supports the AdapterComponentDocRepository.wsdl for storing a document to a document repository for a
+     * given soap request message.
+     * 
+     * @param storeRequest A ProvideAndRegisterDocumentSetRequestType object containing the desired document and
+     *            metadata to store into a document repository.
+     * @return Returns a RegistryResponseType indicating whether the document was successfully stored.
      */
 
-   public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType provideAndRegisterDocumentSet(
+    public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType provideAndRegisterDocumentSet(
+            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
 
-           ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
-
-       LOG.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
-       RegistryResponseType response = null;
-       AssertionType assertion = null;
-       try {
-           String xdsbHomeCommunityId = PropertyAccessor.getInstance().getProperty(
-                   NhincConstants.ADAPTER_PROPERTY_FILE_NAME, NhincConstants.XDS_HOME_COMMUNITY_ID_PROPERTY);
-           String url = oProxyHelper.getAdapterEndPointFromConnectionManager(xdsbHomeCommunityId,
-                   ADAPTER_XDS_REP_SERVICE_NAME);
+        LOG.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
+        RegistryResponseType response = null;
+        AssertionType assertion = null;
+        try {
+            String xdsbHomeCommunityId = PropertyAccessor.getInstance().getProperty(
+                    NhincConstants.ADAPTER_PROPERTY_FILE_NAME, NhincConstants.XDS_HOME_COMMUNITY_ID_PROPERTY);
+            String url = oProxyHelper.getAdapterEndPointFromConnectionManager(xdsbHomeCommunityId,
+                    ADAPTER_XDS_REP_SERVICE_NAME);
             if (storeRequest == null) {
-                String sErrorMessage = "The store document request message was null.";
-                LOG.error(sErrorMessage);
-                throw new RuntimeException(sErrorMessage);
+                String sErrorMessage = "Error calling documentRepositoryProvideAndRegisterDocumentSetB";
+                LOG.error("Error calling documentRepositoryProvideAndRegisterDocumentSetB");
+                XDCommonResponseHelper helper = new XDCommonResponseHelper();
+                response = helper.createError(sErrorMessage);
+                return response;
             } else {
                 LOG.debug("ProvideAndRegisterDocumentSetRequest was not null");
                 ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
@@ -97,10 +101,11 @@ public class AdapterDocRepository2Soap12Client {
             }
 
         } catch (Exception exp) {
-           LOG.error(exp.getMessage());
-           exp.printStackTrace();
-
-       }
+            LOG.error(exp.getMessage());
+            XDCommonResponseHelper helper = new XDCommonResponseHelper();
+            response = helper.createError(exp.getMessage());
+            return response;
+        }
 
         LOG.debug("leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
         return response;
@@ -130,7 +135,8 @@ public class AdapterDocRepository2Soap12Client {
 
             if (retrieveRequest == null) {
                 LOG.error("Message was null");
-                createErrorResponse(response);
+                response = createErrorResponse(response);
+                return response;
             } else {
                 ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
 
@@ -141,15 +147,16 @@ public class AdapterDocRepository2Soap12Client {
             }
         } catch (Exception ex) {
             LOG.error("Error sending Adapter Component Doc Repository Unsecured message: " + ex.getMessage(), ex);
-            createErrorResponse(response);
+            response = createErrorResponse(response);
+            return response;
         }
 
         LOG.debug("End retrieveDocument");
         return response;
     }
-    
-    protected CONNECTClient<DocumentRepositoryPortType> getClient(ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor,
-            String url, AssertionType assertion) {
+
+    protected CONNECTClient<DocumentRepositoryPortType> getClient(
+            ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor, String url, AssertionType assertion) {
         CONNECTClient<DocumentRepositoryPortType> client = AdapterDocRepositoryClientFactory.getInstance()
                 .getCONNECTClientUnsecured(portDescriptor, url, assertion);
         return client;
@@ -158,16 +165,14 @@ public class AdapterDocRepository2Soap12Client {
     private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response) {
         response = new RetrieveDocumentSetResponseType();
         RegistryResponseType regResp = new RegistryResponseType();
-
         regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
-
         RegistryError registryError = new RegistryError();
-        registryError.setCodeContext("Processing Adapter Doc Query document retrieve");
+        registryError.setCodeContext("Processing Adapter CONNECT HIEOS document retrieve");
         registryError.setErrorCode("XDSRepostoryError");
         registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
         regResp.getRegistryErrorList().getRegistryError().add(registryError);
         response.setRegistryResponse(regResp);
         return response;
     }
-    
+
 }
