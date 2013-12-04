@@ -29,6 +29,7 @@ package gov.hhs.fha.nhinc.adapterdocumentrepository.soap12;
 import gov.hhs.fha.nhinc.adapterdocrepository.AdapterDocRepository2Soap12Client;
 import gov.hhs.fha.nhinc.document.DocumentConstants;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
+import gov.hhs.fha.nhinc.xdcommon.XDCommonResponseHelper;
 import ihe.iti.xds_b._2007.DocumentRepositoryPortType;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType;
@@ -96,23 +97,17 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
             }
         } catch (Exception exp) {
             log.error(exp.getMessage());
-            response = createErrorResponse(response);
+            response = createErrorResponse(response, exp.getMessage());
         }
 
         log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
         return response;
     }
 
-    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response) {
+    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response, String message) {
         response = new RetrieveDocumentSetResponseType();
-        RegistryResponseType regResp = new RegistryResponseType();
-        regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
-        RegistryError registryError = new RegistryError();
-        registryError.setCodeContext("Processing Adapter CONNECT HIEOS Doc Query document retrieve");
-        registryError.setErrorCode("XDSRepostoryError");
-        registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
-        regResp.getRegistryErrorList().getRegistryError().add(registryError);
-        response.setRegistryResponse(regResp);
+        XDCommonResponseHelper helper = new XDCommonResponseHelper();
+        response.setRegistryResponse(helper.createError(message));
         return response;
     }
 

@@ -62,7 +62,6 @@ public class AdapterDocRepository2Soap12Client {
     protected WebServiceProxyHelper createWebServiceProxyHelper() {
         return new WebServiceProxyHelper();
     }
-    
 
     /**
      * 
@@ -86,7 +85,7 @@ public class AdapterDocRepository2Soap12Client {
             String url = oProxyHelper.getAdapterEndPointFromConnectionManager(xdsbHomeCommunityId,
                     ADAPTER_XDS_REP_SERVICE_NAME);
             if (storeRequest == null) {
-                String sErrorMessage = "Error calling documentRepositoryProvideAndRegisterDocumentSetB";
+                String sErrorMessage = "ProvideAndRegisterDocumentSetRequestType:Incomming Message is Null";
                 LOG.error("Error calling documentRepositoryProvideAndRegisterDocumentSetB");
                 XDCommonResponseHelper helper = new XDCommonResponseHelper();
                 response = helper.createError(sErrorMessage);
@@ -124,6 +123,7 @@ public class AdapterDocRepository2Soap12Client {
             ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType retrieveRequest) {
         ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType response = null;
         AssertionType assertion = null;
+        String sErrorMessage = null;
 
         LOG.debug("Entering AdapterDocRepository2Soap12Client.retrieveDocument() method");
 
@@ -134,8 +134,9 @@ public class AdapterDocRepository2Soap12Client {
                     ADAPTER_XDS_REP_SERVICE_NAME);
 
             if (retrieveRequest == null) {
+                sErrorMessage = "RetrieveDocumentSetRequestType:Incomming Message is null";
                 LOG.error("Message was null");
-                response = createErrorResponse(response);
+                response = createErrorResponse(response, sErrorMessage);
                 return response;
             } else {
                 ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
@@ -147,7 +148,7 @@ public class AdapterDocRepository2Soap12Client {
             }
         } catch (Exception ex) {
             LOG.error("Error sending Adapter Component Doc Repository Unsecured message: " + ex.getMessage(), ex);
-            response = createErrorResponse(response);
+            response = createErrorResponse(response, ex.getMessage());
             return response;
         }
 
@@ -162,16 +163,10 @@ public class AdapterDocRepository2Soap12Client {
         return client;
     }
 
-    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response) {
+    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response, String message) {
         response = new RetrieveDocumentSetResponseType();
-        RegistryResponseType regResp = new RegistryResponseType();
-        regResp.setStatus(DocumentConstants.XDS_QUERY_RESPONSE_STATUS_FAILURE);
-        RegistryError registryError = new RegistryError();
-        registryError.setCodeContext("Processing Adapter CONNECT HIEOS document retrieve");
-        registryError.setErrorCode("XDSRepostoryError");
-        registryError.setSeverity(NhincConstants.XDS_REGISTRY_ERROR_SEVERITY_ERROR);
-        regResp.getRegistryErrorList().getRegistryError().add(registryError);
-        response.setRegistryResponse(regResp);
+        XDCommonResponseHelper helper = new XDCommonResponseHelper();
+        response.setRegistryResponse(helper.createError(message));
         return response;
     }
 
