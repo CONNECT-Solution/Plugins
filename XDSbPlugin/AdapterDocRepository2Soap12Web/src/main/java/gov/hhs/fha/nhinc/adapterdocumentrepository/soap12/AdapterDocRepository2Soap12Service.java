@@ -58,6 +58,42 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
      *            the desired document.
      * @return Returns a RetrieveDocumentSetResponseType containing the desired document.
      */
+    public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
+            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
+        log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
+
+        RegistryResponseType response = null;
+
+        try {
+            if (storeRequest != null) {
+                log.debug("storeRequest was not null");
+
+                AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
+
+                response = oClient.provideAndRegisterDocumentSet(storeRequest);
+
+            } else {
+                String sErrorMessage = "The store document request message was null.";
+                log.error(sErrorMessage);
+                throw new RuntimeException(sErrorMessage);
+            }
+        } catch (Exception exp) {
+            log.error(exp.getMessage());
+            exp.printStackTrace();
+        }
+
+        log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
+        return response;
+    }
+
+    /**
+     * This method supports the AdapterComponentDocRepository.wsdl for retrieving a document from a document repository
+     * for a given soap request message.
+     * 
+     * @param retrieveRequest A RetrieveDocumentSetRequestType object containing the document id and repository id for
+     *            the desired document.
+     * @return Returns a RetrieveDocumentSetResponseType containing the desired document.
+     */
     public ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType documentRepositoryRetrieveDocumentSet(
             ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType retrieveRequest) {
         log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
@@ -86,17 +122,4 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
         return response;
     }
 
-    /* (non-Javadoc)
-     * @see ihe.iti.xds_b._2007.DocumentRepositoryPortType#documentRepositoryProvideAndRegisterDocumentSetB(ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType)
-     */
-    @Override
-    @WebResult(name = "RegistryResponse", targetNamespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", partName = "body")
-    @Action(input = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b", output = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-bResponse")
-    @WebMethod(operationName = "DocumentRepository_ProvideAndRegisterDocumentSet-b", action = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b")
-    public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
-            @WebParam(partName = "body", name = "ProvideAndRegisterDocumentSetRequest", targetNamespace = "urn:ihe:iti:xds-b:2007")
-            ProvideAndRegisterDocumentSetRequestType body) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

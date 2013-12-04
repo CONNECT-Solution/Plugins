@@ -61,6 +61,51 @@ public class AdapterDocRepository2Soap12Client {
     protected WebServiceProxyHelper createWebServiceProxyHelper() {
         return new WebServiceProxyHelper();
     }
+    
+    /**
+
+    * This method supports the AdapterComponentDocRepository.wsdl for storing a document to a document repository for a
+    * given soap  request message.      
+    * @param storeRequest A ProvideAndRegisterDocumentSetRequestType object containing the desired document and     
+    * metadata to store into a document repository.
+    * @return Returns a RegistryResponseType indicating whether the document was successfully stored.
+     */
+
+   public oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType provideAndRegisterDocumentSet(
+
+           ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
+
+       LOG.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
+       RegistryResponseType response = null;
+       AssertionType assertion = null;
+       try {
+           String xdsbHomeCommunityId = PropertyAccessor.getInstance().getProperty(
+                   NhincConstants.ADAPTER_PROPERTY_FILE_NAME, NhincConstants.XDS_HOME_COMMUNITY_ID_PROPERTY);
+           String url = oProxyHelper.getAdapterEndPointFromConnectionManager(xdsbHomeCommunityId,
+                   ADAPTER_XDS_REP_SERVICE_NAME);
+            if (storeRequest == null) {
+                String sErrorMessage = "The store document request message was null.";
+                LOG.error(sErrorMessage);
+                throw new RuntimeException(sErrorMessage);
+            } else {
+                LOG.debug("ProvideAndRegisterDocumentSetRequest was not null");
+                ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
+                CONNECTClient<DocumentRepositoryPortType> client = getClient(portDescriptor, url, assertion);
+                client.enableMtom();
+                response = (RegistryResponseType) client.invokePort(DocumentRepositoryPortType.class,
+                        "documentRepositoryProvideAndRegisterDocumentSetB", storeRequest);
+            }
+
+        } catch (Exception exp) {
+           LOG.error(exp.getMessage());
+           exp.printStackTrace();
+
+       }
+
+        LOG.debug("leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSetB() method");
+        return response;
+
+    }
 
     /**
      * This method connects to a soap 1.2 enabled document repository and retrieves a document with the document id
@@ -89,8 +134,7 @@ public class AdapterDocRepository2Soap12Client {
             } else {
                 ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
 
-                CONNECTClient<DocumentRepositoryPortType> client = AdapterDocRepositoryClientFactory.getInstance()
-                        .getCONNECTClientUnsecured(portDescriptor, url, assertion);
+                CONNECTClient<DocumentRepositoryPortType> client = getClient(portDescriptor, url, assertion);
                 client.enableMtom();
                 response = (RetrieveDocumentSetResponseType) client.invokePort(DocumentRepositoryPortType.class,
                         "documentRepositoryRetrieveDocumentSet", retrieveRequest);
@@ -102,6 +146,13 @@ public class AdapterDocRepository2Soap12Client {
 
         LOG.debug("End retrieveDocument");
         return response;
+    }
+    
+    protected CONNECTClient<DocumentRepositoryPortType> getClient(ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor,
+            String url, AssertionType assertion) {
+        CONNECTClient<DocumentRepositoryPortType> client = AdapterDocRepositoryClientFactory.getInstance()
+                .getCONNECTClientUnsecured(portDescriptor, url, assertion);
+        return client;
     }
 
     private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response) {
@@ -118,4 +169,5 @@ public class AdapterDocRepository2Soap12Client {
         response.setRegistryResponse(regResp);
         return response;
     }
+    
 }
