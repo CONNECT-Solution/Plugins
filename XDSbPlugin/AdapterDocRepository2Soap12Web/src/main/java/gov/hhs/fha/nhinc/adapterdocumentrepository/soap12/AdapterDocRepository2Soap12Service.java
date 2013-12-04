@@ -27,6 +27,9 @@
 package gov.hhs.fha.nhinc.adapterdocumentrepository.soap12;
 
 import gov.hhs.fha.nhinc.adapterdocrepository.AdapterDocRepository2Soap12Client;
+import gov.hhs.fha.nhinc.document.DocumentConstants;
+import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
+import gov.hhs.fha.nhinc.xdcommon.XDCommonResponseHelper;
 import ihe.iti.xds_b._2007.DocumentRepositoryPortType;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType;
@@ -37,6 +40,8 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.ws.Action;
 import javax.xml.ws.BindingType;
+
+import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,6 +58,19 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
     /**
      * This method supports the AdapterComponentDocRepository.wsdl for retrieving a document from a document repository
      * for a given soap 1.1 request message.
+     * 
+     * @param retrieveRequest A RetrieveDocumentSetRequestType object containing the document id and repository id for
+     *            the desired document.
+     * @return Returns a RetrieveDocumentSetResponseType containing the desired document.
+     */
+    public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
+            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
+        return null;
+    }
+
+    /**
+     * This method supports the AdapterComponentDocRepository.wsdl for retrieving a document from a document repository
+     * for a given soap request message.
      * 
      * @param retrieveRequest A RetrieveDocumentSetRequestType object containing the document id and repository id for
      *            the desired document.
@@ -79,24 +97,18 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
             }
         } catch (Exception exp) {
             log.error(exp.getMessage());
-            exp.printStackTrace();
+            response = createErrorResponse(response, exp.getMessage());
         }
 
         log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
         return response;
     }
 
-    /* (non-Javadoc)
-     * @see ihe.iti.xds_b._2007.DocumentRepositoryPortType#documentRepositoryProvideAndRegisterDocumentSetB(ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType)
-     */
-    @Override
-    @WebResult(name = "RegistryResponse", targetNamespace = "urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0", partName = "body")
-    @Action(input = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b", output = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-bResponse")
-    @WebMethod(operationName = "DocumentRepository_ProvideAndRegisterDocumentSet-b", action = "urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b")
-    public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
-            @WebParam(partName = "body", name = "ProvideAndRegisterDocumentSetRequest", targetNamespace = "urn:ihe:iti:xds-b:2007")
-            ProvideAndRegisterDocumentSetRequestType body) {
-        // TODO Auto-generated method stub
-        return null;
+    private RetrieveDocumentSetResponseType createErrorResponse(RetrieveDocumentSetResponseType response, String message) {
+        response = new RetrieveDocumentSetResponseType();
+        XDCommonResponseHelper helper = new XDCommonResponseHelper();
+        response.setRegistryResponse(helper.createError(message));
+        return response;
     }
+
 }
