@@ -102,7 +102,7 @@ public class AdapterDocRepository2Soap12Client {
         } catch (Exception exp) {
             LOG.error(exp.getMessage());
             XDCommonResponseHelper helper = new XDCommonResponseHelper();
-            response = helper.createError(exp.getMessage());
+            response = helper.createError(exp);
             return response;
         }
 
