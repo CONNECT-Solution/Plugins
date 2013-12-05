@@ -72,7 +72,7 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
 
         try {
             if (storeRequest != null) {
-                log.debug("retrieveRequest was not null");
+                log.debug("storeRequest was not null");
 
                 AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
 
@@ -92,8 +92,7 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
         log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
         return response;
     }
- 
-    
+
     /**
      * This method supports the AdapterComponentDocRepository.wsdl for retrieving a document from a document repository
      * for a given soap request message.
