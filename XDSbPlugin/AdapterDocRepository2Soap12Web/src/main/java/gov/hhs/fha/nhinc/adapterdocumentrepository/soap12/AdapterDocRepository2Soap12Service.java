@@ -66,13 +66,13 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
 
     public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
             ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
-        log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
+        log.trace("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
 
         RegistryResponseType response = null;
 
         try {
             if (storeRequest != null) {
-                log.debug("storeRequest was not null");
+                log.trace("storeRequest was not null");
 
                 AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
 
@@ -89,7 +89,7 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
             return response;
         }
 
-        log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
+        log.trace("Leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
         return response;
     }
 
@@ -103,13 +103,13 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
      */
     public ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType documentRepositoryRetrieveDocumentSet(
             ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType retrieveRequest) {
-        log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
+        log.trace("Entering AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
 
         RetrieveDocumentSetResponseType response = null;
 
         try {
             if (retrieveRequest != null) {
-                log.debug("retrieveRequest was not null");
+                log.trace("retrieveRequest was not null");
 
                 AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
 
@@ -125,7 +125,7 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
             response = createErrorResponse(response, exp.getMessage());
         }
 
-        log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
+        log.trace("Leaving AdapterDocRepository2Soap12Service.documentRepositoryRetrieveDocumentSet() method");
         return response;
     }
 
