@@ -63,10 +63,6 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
      *            the desired document.
      * @return Returns a RetrieveDocumentSetResponseType containing the desired document.
      */
-   /* public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
-            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
-        return null;
-    }*/
 
     public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
             ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
