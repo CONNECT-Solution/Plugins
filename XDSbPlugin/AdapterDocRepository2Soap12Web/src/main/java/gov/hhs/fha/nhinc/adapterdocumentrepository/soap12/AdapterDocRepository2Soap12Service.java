@@ -63,11 +63,41 @@ public class AdapterDocRepository2Soap12Service implements DocumentRepositoryPor
      *            the desired document.
      * @return Returns a RetrieveDocumentSetResponseType containing the desired document.
      */
-    public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
+   /* public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
             ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
         return null;
-    }
+    }*/
 
+    public RegistryResponseType documentRepositoryProvideAndRegisterDocumentSetB(
+            ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType storeRequest) {
+        log.debug("Entering AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
+
+        RegistryResponseType response = null;
+
+        try {
+            if (storeRequest != null) {
+                log.debug("retrieveRequest was not null");
+
+                AdapterDocRepository2Soap12Client oClient = new AdapterDocRepository2Soap12Client();
+
+                response = oClient.provideAndRegisterDocumentSet(storeRequest);
+            } else {
+                String sErrorMessage = "The store document request message was null.";
+                log.error(sErrorMessage);
+                throw new RuntimeException(sErrorMessage);
+            }
+        } catch (Exception exp) {
+            log.error(exp.getMessage());
+            XDCommonResponseHelper helper = new XDCommonResponseHelper();
+            response = helper.createError(exp);
+            return response;
+        }
+
+        log.debug("Leaving AdapterDocRepository2Soap12Service.documentRepositoryProvideAndRegisterDocumentSet() method");
+        return response;
+    }
+ 
+    
     /**
      * This method supports the AdapterComponentDocRepository.wsdl for retrieving a document from a document repository
      * for a given soap request message.

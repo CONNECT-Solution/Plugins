@@ -28,8 +28,8 @@ package gov.hhs.fha.nhinc.adapterdocrepository;
 
 import gov.hhs.fha.nhinc.common.nhinccommon.AssertionType;
 import gov.hhs.fha.nhinc.docrepository.adapter.proxy.service.AdapterComponentDocRepositoryServicePortDescriptor;
+import gov.hhs.fha.nhinc.docrepository.adapter.proxy.service.AdapterComponentDocSubmissionPortDescriptor;
 import gov.hhs.fha.nhinc.xdcommon.XDCommonResponseHelper;
-import gov.hhs.fha.nhinc.document.DocumentConstants;
 import gov.hhs.fha.nhinc.messaging.client.CONNECTClient;
 import gov.hhs.fha.nhinc.messaging.service.port.ServicePortDescriptor;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
@@ -38,7 +38,6 @@ import gov.hhs.fha.nhinc.webserviceproxy.WebServiceProxyHelper;
 import ihe.iti.xds_b._2007.DocumentRepositoryPortType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType;
 
-import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 
 import org.apache.log4j.Logger;
@@ -92,7 +91,7 @@ public class AdapterDocRepository2Soap12Client {
                 return response;
             } else {
                 LOG.debug("ProvideAndRegisterDocumentSetRequest was not null");
-                ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocRepositoryServicePortDescriptor();
+                ServicePortDescriptor<DocumentRepositoryPortType> portDescriptor = new AdapterComponentDocSubmissionPortDescriptor();
                 CONNECTClient<DocumentRepositoryPortType> client = getClient(portDescriptor, url, assertion);
                 client.enableMtom();
                 response = (RegistryResponseType) client.invokePort(DocumentRepositoryPortType.class,
