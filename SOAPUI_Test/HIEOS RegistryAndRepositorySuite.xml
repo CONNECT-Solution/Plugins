@@ -706,7 +706,18 @@
 			<Document id="Document01">UjBsR09EbGhjZ0dTQUxNQUFBUUNBRU1tQ1p0dU1GUXhEUzhi</Document>
 		</ProvideAndRegisterDocumentSetRequest>
 	</s:Body>
-</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/>
+		<con:assertion type="SOAP Fault Assertion"/>
+		<con:assertion type="XPath Match">
+			<con:configuration>
+				<path>declare namespace ns11='urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0';
+							//ns11:RegistryResponse[1]/@status</path>
+				<content>urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Success</content>
+				<allowWildcards>false</allowWildcards>
+				<ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+			</con:configuration>
+		</con:assertion>
+		<con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
 <con:properties><con:property><con:name>startDate</con:name><con:value>2013-12-18T20:58:15Z</con:value></con:property><con:property><con:name>endDate</con:name><con:value>2013-12-18T21:08:15Z</con:value></con:property><con:property><con:name>sigDate</con:name><con:value>12/18/2013 20:58:15</con:value></con:property><con:property><con:name>expireDate</con:name><con:value>2014-01-17T00:00:00Z</con:value></con:property></con:properties></con:testCase>
 
 
