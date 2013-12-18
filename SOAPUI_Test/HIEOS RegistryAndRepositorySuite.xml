@@ -1,0 +1,1547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="HIEOSRegAndRep" resourceRoot="" soapui-version="4.5.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/>
+<con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="DocumentRegistry_Binding_Soap12" type="wsdl" bindingName="DocumentRegistry_Binding_Soap12" soapVersion="1_2" anonymous="optional" definition="file:/C:/Plugins/SOAPUI_Test/WSDL/XDS.b_DocumentRegistry.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT"/><con:endpoints><con:endpoint>${#Project#endpointregistry}</con:endpoint><con:endpoint>${#Project#endpointregistry}</con:endpoint></con:endpoints><con:operation isOneWay="false" action="urn:hl7-org:v3:PRPA_IN201301UV02" name="DocumentRegistry_PRPA_IN201301UV02" bindingOperationName="DocumentRegistry_Binding_Soap12" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointregistry}</con:endpoint></con:call><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://192.168.34.6:8080/axis2/services/xdsregistryb</con:endpoint></con:operation></con:interface>
+
+
+<con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="DocumentRepository_Binding" type="wsdl" bindingName="DocumentRepository_Binding" soapVersion="1_2" anonymous="optional" definition="file:/C:/Plugins/SOAPUI_Test/WSDL/XDS.b_DocumentRepository.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT"/><con:endpoints><con:endpoint>${#Project#endpointrepository}</con:endpoint><con:endpoint>${#Project#endpointrepository}</con:endpoint></con:endpoints><con:operation isOneWay="false" action="urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b" name="DocumentRepository_ProvideAndRegisterDocumentSet-b" bindingOperationName="DocumentRepository_Binding" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointrepository}</con:endpoint></con:call><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointrepository}</con:endpoint></con:operation></con:interface>
+
+
+<con:testSuite name="HIEOSSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ProvideAndRegisterDocument-Update" searchProperties="true" id="cc42fa23-093f-4003-8f7a-64144c47b565"><con:settings/>
+<con:testStep name="Clear Patient table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('adt') { sql -> 
+		def table = 'Patient'
+
+		sql.execute('delete from ' + table)
+		}</script></con:config>
+</con:testStep>
+<con:testStep type="request" name="PIX Add"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="PIX Add"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointregistry}</con:endpoint>
+<con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:hl7-org:v3">
+   <soap:Header/>
+   <soap:Body>
+      <urn:PRPA_IN201301UV02 ITSVersion="XML_1.0">
+         <urn:id/>
+         <urn:creationTime/>
+         <urn:interactionId/>
+         <urn:processingCode/>
+         <urn:processingModeCode/>
+         <urn:acceptAckCode/>
+         <!--1 or more repetitions:-->
+         <urn:receiver typeCode="?">
+            <urn:device classCode="?" determinerCode="INSTANCE">
+               <!--1 or more repetitions:-->
+               <urn:id extension="DGR456" root="C"/>
+            </urn:device>
+         </urn:receiver>
+         <urn:sender typeCode="?">
+            <urn:device classCode="?" determinerCode="INSTANCE">
+               <!--1 or more repetitions:-->
+               <urn:id/>
+            </urn:device>
+         </urn:sender>
+         <urn:controlActProcess classCode="?" moodCode="?">
+            <!--1 or more repetitions:-->
+            <urn:subject typeCode="SUBJ">
+               <urn:registrationEvent classCode="REG" moodCode="EVN">
+                  <urn:statusCode/>
+                  <urn:subject1 typeCode="?">
+                     <urn:patient classCode="PAT">
+                        <!--1 or more repetitions:-->
+                        <urn:id extension="DGR456" root="1.3.6.1.4.1.21367.2010.1.2.315"/>
+                        <urn:statusCode/>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <urn:patientPerson>
+                           <!--1 or more repetitions:-->
+                           <urn:name>e gerocum</urn:name>
+                        </urn:patientPerson>
+                        <urn:patientNonPersonLivingSubject classCode="?"/>
+                        <urn:providerOrganization classCode="?" determinerCode="INSTANCE">
+                           <!--1 or more repetitions:-->
+                           <urn:id/>
+                           <!--1 or more repetitions:-->
+                           <urn:contactParty classCode="?"/>
+                        </urn:providerOrganization>
+                     </urn:patient>
+                  </urn:subject1>
+                  <urn:custodian typeCode="CST">
+                     <urn:assignedEntity classCode="?">
+                        <!--1 or more repetitions:-->
+                        <urn:id/>
+                        <!--You have a CHOICE of the next 3 items at this level-->
+                     </urn:assignedEntity>
+                  </urn:custodian>
+               </urn:registrationEvent>
+            </urn:subject>
+         </urn:controlActProcess>
+      </urn:PRPA_IN201301UV02>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+
+
+<con:testStep name="Clear association table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'association'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+<con:testStep name="Clear extrinsicobject table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'extrinsicobject'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear externalidentifier table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'externalidentifier'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear classification table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'classification'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear registrypackage table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'registrypackage'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear slot table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'slot'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+<con:testStep name="Clear description table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'description'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear name_ table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'name_'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+
+
+<con:testStep type="groovy" name="clear document"><con:settings/><con:config><script>context.withSql('repo') { sql -> 
+		def table = 'document'
+
+		sql.execute('delete from ' + table)
+}</script></con:config></con:testStep><con:testStep type="request" name="ProvideAndRegisterDocument"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="ProvideAndRegisterDocument" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/xop+xml; charset=UTF-8; type=&amp;quot;application/soap+xml; charset=UTF-8&amp;quot;;" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointrepository}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+	<!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</a:Action>
+		<a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2-update/services/xdsrepositoryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request
+      Please note that a soap message can only have one header section.
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:ProvideAndRegisterDocumentSet-bAsync</a:Action>
+    <a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XdsService/DocumentSourceReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRepository.svc</a:To>
+  </s:Header> -->
+  <s:Body>
+		<ProvideAndRegisterDocumentSetRequest xsi:schemaLocation="urn:ihe:iti:xds-b:2007 ../../schema/IHE/XDS.b_DocumentRepository.xsd" xmlns="urn:ihe:iti:xds-b:2007" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0">
+			<lcm:SubmitObjectsRequest>
+				<rim:RegistryObjectList>
+					<rim:ExtrinsicObject id="Document01" mimeType="text/xml" objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1">
+						<rim:Slot name="creationTime">
+							<rim:ValueList>
+								<rim:Value>20051224</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="languageCode">
+							<rim:ValueList>
+								<rim:Value>en-us</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStartTime">
+							<rim:ValueList>
+								<rim:Value>200412230800</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStopTime">
+							<rim:ValueList>
+								<rim:Value>200412230801</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientId">
+							<rim:ValueList>
+								<rim:Value>D123401^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientInfo">
+							<rim:ValueList>
+								<rim:Value>PID-3|ST-1000^^^&amp;1.3.6.1.4.1.21367.2003.3.9&amp;ISO</rim:Value>
+								<rim:Value>PID-5|Doe^John^^^</rim:Value>
+								<rim:Value>PID-7|19560527</rim:Value>
+								<rim:Value>PID-8|M</rim:Value>
+								<rim:Value>PID-11|100 Main St^^Metropolis^Il^44130^USA</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description/>
+						<rim:Classification id="cl01" classificationScheme="urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d" classifiedObject="Document01"  nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Gerald Smitty</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Cleveland Clinic</rim:Value>
+									<rim:Value>Parma Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Attending</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>Pediatric</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl02" classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a" classifiedObject="Document01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon classCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl03" classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Document01" nodeRepresentation="1.3.6.1.4.1.21367.2006.7.101">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon confidentialityCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Clinical-Staff"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl04" classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d" classifiedObject="Document01" nodeRepresentation="CDAR2/IHE 1.0">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon formatCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="CDAR2/IHE 1.0"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl05" classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1" classifiedObject="Document01" nodeRepresentation="Outpatient">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon healthcareFacilityTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl06" classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead" classifiedObject="Document01" nodeRepresentation="General Medicine">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon practiceSettingCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="General Medicine"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl07" classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983" classifiedObject="Document01" nodeRepresentation="34108-1">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>LOINC</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient Evaluation And Management"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei01" registryObject="Document01" identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei02" registryObject="Document01" identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab" value="1.3.6.1.4.1.21367.2005.3.8888.33">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:ExtrinsicObject>
+					<rim:RegistryPackage id="SubmissionSet01">
+						<rim:Slot name="submissionTime">
+							<rim:ValueList>
+								<rim:Value>20041225235050</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description>
+							<rim:LocalizedString value="Annual physical"/>
+						</rim:Description>
+						<rim:Classification id="cl08" classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" classifiedObject="SubmissionSet01" nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Sherry Dopplemeyer</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Cleveland Clinic</rim:Value>
+									<rim:Value>Berea Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Primary Surgon</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>Orthopedic</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl09" classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" classifiedObject="SubmissionSet01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon contentTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei03" registryObject="SubmissionSet01" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" value="1.3.6.1.4.1.21367.2005.3.999.36">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei04" registryObject="SubmissionSet01" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" value="1.3.6.1.4.1.21367.2005.3.9999.34">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.sourceId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei05" registryObject="SubmissionSet01" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:RegistryPackage>
+					<rim:Classification id="cl10" classifiedObject="SubmissionSet01" classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd"/>
+					<rim:Association id="as01" associationType="urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember" sourceObject="SubmissionSet01" targetObject="Document01">
+						<rim:Slot name="SubmissionSetStatus">
+							<rim:ValueList>
+								<rim:Value>Original</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+					</rim:Association>
+				</rim:RegistryObjectList>
+			</lcm:SubmitObjectsRequest>
+			<Document id="Document01">UjBsR09EbGhjZ0dTQUxNQUFBUUNBRU1tQ1p0dU1GUXhEUzhi</Document>
+		</ProvideAndRegisterDocumentSetRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+<con:testStep type="request" name="Document Query"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="Document Query" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointregistry}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+  <!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:RegistryStoredQuery</a:Action>
+		<a:MessageID>urn:uuid:a02ca8cd-86fa-4afc-a27c-616c183b2055</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2/services/xdsregistryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. 
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:RegistryStoredQueryAsync</a:Action>
+    <a:MessageID>urn:uuid:a02ca8cd-86fa-4afc-a27c-616c183b2055</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XDS/DocumentConsumerReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRegistry.svc</a:To>
+  </s:Header>  -->
+  <s:Body>
+		<query:AdhocQueryRequest xsi:schemaLocation="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0 ../../schema/ebRS/query.xsd" 
+		xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+		 federated="false" startIndex="0" maxResults="-1">
+			<query:ResponseOption returnComposedObjects="false" returnType="LeafClass"/>
+			<rim:AdhocQuery  id="urn:uuid:14d4debf-8f97-4251-9a74-a90016b0af0d"  home="urn:oid:1.3.6.1.4.1.21367.2010.1.2.2025">
+				<rim:Slot name="$XDSDocumentEntryPatientId">
+					<rim:ValueList>
+						<rim:Value>'DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO'</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>
+				<rim:Slot name="$XDSDocumentEntryStatus">
+					<rim:ValueList>
+						<rim:Value>('urn:oasis:names:tc:ebxml-regrep:StatusType:Approved')</rim:Value>	
+					</rim:ValueList>
+				</rim:Slot>
+				<!--<rim:Slot name="$XDSDocumentEntryCreationTimeFrom">
+					<rim:ValueList>
+						<rim:Value>200412252300</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>
+				<rim:Slot name="$XDSDocumentEntryCreationTimeTo">
+					<rim:ValueList>
+						<rim:Value>200501010800</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>-->
+				<!--<rim:Slot name="$XDSDocumentEntryHealthcareFacilityTypeCode">
+					<rim:ValueList>
+						<rim:Value>("Emergency Department")</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>-->
+			</rim:AdhocQuery>
+		</query:AdhocQueryRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Get Id"><con:settings/><con:config><script>def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context );
+				def holder = groovyUtils.getXmlHolder("Document Query#Response" );
+				holder.namespaces["ns1"] = "urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0";
+				holder.namespaces["ns3"] = "urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0";
+				log.info "Get AssocaiationId"
+				def associationId = holder["//ns1:AdhocQueryResponse[1]/ns3:RegistryObjectList[1]/ns3:ExtrinsicObject[1]/ns3:ExternalIdentifier[@identificationScheme='urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab']/@registryObject"];
+				log.info associationId
+				testRunner.testCase.testSuite.project.setPropertyValue("associationId", "${associationId}")
+				</script></con:config></con:testStep>
+				<con:testStep type="request" name="ProvideAndRegisterDocumentUpdate"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRepository_Binding</con:interface><con:operation>DocumentRepository_ProvideAndRegisterDocumentSet-b</con:operation><con:request name="ProvideAndRegisterDocumentUpdate" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/xop+xml; charset=UTF-8; type=&amp;quot;application/soap+xml; charset=UTF-8&amp;quot;;" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointrepository}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+	<!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</a:Action>
+		<a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2-update/services/xdsrepositoryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request
+      Please note that a soap message can only have one header section.
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:ProvideAndRegisterDocumentSet-bAsync</a:Action>
+    <a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XdsService/DocumentSourceReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRepository.svc</a:To>
+  </s:Header> -->
+  <s:Body>
+		<ProvideAndRegisterDocumentSetRequest xsi:schemaLocation="urn:ihe:iti:xds-b:2007 ../../schema/IHE/XDS.b_DocumentRepository.xsd" xmlns="urn:ihe:iti:xds-b:2007" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0">
+			<lcm:SubmitObjectsRequest>
+				<rim:RegistryObjectList>
+					<rim:ExtrinsicObject id="Document01" mimeType="text/xml" objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1">
+						<rim:Slot name="creationTime">
+							<rim:ValueList>
+								<rim:Value>20051224</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="languageCode">
+							<rim:ValueList>
+								<rim:Value>en-us</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStartTime">
+							<rim:ValueList>
+								<rim:Value>200412230800</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStopTime">
+							<rim:ValueList>
+								<rim:Value>200412230801</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientId">
+							<rim:ValueList>
+								<rim:Value>D123401^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientInfo">
+							<rim:ValueList>
+								<rim:Value>PID-3|ST-1000^^^&amp;1.3.6.1.4.1.21367.2003.3.9&amp;ISO</rim:Value>
+								<rim:Value>PID-5|Doe^John^^^</rim:Value>
+								<rim:Value>PID-7|19560527</rim:Value>
+								<rim:Value>PID-8|M</rim:Value>
+								<rim:Value>PID-11|100 Main St^^Metropolis^Il^44130^USA</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description/>
+						<rim:Classification id="cl01" classificationScheme="urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d" classifiedObject="Document01"  nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Gerald Smitty</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Maryland John Hopkins</rim:Value>
+									<rim:Value>Parma Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Attending</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>ortho</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl02" classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a" classifiedObject="Document01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon classCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl03" classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Document01" nodeRepresentation="1.3.6.1.4.1.21367.2006.7.101">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon confidentialityCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Clinical-Staff"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl04" classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d" classifiedObject="Document01" nodeRepresentation="CDAR2/IHE 1.0">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon formatCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="CDAR2/IHE 1.0"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl05" classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1" classifiedObject="Document01" nodeRepresentation="Outpatient">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon healthcareFacilityTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl06" classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead" classifiedObject="Document01" nodeRepresentation="General Medicine">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon practiceSettingCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="General Medicine"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl07" classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983" classifiedObject="Document01" nodeRepresentation="34108-1">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>LOINC</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient Evaluation And Management"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei01" registryObject="Document01" identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei02" registryObject="Document01" identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab" value="1.3.6.1.4.1.21367.2005.3.8888.33">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:ExtrinsicObject>
+					<rim:RegistryPackage id="SubmissionSet01">
+						<rim:Slot name="submissionTime">
+							<rim:ValueList>
+								<rim:Value>20041225235050</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description>
+							<rim:LocalizedString value="Annual physical"/>
+						</rim:Description>
+						<rim:Classification id="cl08" classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" classifiedObject="SubmissionSet01" nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Sherry Dopplemeyer</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Cleveland Clinic</rim:Value>
+									<rim:Value>Berea Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Primary Surgon</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>Pediatric</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl09" classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" classifiedObject="SubmissionSet01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon contentTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei03" registryObject="SubmissionSet01" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" value="1.3.6.1.4.1.21367.2005.3.999.38">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei04" registryObject="SubmissionSet01" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" value="1.3.6.1.4.1.21367.2005.3.9999.34">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.sourceId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei05" registryObject="SubmissionSet01" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:RegistryPackage>
+					<rim:Classification id="cl10" classifiedObject="SubmissionSet01" classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd"/>
+					<rim:Association id="as01" associationType="urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember" sourceObject="SubmissionSet01" targetObject="Document01">
+						<rim:Slot name="SubmissionSetStatus">
+							<rim:ValueList>
+								<rim:Value>Original</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+					</rim:Association>
+					<rim:Association id="as02" associationType="urn:ihe:iti:2007:AssociationType:APND" sourceObject="Document01"  targetObject="${#Project#associationId}">
+						<rim:Slot name="SubmissionSetStatus">
+							<rim:ValueList>
+								<rim:Value>Reference</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+					</rim:Association>
+				</rim:RegistryObjectList>
+			</lcm:SubmitObjectsRequest>
+			<Document id="Document01">UjBsR09EbGhjZ0dTQUxNQUFBUUNBRU1tQ1p0dU1GUXhEUzhi</Document>
+		</ProvideAndRegisterDocumentSetRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+<con:properties><con:property><con:name>startDate</con:name><con:value>2013-12-18T20:58:15Z</con:value></con:property><con:property><con:name>endDate</con:name><con:value>2013-12-18T21:08:15Z</con:value></con:property><con:property><con:name>sigDate</con:name><con:value>12/18/2013 20:58:15</con:value></con:property><con:property><con:name>expireDate</con:name><con:value>2014-01-17T00:00:00Z</con:value></con:property></con:properties></con:testCase>
+
+
+
+
+
+<con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ProvideAndRegisterDocument-Replace" searchProperties="true" id="d12c27e1-b71a-436c-b587-b79b9ad381db"><con:settings/>
+<con:testStep name="Clear Patient table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('adt') { sql -> 
+		def table = 'Patient'
+
+		sql.execute('delete from ' + table)
+		}</script></con:config>
+</con:testStep>
+<con:testStep type="request" name="PIX Add"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="PIX Add"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointregistry}</con:endpoint>
+<con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:hl7-org:v3">
+   <soap:Header/>
+   <soap:Body>
+      <urn:PRPA_IN201301UV02 ITSVersion="XML_1.0">
+         <urn:id/>
+         <urn:creationTime/>
+         <urn:interactionId/>
+         <urn:processingCode/>
+         <urn:processingModeCode/>
+         <urn:acceptAckCode/>
+         <!--1 or more repetitions:-->
+         <urn:receiver typeCode="?">
+            <urn:device classCode="?" determinerCode="INSTANCE">
+               <!--1 or more repetitions:-->
+               <urn:id extension="DGR456" root="C"/>
+            </urn:device>
+         </urn:receiver>
+         <urn:sender typeCode="?">
+            <urn:device classCode="?" determinerCode="INSTANCE">
+               <!--1 or more repetitions:-->
+               <urn:id/>
+            </urn:device>
+         </urn:sender>
+         <urn:controlActProcess classCode="?" moodCode="?">
+            <!--1 or more repetitions:-->
+            <urn:subject typeCode="SUBJ">
+               <urn:registrationEvent classCode="REG" moodCode="EVN">
+                  <urn:statusCode/>
+                  <urn:subject1 typeCode="?">
+                     <urn:patient classCode="PAT">
+                        <!--1 or more repetitions:-->
+                        <urn:id extension="DGR456" root="1.3.6.1.4.1.21367.2010.1.2.315"/>
+                        <urn:statusCode/>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <urn:patientPerson>
+                           <!--1 or more repetitions:-->
+                           <urn:name>e gerocum</urn:name>
+                        </urn:patientPerson>
+                        <urn:patientNonPersonLivingSubject classCode="?"/>
+                        <urn:providerOrganization classCode="?" determinerCode="INSTANCE">
+                           <!--1 or more repetitions:-->
+                           <urn:id/>
+                           <!--1 or more repetitions:-->
+                           <urn:contactParty classCode="?"/>
+                        </urn:providerOrganization>
+                     </urn:patient>
+                  </urn:subject1>
+                  <urn:custodian typeCode="CST">
+                     <urn:assignedEntity classCode="?">
+                        <!--1 or more repetitions:-->
+                        <urn:id/>
+                        <!--You have a CHOICE of the next 3 items at this level-->
+                     </urn:assignedEntity>
+                  </urn:custodian>
+               </urn:registrationEvent>
+            </urn:subject>
+         </urn:controlActProcess>
+      </urn:PRPA_IN201301UV02>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+
+
+<con:testStep name="Clear association table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'association'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+<con:testStep name="Clear extrinsicobject table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'extrinsicobject'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear externalidentifier table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'externalidentifier'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear classification table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'classification'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear registrypackage table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'registrypackage'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear slot table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'slot'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+<con:testStep name="Clear description table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'description'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+<con:testStep name="Clear name_ table" type="groovy">
+	<con:settings/>
+	<con:config><script>context.withSql('omar') { sql -> 
+		def table = 'name_'
+
+		sql.execute('delete from ' + table)
+		
+		}</script></con:config>
+</con:testStep>
+
+
+
+
+<con:testStep type="groovy" name="clear document"><con:settings/><con:config><script>context.withSql('repo') { sql -> 
+		def table = 'document'
+
+		sql.execute('delete from ' + table)
+}</script></con:config></con:testStep><con:testStep type="request" name="ProvideAndRegisterDocument"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="ProvideAndRegisterDocument" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/xop+xml; charset=UTF-8; type=&amp;quot;application/soap+xml; charset=UTF-8&amp;quot;;" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointrepository}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+	<!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</a:Action>
+		<a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2-update/services/xdsrepositoryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request
+      Please note that a soap message can only have one header section.
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:ProvideAndRegisterDocumentSet-bAsync</a:Action>
+    <a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XdsService/DocumentSourceReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRepository.svc</a:To>
+  </s:Header> -->
+  <s:Body>
+		<ProvideAndRegisterDocumentSetRequest xsi:schemaLocation="urn:ihe:iti:xds-b:2007 ../../schema/IHE/XDS.b_DocumentRepository.xsd" xmlns="urn:ihe:iti:xds-b:2007" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0">
+			<lcm:SubmitObjectsRequest>
+				<rim:RegistryObjectList>
+					<rim:ExtrinsicObject id="Document01" mimeType="text/xml" objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1">
+						<rim:Slot name="creationTime">
+							<rim:ValueList>
+								<rim:Value>20051224</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="languageCode">
+							<rim:ValueList>
+								<rim:Value>en-us</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStartTime">
+							<rim:ValueList>
+								<rim:Value>200412230800</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStopTime">
+							<rim:ValueList>
+								<rim:Value>200412230801</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientId">
+							<rim:ValueList>
+								<rim:Value>D123401^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientInfo">
+							<rim:ValueList>
+								<rim:Value>PID-3|ST-1000^^^&amp;1.3.6.1.4.1.21367.2003.3.9&amp;ISO</rim:Value>
+								<rim:Value>PID-5|Doe^John^^^</rim:Value>
+								<rim:Value>PID-7|19560527</rim:Value>
+								<rim:Value>PID-8|M</rim:Value>
+								<rim:Value>PID-11|100 Main St^^Metropolis^Il^44130^USA</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description/>
+						<rim:Classification id="cl01" classificationScheme="urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d" classifiedObject="Document01"  nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Gerald Smitty</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Cleveland Clinic</rim:Value>
+									<rim:Value>Parma Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Attending</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>Pediatric</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl02" classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a" classifiedObject="Document01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon classCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl03" classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Document01" nodeRepresentation="1.3.6.1.4.1.21367.2006.7.101">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon confidentialityCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Clinical-Staff"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl04" classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d" classifiedObject="Document01" nodeRepresentation="CDAR2/IHE 1.0">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon formatCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="CDAR2/IHE 1.0"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl05" classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1" classifiedObject="Document01" nodeRepresentation="Outpatient">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon healthcareFacilityTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl06" classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead" classifiedObject="Document01" nodeRepresentation="General Medicine">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon practiceSettingCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="General Medicine"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl07" classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983" classifiedObject="Document01" nodeRepresentation="34108-1">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>LOINC</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient Evaluation And Management"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei01" registryObject="Document01" identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei02" registryObject="Document01" identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab" value="1.3.6.1.4.1.21367.2005.3.8888.33">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:ExtrinsicObject>
+					<rim:RegistryPackage id="SubmissionSet01">
+						<rim:Slot name="submissionTime">
+							<rim:ValueList>
+								<rim:Value>20041225235050</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description>
+							<rim:LocalizedString value="Annual physical"/>
+						</rim:Description>
+						<rim:Classification id="cl08" classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" classifiedObject="SubmissionSet01" nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Sherry Dopplemeyer</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Cleveland Clinic</rim:Value>
+									<rim:Value>Berea Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Primary Surgon</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>Orthopedic</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl09" classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" classifiedObject="SubmissionSet01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon contentTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei03" registryObject="SubmissionSet01" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" value="1.3.6.1.4.1.21367.2005.3.999.36">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei04" registryObject="SubmissionSet01" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" value="1.3.6.1.4.1.21367.2005.3.9999.34">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.sourceId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei05" registryObject="SubmissionSet01" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:RegistryPackage>
+					<rim:Classification id="cl10" classifiedObject="SubmissionSet01" classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd"/>
+					<rim:Association id="as01" associationType="urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember" sourceObject="SubmissionSet01" targetObject="Document01">
+						<rim:Slot name="SubmissionSetStatus">
+							<rim:ValueList>
+								<rim:Value>Original</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+					</rim:Association>
+				</rim:RegistryObjectList>
+			</lcm:SubmitObjectsRequest>
+			<Document id="Document01">UjBsR09EbGhjZ0dTQUxNQUFBUUNBRU1tQ1p0dU1GUXhEUzhi</Document>
+		</ProvideAndRegisterDocumentSetRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+<con:testStep type="request" name="Document Query"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="Document Query" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointregistry}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+  <!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:RegistryStoredQuery</a:Action>
+		<a:MessageID>urn:uuid:a02ca8cd-86fa-4afc-a27c-616c183b2055</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2/services/xdsregistryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. 
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:RegistryStoredQueryAsync</a:Action>
+    <a:MessageID>urn:uuid:a02ca8cd-86fa-4afc-a27c-616c183b2055</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XDS/DocumentConsumerReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRegistry.svc</a:To>
+  </s:Header>  -->
+  <s:Body>
+		<query:AdhocQueryRequest xsi:schemaLocation="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0 ../../schema/ebRS/query.xsd" 
+		xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+		 federated="false" startIndex="0" maxResults="-1">
+			<query:ResponseOption returnComposedObjects="false" returnType="LeafClass"/>
+			<rim:AdhocQuery  id="urn:uuid:14d4debf-8f97-4251-9a74-a90016b0af0d"  home="urn:oid:1.3.6.1.4.1.21367.2010.1.2.2025">
+				<rim:Slot name="$XDSDocumentEntryPatientId">
+					<rim:ValueList>
+						<rim:Value>'DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO'</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>
+				<rim:Slot name="$XDSDocumentEntryStatus">
+					<rim:ValueList>
+						<rim:Value>('urn:oasis:names:tc:ebxml-regrep:StatusType:Approved')</rim:Value>	
+					</rim:ValueList>
+				</rim:Slot>
+				<!--<rim:Slot name="$XDSDocumentEntryCreationTimeFrom">
+					<rim:ValueList>
+						<rim:Value>200412252300</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>
+				<rim:Slot name="$XDSDocumentEntryCreationTimeTo">
+					<rim:ValueList>
+						<rim:Value>200501010800</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>-->
+				<!--<rim:Slot name="$XDSDocumentEntryHealthcareFacilityTypeCode">
+					<rim:ValueList>
+						<rim:Value>("Emergency Department")</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>-->
+			</rim:AdhocQuery>
+		</query:AdhocQueryRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Get Id"><con:settings/><con:config><script>def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context );
+				def holder = groovyUtils.getXmlHolder("Document Query#Response" );
+				holder.namespaces["ns1"] = "urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0";
+				holder.namespaces["ns3"] = "urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0";
+				log.info "Get AssocaiationId"
+				def associationId = holder["//ns1:AdhocQueryResponse[1]/ns3:RegistryObjectList[1]/ns3:ExtrinsicObject[1]/ns3:ExternalIdentifier[@identificationScheme='urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab']/@registryObject"];
+				log.info associationId
+				testRunner.testCase.testSuite.project.setPropertyValue("associationId", "${associationId}")
+				</script></con:config></con:testStep>
+				<con:testStep type="request" name="ProvideAndRegisterDocumentReplace"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRepository_Binding</con:interface><con:operation>DocumentRepository_ProvideAndRegisterDocumentSet-b</con:operation><con:request name="ProvideAndRegisterDocumentReplace" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="application/xop+xml; charset=UTF-8; type=&amp;quot;application/soap+xml; charset=UTF-8&amp;quot;;" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointrepository}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+	<!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</a:Action>
+		<a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2-update/services/xdsrepositoryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request
+      Please note that a soap message can only have one header section.
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:ProvideAndRegisterDocumentSet-bAsync</a:Action>
+    <a:MessageID>urn:uuid:6d296e90-e5dc-43d0-b455-7c1f3eb35d83</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XdsService/DocumentSourceReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRepository.svc</a:To>
+  </s:Header> -->
+  <s:Body>
+		<ProvideAndRegisterDocumentSetRequest xsi:schemaLocation="urn:ihe:iti:xds-b:2007 ../../schema/IHE/XDS.b_DocumentRepository.xsd" xmlns="urn:ihe:iti:xds-b:2007" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lcm="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0">
+			<lcm:SubmitObjectsRequest>
+				<rim:RegistryObjectList>
+					<rim:ExtrinsicObject id="Document01" mimeType="text/xml" objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1">
+						<rim:Slot name="creationTime">
+							<rim:ValueList>
+								<rim:Value>20051224</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="languageCode">
+							<rim:ValueList>
+								<rim:Value>en-us</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStartTime">
+							<rim:ValueList>
+								<rim:Value>200412230800</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="serviceStopTime">
+							<rim:ValueList>
+								<rim:Value>200412230801</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientId">
+							<rim:ValueList>
+								<rim:Value>D123401^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Slot name="sourcePatientInfo">
+							<rim:ValueList>
+								<rim:Value>PID-3|ST-1000^^^&amp;1.3.6.1.4.1.21367.2003.3.9&amp;ISO</rim:Value>
+								<rim:Value>PID-5|Doe^John^^^</rim:Value>
+								<rim:Value>PID-7|19560527</rim:Value>
+								<rim:Value>PID-8|M</rim:Value>
+								<rim:Value>PID-11|100 Main St^^Metropolis^Il^44130^USA</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description/>
+						<rim:Classification id="cl01" classificationScheme="urn:uuid:93606bcf-9494-43ec-9b4e-a7748d1a838d" classifiedObject="Document01"  nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Gerald Smitty</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Maryland John Hopkins</rim:Value>
+									<rim:Value>Parma Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Attending</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>ortho</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl02" classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a" classifiedObject="Document01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon classCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl03" classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f" classifiedObject="Document01" nodeRepresentation="1.3.6.1.4.1.21367.2006.7.101">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon confidentialityCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Clinical-Staff"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl04" classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d" classifiedObject="Document01" nodeRepresentation="CDAR2/IHE 1.0">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon formatCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="CDAR2/IHE 1.0"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl05" classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1" classifiedObject="Document01" nodeRepresentation="Outpatient">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon healthcareFacilityTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl06" classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead" classifiedObject="Document01" nodeRepresentation="General Medicine">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon practiceSettingCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="General Medicine"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:Classification id="cl07" classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983" classifiedObject="Document01" nodeRepresentation="34108-1">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>LOINC</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="Outpatient Evaluation And Management"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei01" registryObject="Document01" identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei02" registryObject="Document01" identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab" value="1.3.6.1.4.1.21367.2005.3.8888.34">
+							<rim:Name>
+								<rim:LocalizedString value="XDSDocumentEntry.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:ExtrinsicObject>
+					<rim:RegistryPackage id="SubmissionSet01">
+						<rim:Slot name="submissionTime">
+							<rim:ValueList>
+								<rim:Value>20041225235050</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+						<rim:Name>
+							<rim:LocalizedString value="Physical"/>
+						</rim:Name>
+						<rim:Description>
+							<rim:LocalizedString value="Annual physical"/>
+						</rim:Description>
+						<rim:Classification id="cl08" classificationScheme="urn:uuid:a7058bb9-b4e4-4307-ba5b-e3f0ab85e12d" classifiedObject="SubmissionSet01" nodeRepresentation="">
+							<rim:Slot name="authorPerson">
+								<rim:ValueList>
+									<rim:Value>Sherry Dopplemeyer</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorInstitution">
+								<rim:ValueList>
+									<rim:Value>Cleveland Clinic</rim:Value>
+									<rim:Value>Berea Community</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorRole">
+								<rim:ValueList>
+									<rim:Value>Primary Surgon</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Slot name="authorSpecialty">
+								<rim:ValueList>
+									<rim:Value>Pediatric</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+						</rim:Classification>
+						<rim:Classification id="cl09" classificationScheme="urn:uuid:aa543740-bdda-424e-8c96-df4873be8500" classifiedObject="SubmissionSet01" nodeRepresentation="History and Physical">
+							<rim:Slot name="codingScheme">
+								<rim:ValueList>
+									<rim:Value>Connect-a-thon contentTypeCodes</rim:Value>
+								</rim:ValueList>
+							</rim:Slot>
+							<rim:Name>
+								<rim:LocalizedString value="History and Physical"/>
+							</rim:Name>
+						</rim:Classification>
+						<rim:ExternalIdentifier id="ei03" registryObject="SubmissionSet01" identificationScheme="urn:uuid:96fdda7c-d067-4183-912e-bf5ee74998a8" value="1.3.6.1.4.1.21367.2005.3.999.38">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.uniqueId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei04" registryObject="SubmissionSet01" identificationScheme="urn:uuid:554ac39e-e3fe-47fe-b233-965d2a147832" value="1.3.6.1.4.1.21367.2005.3.9999.34">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.sourceId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+						<rim:ExternalIdentifier id="ei05" registryObject="SubmissionSet01" identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446" value="DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO">
+							<rim:Name>
+								<rim:LocalizedString value="XDSSubmissionSet.patientId"/>
+							</rim:Name>
+						</rim:ExternalIdentifier>
+					</rim:RegistryPackage>
+					<rim:Classification id="cl10" classifiedObject="SubmissionSet01" classificationNode="urn:uuid:a54d6aa5-d40d-43f9-88c5-b4633d873bdd"/>
+					<rim:Association id="as01" associationType="urn:oasis:names:tc:ebxml-regrep:AssociationType:HasMember" sourceObject="SubmissionSet01" targetObject="Document01">
+						<rim:Slot name="SubmissionSetStatus">
+							<rim:ValueList>
+								<rim:Value>Original</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+					</rim:Association>
+					<rim:Association id="as02" associationType="urn:ihe:iti:2007:AssociationType:RPLC" sourceObject="Document01"  targetObject="${#Project#associationId}">
+						<rim:Slot name="SubmissionSetStatus">
+							<rim:ValueList>
+								<rim:Value>Reference</rim:Value>
+							</rim:ValueList>
+						</rim:Slot>
+					</rim:Association>
+				</rim:RegistryObjectList>
+			</lcm:SubmitObjectsRequest>
+			<Document id="Document01">UjBsR09EbGhjZ0dTQUxNQUFBUUNBRU1tQ1p0dU1GUXhEUzhi</Document>
+		</ProvideAndRegisterDocumentSetRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep>
+<con:testStep type="request" name="Document Query After PNR"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>DocumentRegistry_Binding_Soap12</con:interface><con:operation>DocumentRegistry_PRPA_IN201301UV02</con:operation><con:request name="Document Query After PNR" useWsAddressing="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="Content-Type" value="" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>${#Project#endpointregistry}</con:endpoint><con:request><![CDATA[<s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing">
+  <!--The following header applies for a Synchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. -->
+  <s:Header>
+		<a:Action s:mustUnderstand="1">urn:ihe:iti:2007:RegistryStoredQuery</a:Action>
+		<a:MessageID>urn:uuid:a02ca8cd-86fa-4afc-a27c-616c183b2055</a:MessageID>
+		<a:ReplyTo>
+			<a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address>
+		</a:ReplyTo>
+		<a:To s:mustUnderstand="1">http://GFE-ONC-WDEV15:8080/axis2/services/xdsregistryb</a:To>
+	</s:Header>
+  <!--The following DISABLED header applies for an Asynchronous Web Services Exchange Request 
+        Please note that a soap message can only have one header section. 
+  <s:Header>
+    <a:Action s:mustUnderstand="1">urn:ihe:iti:2008:RegistryStoredQueryAsync</a:Action>
+    <a:MessageID>urn:uuid:a02ca8cd-86fa-4afc-a27c-616c183b2055</a:MessageID>
+    <a:ReplyTo>
+      <a:Address>http://192.168.2.4:9080/XDS/DocumentConsumerReceiver.svc</a:Address>
+    </a:ReplyTo>
+    <a:To s:mustUnderstand="1">http://localhost:2647/XdsService/IHEXDSRegistry.svc</a:To>
+  </s:Header>  -->
+  <s:Body>
+		<query:AdhocQueryRequest xsi:schemaLocation="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0 ../../schema/ebRS/query.xsd" 
+		xmlns:query="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rim="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:rs="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0"
+		 federated="false" startIndex="0" maxResults="-1">
+			<query:ResponseOption returnComposedObjects="false" returnType="LeafClass"/>
+			<rim:AdhocQuery  id="urn:uuid:14d4debf-8f97-4251-9a74-a90016b0af0d"  home="urn:oid:1.3.6.1.4.1.21367.2010.1.2.2025">
+				<rim:Slot name="$XDSDocumentEntryPatientId">
+					<rim:ValueList>
+						<rim:Value>'DGR456^^^&amp;1.3.6.1.4.1.21367.2010.1.2.315&amp;ISO'</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>
+				<rim:Slot name="$XDSDocumentEntryStatus">
+					<rim:ValueList>
+						<rim:Value>('urn:oasis:names:tc:ebxml-regrep:StatusType:Approved')</rim:Value>	
+					</rim:ValueList>
+				</rim:Slot>
+				<!--<rim:Slot name="$XDSDocumentEntryCreationTimeFrom">
+					<rim:ValueList>
+						<rim:Value>200412252300</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>
+				<rim:Slot name="$XDSDocumentEntryCreationTimeTo">
+					<rim:ValueList>
+						<rim:Value>200501010800</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>-->
+				<!--<rim:Slot name="$XDSDocumentEntryHealthcareFacilityTypeCode">
+					<rim:ValueList>
+						<rim:Value>("Emergency Department")</rim:Value>
+					</rim:ValueList>
+				</rim:Slot>-->
+			</rim:AdhocQuery>
+		</query:AdhocQueryRequest>
+	</s:Body>
+</s:Envelope>]]></con:request><con:assertion type="SOAP Response"/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Get ResponseDocId"><con:settings/><con:config><script>def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context );
+				def holder = groovyUtils.getXmlHolder("Document Query After PNR#Response" );
+				holder.namespaces["ns1"] = "urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0";
+				holder.namespaces["ns3"] = "urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0";
+				def docId = context.findProperty('DQDocID');
+				log.info docId
+				def ResponseDocId = holder["//ns1:AdhocQueryResponse[1]/ns3:RegistryObjectList[1]/ns3:ExtrinsicObject[1]/ns3:ExternalIdentifier[@identificationScheme='urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab']/@value"];
+				log.info ResponseDocId
+				assert(docId==ResponseDocId)
+				</script></con:config></con:testStep>
+
+<con:properties><con:property><con:name>startDate</con:name><con:value>2013-12-18T21:32:45Z</con:value></con:property><con:property><con:name>endDate</con:name><con:value>2013-12-18T21:42:45Z</con:value></con:property><con:property><con:name>sigDate</con:name><con:value>12/18/2013 21:32:45</con:value></con:property><con:property><con:name>expireDate</con:name><con:value>2014-01-17T00:00:00Z</con:value></con:property></con:properties></con:testCase>
+<con:properties/></con:testSuite><con:properties>
+<con:property><con:name>endpointregistry</con:name><con:value>http://192.168.34.6:8080/axis2/services/xdsregistryb</con:value></con:property>
+<con:property><con:name>endpointrepository</con:name><con:value>http://192.168.34.6:8080/axis2/services/xdsrepositoryb</con:value></con:property>
+<con:property><con:name>associationId</con:name><con:value>urn:uuid:5dc08135-b999-47da-bf27-c901a5c5de45</con:value></con:property>
+<con:property><con:name>DQDocID</con:name><con:value>1.3.6.1.4.1.21367.2005.3.8888.34</con:value></con:property></con:properties>
+<con:afterLoadScript>def propertiesFilename = project.path[0..(project.path.size()-4)] + 'properties'
+def propertiesFile = new File(propertiesFilename)
+if (propertiesFile.exists()) {
+	def props = new Properties()
+	props.load(new FileInputStream(propertiesFile))
+	props.each { key, value ->
+	    project.setPropertyValue(key, value)
+	}
+}
+
+TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+def testRunListener = [
+afterRun: { testRunner, runContext -> },
+afterStep: { testRunner, runContext, result -> },
+beforeStep: { testRunner, runContext -> },
+beforeStep: { testRunner, runContext, testStep -> },
+beforeRun: { testRunner, runContext -> 
+use (org.codehaus.groovy.runtime.TimeCategory) {
+def startDate = 5.minutes.ago
+def endDate = 5.minutes.from.now
+def expireDate = 30.days.from.now
+
+def df = "yyyy-MM-dd'T'HH:mm:ss'Z'"
+def dfSig = "MM/dd/yyyy' 'HH:mm:ss"
+
+runContext.testCase.setPropertyValue("startDate", startDate.format(df))
+runContext.testCase.setPropertyValue("endDate", endDate.format(df))
+runContext.testCase.setPropertyValue("sigDate", startDate.format(dfSig))
+runContext.testCase.setPropertyValue("expireDate", expireDate.format(df))
+}
+}   
+] as com.eviware.soapui.model.testsuite.TestRunListener
+
+project.testSuiteList*.testCaseList.flatten()*.addTestRunListener(testRunListener)
+
+
+
+com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext.metaClass.findProperty = { propertyName ->
+return delegate.getProperty(propertyName) ?:
+delegate.testCase.getPropertyValue(propertyName) ?:
+delegate.testCase.testSuite.getPropertyValue(propertyName) ?:
+delegate.testCase.testSuite.project.getPropertyValue(propertyName)
+}
+
+com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext.metaClass.withSql = { dbOrPropertyName, block ->
+def dbName = dbOrPropertyName
+
+
+def connectString = "jdbc:mysql://192.168.34.6:3306/${dbName}"
+def sql = groovy.sql.Sql.newInstance(connectString, "hieosuser", "hieospass", "com.mysql.jdbc.Driver");
+try {
+block(sql)
+} finally {
+sql.close()
+}
+}</con:afterLoadScript>
+<con:wssContainer/>
+<con:databaseConnectionContainer/>
+<con:wssContainer/><con:sensitiveInformation/></con:soapui-project>
