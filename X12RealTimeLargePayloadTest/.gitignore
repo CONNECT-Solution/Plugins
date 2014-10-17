@@ -1,0 +1,14 @@
+.classpath
+.project
+.settings
+.metadata
+.checkstyle
+.DS_Store
+.pmd
+*.log
+MANIFEST.MF
+target/
+
+nb-configuration.xml
+nbactions.xml
+faces-config.NavData
