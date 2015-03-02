@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    elementFormDefault="qualified"
+    targetNamespace="urn:ihe:iti:hpd:2010"
+    xmlns="urn:ihe:iti:hpd:2010"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    
+    <!-- Intentionally empty (only needed for JAXB binding) -->
+</xsd:schema>

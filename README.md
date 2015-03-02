@@ -20,3 +20,5 @@ Test HIEOS interfaces
 Navigate to CONNECT installed directory.
 
 Deploy CONNECT ear.
+
+Before running the HPD-WS-client, copy the wsdl and schema folder from \Plugins\HPD-WS-Client\src\main\resources into the \Plugin folder.
