@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.connectopensource</groupId>
+        <artifactId>Plugins</artifactId>
+        <version>4.5.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>FHIRAdapters</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>war</packaging>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <connect.webservices.version>4.2.0-SNAPSHOT</connect.webservices.version>
+        <connect.commontypes.version>4.2.0-SNAPSHOT</connect.commontypes.version>
+    </properties>
+    
+    <dependencies>
+        
+        <!-- FHIR Client -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>me.fhir</groupId>
+            <artifactId>fhir-0.81</artifactId>
+            <version>2382-SNAPSHOT</version>
+        </dependency>
+        
+        <!-- CONNECT Web Services -->
+        
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>CONNECTCommonTypesLib</artifactId>
+            <version>${connect.commontypes.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocRegistryWebservices</artifactId>
+            <version>${connect.webservices.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocRepositoryWebservices</artifactId>
+            <version>${connect.webservices.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>PatientDiscoveryWebservices</artifactId>
+            <version>${connect.webservices.version}</version>
+        </dependency>        
+        
+        <!-- CONNECT Core -->
+        
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocRegistryCore</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocRepositoryCore</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>CONNECTCoreLib</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>	
+        
+    </dependencies>
+    <repositories>
+        <repository>
+            <id>sonatype repo</id>
+            <name>FHIR Snapshot Repo</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+	
+</project>

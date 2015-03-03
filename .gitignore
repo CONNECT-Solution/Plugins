@@ -4,3 +4,7 @@
 *.jar
 *.war
 *.ear
+nb-configuration.xml
+/XDSbPlugin/AdapterDocRegistry2Soap12Web/target/
+/XDSbPlugin/AdapterDocRepository2Soap12Web/target/
+/FHIRAdapters/target/
