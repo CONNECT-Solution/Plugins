@@ -20,3 +20,9 @@ Test HIEOS interfaces
 Navigate to CONNECT installed directory.
 
 Deploy CONNECT ear.
+
+HPD-WS-Client:
+--------------
+The client cna be run using the following command: 
+mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient  //this will print out the usage information
+mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient -Dexec.args="professional givenName Thomas"
