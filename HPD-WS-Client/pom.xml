@@ -87,11 +87,6 @@
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>1.3.2</version>
                     <configuration>
-                        <!--<files>
-                            <file>${basedir}/src/main/resources/schema/DSML/DMSLV2.xsd</file>
-                            <file>${basedir}/src/main/resources/schema/HPD/HPD.xsd</file>
-                            <file>${basedir}/src/main/resources/schema/HPD/HPDFederatedStructures.xsd</file>
-                        </files>-->
                         <executable>java</executable>
                         <mainClass>gov.hhs.onc.hpdclient.HPDClient</mainClass>
                         <systemProperties>

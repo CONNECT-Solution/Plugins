@@ -1,16 +1,35 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2009-2015, United States Government, as represented by the Secretary of Health and Human Services.  * All rights reserved. * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *   * Redistributions of source code must retain the above
+ *     copyright notice, this list of conditions and the following disclaimer.
+ *   * Redistributions in binary form must reproduce the above copyright
+ *     notice, this list of conditions and the following disclaimer in the documentation
+ *     and/or other materials provided with the distribution.
+ *   * Neither the name of the United States Government nor the
+ *     names of its contributors may be used to endorse or promote products
+ *     derived from this software without specific prior written permission.
+ *
+ *THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ *ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ *WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *DISCLAIMED. IN NO EVENT SHALL THE UNITED STATES GOVERNMENT BE LIABLE FOR ANY
+ *DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ *LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ *ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ *(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ *SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package gov.hhc.onc.hpdclient.service;
+package gov.hhs.onc.hpdclient.service;
 
 import ihe.iti.hpd._2010.ProviderInformationDirectoryPortType;
 import ihe.iti.hpd._2010.ProviderInformationDirectoryService;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -26,6 +45,9 @@ import oasis.names.tc.dsml._2._0.core.SearchRequest;
 /**
  *
  * @author tjafri
+ *
+ * This class is used to query PDTI server which is a test implementation of Provider Directory Specification.
+ *
  */
 public class HPDServiceImpl implements HPDService {
 
@@ -33,36 +55,27 @@ public class HPDServiceImpl implements HPDService {
     private ProviderInformationDirectoryService pdService;
     private ProviderInformationDirectoryPortType pdPortType;
     private Properties prop;
-    private static final String DN_HC_PROFESSIONAL = "pdti.server.dnHcProfessional";
-    private static final String DN_HC_REG_ORG = "pdti.server.dnHcRegulatedOrganization";
-    private static final String DN_HPD_MEMEBERSHIP = "pdti.server.dnHPDProviderMembership";
-    private static final String DN_HPD_CREDENTIAL = "pdti.server.dnHPDCredential";
-    private static final String DN_SERVICES = "pdti.server.dnServices";
-    private static final String DN_RELATIONSHIP = "pdti.server.dnRelationShip";
-    private static final String SCOPE = "pdti.server.scope";
-    private static final String DEREF_ALIASES = "pdti.server.derefAliases";
-    private static final String WSDL_URL = "pdti.server.wsdlurl";
-    private static final String PROPERTY_FILENAME = "config.properties";
+    private static final String DN_HC_PROFESSIONAL = "hpd.dnHcProfessional";
+    private static final String DN_HC_REG_ORG = "hpd.dnHcRegulatedOrganization";
+    private static final String DN_HPD_MEMEBERSHIP = "hpd.dnHPDProviderMembership";
+    private static final String DN_HPD_CREDENTIAL = "hpd.dnHPDCredential";
+    private static final String DN_SERVICES = "hpd.dnServices";
+    private static final String DN_RELATIONSHIP = "hpd.dnRelationShip";
+    private static final String SCOPE = "hpd.scope";
+    private static final String DEREF_ALIASES = "hpd.derefAliases";
+    private static final String WSDL_URL = "hpd.wsdlurl";
+    private static final String PROPERTY_FILE = "propertyFile";
 
     public HPDServiceImpl() throws IOException {
 
         prop = new Properties();
-        InputStream inputStream = null;
         try {
-            //inputStream = this.getClass().getClassLoader().getResourceAsStream(PROPERTY_FILENAME);
-
-            //if (inputStream != null) {
-            prop.load(new FileReader(System.getProperty("propertyFile")));
-            //}
+            prop.load(new FileReader(System.getProperty(PROPERTY_FILE)));
             dsmlBasedObjectFactory = new ObjectFactory();
             pdService = new ProviderInformationDirectoryService(getServiceURL());
             pdPortType = pdService.getProviderInformationDirectoryPortSoap(new AddressingFeature(true, true));
         } catch (IOException ex) {
             throw new FileNotFoundException("Unable to load properties file" + ex.getMessage());
-        } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
         }
     }
 
