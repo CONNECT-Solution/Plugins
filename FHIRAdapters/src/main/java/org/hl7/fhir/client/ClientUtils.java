@@ -1,3 +1,10 @@
+/** 
+ * FHIR Reference Client used without modification from repo:
+ * https://github.com/cnanjo/FhirJavaReferenceClient
+ * 
+ * Reference Client license: http://www.apache.org/licenses/LICENSE-2.0.txt
+*/
+
 package org.hl7.fhir.client;
 
 import java.io.ByteArrayOutputStream;
@@ -50,7 +57,7 @@ import org.hl7.fhir.instance.model.OperationOutcome;
 import org.hl7.fhir.instance.model.Resource;
 import org.hl7.fhir.instance.model.ResourceType;
 
-/**
+/** 
  * Helper class handling lower level HTTP transport concerns.
  * TODO Document methods.
  * @author Claude Nanjo

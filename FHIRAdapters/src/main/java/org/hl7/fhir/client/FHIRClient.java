@@ -1,3 +1,10 @@
+/**
+ * FHIR Reference Client used without modification from repo:
+ * https://github.com/cnanjo/FhirJavaReferenceClient
+ * 
+ * Reference Client license: http://www.apache.org/licenses/LICENSE-2.0.txt
+**/
+
 package org.hl7.fhir.client;
 
 /*

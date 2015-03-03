@@ -1,3 +1,10 @@
+/** 
+ * FHIR Reference Client used without modification from repo:
+ * https://github.com/cnanjo/FhirJavaReferenceClient
+ * 
+ * Reference Client license: http://www.apache.org/licenses/LICENSE-2.0.txt
+*/
+
 /*
 Copyright (c) 2011-2013, HL7, Inc
 All rights reserved.
