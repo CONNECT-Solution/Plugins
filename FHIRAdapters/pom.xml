@@ -69,6 +69,11 @@
         
         <dependency>
             <groupId>org.connectopensource</groupId>
+            <artifactId>PatientDiscoveryCore</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
             <artifactId>DocRegistryCore</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -81,8 +86,15 @@
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCoreLib</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>	
+        </dependency>
         
+        <!-- Logging -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+       
     </dependencies>
     <repositories>
         <repository>
