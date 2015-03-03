@@ -23,7 +23,9 @@
                 <excludes>
                     <exclude>.gitignore</exclude>
                     <exclude>xml-resources/</exclude>
+                    <exclude>config.properties</exclude>
                 </excludes>
+                <targetPath>${basedir}/../</targetPath>
             </resource>
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
