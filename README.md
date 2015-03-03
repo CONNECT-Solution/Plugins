@@ -26,4 +26,4 @@ HPD-WS-Client:
 Before running the HPD-WS-client, copy the wsdl and schema folder from \Plugins\HPD-WS-Client\src\main\resources into the \Plugin folder.
 The client cna be run using the following command: 
 mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient  //this will print out the usage information
-mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient -Dexec:args="professional givenName Thomas"
+mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient -Dexec.args="professional givenName Thomas"
