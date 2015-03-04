@@ -26,13 +26,19 @@
  */
 package gov.hhs.fhs.nhinc.fhir.transform;
 
+import gov.hhs.fha.nhinc.docrepository.adapter.model.Document;
 import gov.hhs.fha.nhinc.mpi.adapter.component.hl7parsers.HL7Parser201306;
 import gov.hhs.fha.nhinc.mpilib.Identifier;
 import gov.hhs.fha.nhinc.mpilib.Identifiers;
 import gov.hhs.fha.nhinc.mpilib.PersonName;
 import gov.hhs.fha.nhinc.mpilib.PersonNames;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
+import java.util.ArrayList;
+import java.util.List;
+import org.hl7.fhir.instance.model.AtomEntry;
 import org.hl7.fhir.instance.model.AtomFeed;
+import org.hl7.fhir.instance.model.DocumentReference;
+import org.hl7.fhir.instance.model.Resource;
 import static org.hl7.fhir.instance.model.ResourceType.Patient;
 import org.hl7.v3.PRPAIN201305UV02;
 import org.hl7.v3.PRPAIN201306UV02;
@@ -87,8 +93,9 @@ public class ResourceTransformer {
         }
         
         if(NullChecker.isNotNullish(fhirPatient.getIdentifier())) {
-            //TODO Might need to pull organization and see what FHIR version of Assigning Authority is.
-            String aa = "1.2.3.FHIR";
+            
+            //TODO: confirm what the AA should be in a FHIR Patient Resource
+            String aa = fhirPatient.getIdentifier().get(0).getSystem().getValue();
             String patientId = fhirPatient.getIdentifier().get(0).getValue().getValue();
             
             Identifiers identifiers = new Identifiers();
@@ -100,5 +107,29 @@ public class ResourceTransformer {
         }
 
         return nhinPatient;
+    }
+
+    public List<Document> getDocumentsFromResource(List<AtomEntry<? extends Resource>> referenceAtoms) {
+        List<Document> documents = new ArrayList<>();
+        for(AtomEntry entry : referenceAtoms) {
+            if(entry.getResource() != null && entry.getResource() instanceof DocumentReference) {
+                DocumentReference reference = (DocumentReference) entry.getResource();
+                Document document = new Document();
+                
+                document.setDocumentUri(reference.getLocationSimple());
+                document.setHash(reference.getHashSimple());
+                document.setMimeType(reference.getMimeTypeSimple());
+                
+                if(reference.getStatus() != null)
+                    document.setStatus(reference.getStatus().asStringValue());
+                
+                document.setDocumentTitle(reference.getDescriptionSimple());
+                document.setSize(reference.getSizeSimple());
+
+                //TODO: finish conversions, need a lot more research.
+                documents.add(document);
+            }
+        }
+        return documents;
     }
 }

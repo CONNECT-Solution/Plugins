@@ -27,6 +27,7 @@
 
 package gov.hhs.fha.nhinc.fhir.adapter;
 
+import gov.hhs.fha.nhinc.fhir.adapter.impl.DocRegistryFHIRAdapterImpl;
 import ihe.iti.xds_b._2007.DocumentRegistryPortType;
 import oasis.names.tc.ebxml_regrep.xsd.lcm._3.SubmitObjectsRequest;
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryRequest;
@@ -43,6 +44,17 @@ import org.hl7.v3.PRPAIN201304UV02;
  */
 public class DocRegistryFHIRAdapter implements DocumentRegistryPortType {
 
+    private DocRegistryFHIRAdapterImpl adapter = new DocRegistryFHIRAdapterImpl();
+    
+    @Override
+    public AdhocQueryResponse documentRegistryRegistryStoredQuery(AdhocQueryRequest request) {
+        if(request != null) {
+            return adapter.queryRegistry(request);
+        }
+        return null;
+    }
+    
+    
     @Override
     public RegistryResponseType documentRegistryRegisterDocumentSetB(SubmitObjectsRequest sor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -60,11 +72,6 @@ public class DocRegistryFHIRAdapter implements DocumentRegistryPortType {
 
     @Override
     public MCCIIN000002UV01 documentRegistryPRPAIN201302UV02(PRPAIN201302UV02 prpnv) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public AdhocQueryResponse documentRegistryRegistryStoredQuery(AdhocQueryRequest aqr) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
