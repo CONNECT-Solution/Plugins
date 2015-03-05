@@ -66,11 +66,12 @@ public class DocRegistryFHIRAdapterImpl {
         String patientId = extractPatientIdentifier(querySlots);
         List<String> docCodes = extractClassCodes(querySlots);
         
+        patientId = buildIdentifier(patientId);
         List<AtomEntry<? extends Resource>> referenceAtoms = getDocumentReferenceAtoms(patientId, docCodes);
         
         if(NullChecker.isNotNullish(referenceAtoms)) {
             AdhocQueryResponse response = new AdhocQueryResponse();
-            registryHelper.loadResponseMessage(response, transformer.getDocumentsFromResource(referenceAtoms));
+            registryHelper.loadResponseMessage(response, transformer.buildDocumentsFromResource(referenceAtoms));
             return response;
         }
         return null;
@@ -142,4 +143,20 @@ public class DocRegistryFHIRAdapterImpl {
         }
         return null;
     }
+
+    private String buildIdentifier(String patientId) {
+        String regex = ".+\\^\\^\\^&.+&ISO";
+        String returnValue;
+        if(patientId.matches(regex)) {
+            String aa = PatientIdFormatUtil.parseCommunityId(patientId);
+            if(!aa.startsWith("urn:oid:")) {
+                aa = "urn:oid:" + aa;
+            }
+            returnValue = aa + PatientIdFormatUtil.parsePatientId(patientId);
+        } else {
+            returnValue = patientId;
+        }
+        return returnValue;
+    }
+    
 }

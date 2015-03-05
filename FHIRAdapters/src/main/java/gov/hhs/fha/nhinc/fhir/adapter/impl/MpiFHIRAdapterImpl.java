@@ -64,7 +64,7 @@ public class MpiFHIRAdapterImpl {
                 
                 if(fhirParams != null) {
                     AtomFeed patientFeed = client.getFhirResource("FHIRPatientResource", fhirParams, Patient.class);
-                    return transformer.getPatientResponse(patientFeed, findCandidatesRequest);
+                    return transformer.buildPatientResponse(patientFeed, findCandidatesRequest);
                 }
             } catch (URISyntaxException | ConnectionManagerException ex) {
                 LOG.error("Unable to get Patient Resource due to: " + ex.getLocalizedMessage(), ex);
