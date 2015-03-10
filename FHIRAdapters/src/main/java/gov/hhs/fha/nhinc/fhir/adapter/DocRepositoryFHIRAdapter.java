@@ -27,6 +27,7 @@
 
 package gov.hhs.fha.nhinc.fhir.adapter;
 
+import gov.hhs.fha.nhinc.fhir.adapter.impl.DocRepositoryFHIRAdapterImpl;
 import ihe.iti.xds_b._2007.DocumentRepositoryPortType;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType;
@@ -39,9 +40,11 @@ import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
  */
 public class DocRepositoryFHIRAdapter implements DocumentRepositoryPortType {
 
+    private final DocRepositoryFHIRAdapterImpl adapter = new DocRepositoryFHIRAdapterImpl();
+    
     @Override
-    public RetrieveDocumentSetResponseType documentRepositoryRetrieveDocumentSet(RetrieveDocumentSetRequestType rdsrt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public RetrieveDocumentSetResponseType documentRepositoryRetrieveDocumentSet(RetrieveDocumentSetRequestType request) {
+        return adapter.queryRepository(request);
     }
 
     @Override

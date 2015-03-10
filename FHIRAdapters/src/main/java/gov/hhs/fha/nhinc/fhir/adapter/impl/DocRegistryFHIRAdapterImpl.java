@@ -29,6 +29,7 @@ package gov.hhs.fha.nhinc.fhir.adapter.impl;
 import gov.hhs.fha.nhinc.connectmgr.ConnectionManagerException;
 import gov.hhs.fha.nhinc.docregistry.adapter.AdapterComponentDocRegistryOrchImpl;
 import gov.hhs.fha.nhinc.fhir.client.AdapterFHIRClient;
+import gov.hhs.fha.nhinc.fhir.util.FHIRConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
 import gov.hhs.fha.nhinc.util.format.PatientIdFormatUtil;
 import gov.hhs.fhs.nhinc.fhir.transform.ResourceTransformer;
@@ -134,9 +135,9 @@ public class DocRegistryFHIRAdapterImpl {
             //TODO: Plenty of other params that can be pulled from request, probably should pull out full query params
             // and then convert to map.
             
-            AtomFeed patientFeed = client.getFhirResource("FHIRDocumentReferenceResource", fhirParams, DocumentReference.class);
-            if(patientFeed != null && NullChecker.isNotNullish(patientFeed.getEntryList())) {
-                return patientFeed.getEntryList();
+            AtomFeed docFeed = client.searchFhirResource(FHIRConstants.FHIR_DOC_REFERENCE_URL_KEY, fhirParams, DocumentReference.class);
+            if(docFeed != null && NullChecker.isNotNullish(docFeed.getEntryList())) {
+                return docFeed.getEntryList();
             }
         } catch (URISyntaxException | ConnectionManagerException ex) {
             LOG.error("Unable to get Document Reference resource: " + ex.getLocalizedMessage(), ex);

@@ -29,6 +29,7 @@ package gov.hhs.fha.nhinc.fhir.adapter.impl;
 
 import gov.hhs.fha.nhinc.connectmgr.ConnectionManagerException;
 import gov.hhs.fha.nhinc.fhir.client.AdapterFHIRClient;
+import gov.hhs.fha.nhinc.fhir.util.FHIRConstants;
 import gov.hhs.fha.nhinc.mpi.adapter.component.hl7parsers.HL7Parser201305;
 import gov.hhs.fha.nhinc.mpi.adapter.component.hl7parsers.HL7Parser201306;
 import gov.hhs.fha.nhinc.mpilib.Patient;
@@ -63,7 +64,7 @@ public class MpiFHIRAdapterImpl {
                 Map<String, String> fhirParams = buildFhirParams(sourcePatient);
                 
                 if(fhirParams != null) {
-                    AtomFeed patientFeed = client.getFhirResource("FHIRPatientResource", fhirParams, Patient.class);
+                    AtomFeed patientFeed = client.searchFhirResource(FHIRConstants.FHIR_PATIENT_URL_KEY, fhirParams, Patient.class);
                     return transformer.buildPatientResponse(patientFeed, findCandidatesRequest);
                 }
             } catch (URISyntaxException | ConnectionManagerException ex) {
