@@ -74,11 +74,12 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
     @Read
     public Binary getDocument(@IdParam IdDt docReference) {
         PropertiesHelper propHelper = new PropertiesHelper();
-        Binary encodedDoc = null;
-        File document = propHelper.getDocumentFile(propHelper.getPropertyFile(docReference.getIdPart(),
-            PROPERTYFILENAME), propHelper.getPropertyFile(PROPDIRECTORY, PROPERTYFILENAME));
-        encodedDoc = createEncodedDoc(document);
-        return encodedDoc;
+        String documentFileName = propHelper.getPropertyFile(docReference.getIdPart(), PROPERTYFILENAME);
+        if (documentFileName == null || documentFileName.isEmpty()) {
+            throw new NullPointerException("Returned Document FileName is not valid");
+        }
+        return createEncodedDoc(propHelper.getDocumentFile(documentFileName, propHelper.getPropertyFile(PROPDIRECTORY,
+            PROPERTYFILENAME)));
 
     }
 
