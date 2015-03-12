@@ -6,13 +6,18 @@ import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 import gov.hhs.fha.nhinc.fhir.helper.MockDocumentLoader;
+import gov.hhs.fha.nhinc.fhir.helper.PropertiesHelper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /*
  * Copyright (c) 2009-2015, United States Government, as represented by the Secretary of Health and Human Services.
@@ -46,27 +51,47 @@ import org.apache.commons.io.FileUtils;
  */
 public class RestBinaryDocResourceProvider implements IResourceProvider {
 
+    private static final String PROPERTYFILENAME = "fhirRestServer.properties";
+    private static final String PROPDIRECTORY = "fhirConfigDirectory";
+
+    private static final Log LOG = LogFactory.getLog(RestBinaryDocResourceProvider.class);
+
     /**
      *
      * @param docReference
      * @return
      * @throws java.io.IOException
      */
+    /* @Read
+     public Binary getDocument(@IdParam IdDt docReference) throws IOException {
+     File document = null;
+     MockDocumentLoader loader = new MockDocumentLoader();
+     HashMap<String, File> docReferenceMap = loader.createDocumentLoader();
+     document = docReferenceMap.get(docReference.getIdPart());
+     return createEncodedDoc(document);
+
+     }*/
     @Read
-    public Binary getDocument(@IdParam IdDt docReference) throws IOException {
-        File document = null;
-        MockDocumentLoader loader = new MockDocumentLoader();
-        HashMap<String, File> docReferenceMap = loader.createDocumentLoader();
-        document = docReferenceMap.get(docReference.getIdPart());
-        return createEncodedDoc(document);
+    public Binary getDocument(@IdParam IdDt docReference) {
+        PropertiesHelper propHelper = new PropertiesHelper();
+        Binary encodedDoc = null;
+        File document = propHelper.getDocumentFile(propHelper.getPropertyFile(docReference.getIdPart(),
+            PROPERTYFILENAME), propHelper.getPropertyFile(PROPDIRECTORY, PROPERTYFILENAME));
+        encodedDoc = createEncodedDoc(document);
+        return encodedDoc;
 
     }
 
-    private Binary createEncodedDoc(File document) throws IOException {
+    private Binary createEncodedDoc(File document) {
         Binary encodedDoc = new Binary();
-        if (document != null) {
-            encodedDoc.setContentAsBase64(Base64.encodeBase64String(FileUtils.readFileToByteArray(document)));
-            encodedDoc.setContentType(Files.probeContentType(Paths.get(document.getAbsolutePath())));
+        if (document != null && document.isFile()) {
+            try {
+                encodedDoc.setContentAsBase64(Base64.encodeBase64String(FileUtils.readFileToByteArray(document)));
+                encodedDoc.setContentType(Files.probeContentType(Paths.get(document.getAbsolutePath())));
+            } catch (IOException ex) {
+                LOG.debug("Error While Encoding the Binary Document " + ex.getMessage());
+            }
+
         }
         return encodedDoc;
     }
