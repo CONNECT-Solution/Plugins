@@ -29,6 +29,7 @@ package gov.hhs.fha.nhinc.fhir.helper;
 import java.io.File;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -42,23 +43,22 @@ public class PropertiesHelper {
 
     /**
      * This method retrieves the property from the specified property file.Apache Commons PropertyConfiguration is used
-     * to load the property file in which the properties needs to be read from.
+     * to load the property file and Reloads Property Files.
      *
-     * @param property - Property to be retrieved from the given propertyFile
+     *
      * @param propertyFile - Name of PropertyFile passed as an argument.
-     * @return
+     * @return PropertiesConfiguration object
      */
-    public String getPropertyFile(String property, String propertyFile) {
+    public PropertiesConfiguration getProperty(String propertyFile) {
         PropertiesConfiguration config = new PropertiesConfiguration();
         try {
+            config.setReloadingStrategy(new FileChangedReloadingStrategy());
             config.load(propertyFile);
-            config.save(propertyFile);
-            config.setAutoSave(false);
             config.refresh();
         } catch (ConfigurationException ex) {
             LOG.debug("Error while loading property file :" + propertyFile + ex.getMessage());
         }
-        return config.getString(property);
+        return config;
 
     }
 
@@ -68,7 +68,7 @@ public class PropertiesHelper {
      * server provided in the properties file.
      * @param directoryName - The Directory where all the Binary docs are stored. This property is also in the property
      * File.
-     * @return
+     * @return the document file
      */
     public File getDocumentFile(String documentFileName, String directoryName) {
 

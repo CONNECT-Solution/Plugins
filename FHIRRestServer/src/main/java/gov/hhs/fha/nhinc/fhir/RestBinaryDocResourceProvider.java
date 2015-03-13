@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,8 +56,14 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
 
     private static final String PROPERTYFILENAME = "fhirRestServer.properties";
     private static final String PROPDIRECTORY = "fhirConfigDirectory";
+    PropertiesConfiguration config;
 
     private static final Log LOG = LogFactory.getLog(RestBinaryDocResourceProvider.class);
+
+    public RestBinaryDocResourceProvider() {
+        PropertiesHelper propHelper = new PropertiesHelper();
+        config = propHelper.getProperty(PROPERTYFILENAME);
+    }
 
     /**
      * This method receives the doc Reference and based on the docReference the corresponding Binary encoded document
@@ -71,13 +78,11 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
     @Read
     public Binary getDocument(@IdParam IdDt docReference) {
         PropertiesHelper propHelper = new PropertiesHelper();
-        String documentFileName = propHelper.getPropertyFile(docReference.getIdPart(), PROPERTYFILENAME);
+        String documentFileName = config.getString(docReference.getIdPart());
         if (documentFileName == null || documentFileName.isEmpty()) {
             throw new NullPointerException("Returned Document FileName is not valid");
         }
-        return createEncodedDoc(propHelper.getDocumentFile(documentFileName, propHelper.getPropertyFile(PROPDIRECTORY,
-            PROPERTYFILENAME)));
-
+        return createEncodedDoc(propHelper.getDocumentFile(documentFileName, config.getString(PROPDIRECTORY)));
     }
 
     private Binary createEncodedDoc(File document) {
