@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jboss-web>
-    <context-root>/</context-root>
-    <servlet>
-        <servlet-name>fhir</servlet-name>
-        <servlet-class>gov.hhs.fha.nhinc.fhir</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>fhir</servlet-name>
-        <url-pattern>/fhir/*</url-pattern>
-    </servlet-mapping>
+    <context-root>/connect</context-root>
 </jboss-web>

@@ -36,6 +36,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Properties;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
@@ -76,12 +77,12 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
      */
     @Read
     public Binary getDocument(@IdParam IdDt docReference) {
-        PropertiesHelper propHelper = new PropertiesHelper();
+        PropertiesHelper instance = PropertiesHelper.getInstance();
         String documentFileName = config.getString(docReference.getIdPart());
         if (documentFileName == null || documentFileName.isEmpty()) {
             throw new NullPointerException("Returned Document FileName is not valid");
         }
-        return createEncodedDoc(propHelper.getDocumentFile(documentFileName, config.getString(PROPDIRECTORY)));
+        return createEncodedDoc(instance.getDocumentFile(documentFileName, config.getString(PROPDIRECTORY)));
     }
 
     private Binary createEncodedDoc(File document) {
