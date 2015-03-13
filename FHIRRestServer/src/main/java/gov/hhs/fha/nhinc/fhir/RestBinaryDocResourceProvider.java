@@ -49,6 +49,12 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author achidamb
  */
+/**
+ * There is a HAPI ResourceProvider interface and FHIRRestServer implements the Binary Resource Provider. Since Binary
+ * Storage is not supported by HAPI servers the Binary Mock rest Service has been set up to get Binary encoded document
+ * for demo services. There is no persistence layer at this moment and the documents are read from file system based on
+ * docReference provided.
+ */
 public class RestBinaryDocResourceProvider implements IResourceProvider {
 
     private static final String PROPERTYFILENAME = "fhirRestServer.properties";
@@ -57,20 +63,15 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
     private static final Log LOG = LogFactory.getLog(RestBinaryDocResourceProvider.class);
 
     /**
+     * This method receives the doc Reference and based on the docReference the corresponding Binary encoded document
+     * will be returned. There is a "fhirRestServer.properties" in src/main/resources of this web application and it has
+     * the docReference and it's corresponding document location. If the docReference is not available then it throw
+     * NullPointerException in logs.
      *
      * @param docReference
      * @return
-     * @throws java.io.IOException
+     *
      */
-    /* @Read
-     public Binary getDocument(@IdParam IdDt docReference) throws IOException {
-     File document = null;
-     MockDocumentLoader loader = new MockDocumentLoader();
-     HashMap<String, File> docReferenceMap = loader.createDocumentLoader();
-     document = docReferenceMap.get(docReference.getIdPart());
-     return createEncodedDoc(document);
-
-     }*/
     @Read
     public Binary getDocument(@IdParam IdDt docReference) {
         PropertiesHelper propHelper = new PropertiesHelper();
@@ -102,7 +103,6 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
      * this provider supplies.
      */
     @Override
-
     public Class<Binary> getResourceType() {
         return Binary.class;
     }

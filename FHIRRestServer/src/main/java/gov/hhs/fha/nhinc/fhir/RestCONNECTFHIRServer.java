@@ -36,6 +36,10 @@ import javax.servlet.annotation.WebServlet;
  *
  * @author achidamb
  */
+/*
+ *The CONNECT implementation extends HAPI RestFulServer to include RestBinaryDocResourceProvider which creates a Binary
+ encoded document.
+ */
 @WebServlet(urlPatterns = {"/fhir/*"}, displayName = "FHIRServer")
 public class RestCONNECTFHIRServer extends RestfulServer {
 
