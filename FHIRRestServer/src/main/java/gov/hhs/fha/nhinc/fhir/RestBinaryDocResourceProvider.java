@@ -1,21 +1,3 @@
-package gov.hhs.fha.nhinc.fhir;
-
-import ca.uhn.fhir.model.dstu.resource.Binary;
-import ca.uhn.fhir.model.primitive.IdDt;
-import ca.uhn.fhir.rest.annotation.IdParam;
-import ca.uhn.fhir.rest.annotation.Read;
-import ca.uhn.fhir.rest.server.IResourceProvider;
-import gov.hhs.fha.nhinc.fhir.helper.PropertiesHelper;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /*
  * Copyright (c) 2009-2015, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
@@ -42,6 +24,24 @@ import org.apache.commons.logging.LogFactory;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+package gov.hhs.fha.nhinc.fhir;
+
+import ca.uhn.fhir.model.dstu.resource.Binary;
+import ca.uhn.fhir.model.primitive.IdDt;
+import ca.uhn.fhir.rest.annotation.IdParam;
+import ca.uhn.fhir.rest.annotation.Read;
+import ca.uhn.fhir.rest.server.IResourceProvider;
+import gov.hhs.fha.nhinc.fhir.helper.PropertiesHelper;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *
  * @author achidamb
@@ -56,13 +56,12 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
 
     private static final String PROPERTYFILENAME = "fhirRestServer.properties";
     private static final String PROPDIRECTORY = "fhirConfigDirectory";
-    PropertiesConfiguration config;
+    private static final PropertiesConfiguration config = PropertiesHelper.getInstance().getProperty(PROPERTYFILENAME);
 
-    private static final Log LOG = LogFactory.getLog(RestBinaryDocResourceProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RestBinaryDocResourceProvider.class);
 
     public RestBinaryDocResourceProvider() {
-        PropertiesHelper propHelper = new PropertiesHelper();
-        config = propHelper.getProperty(PROPERTYFILENAME);
+
     }
 
     /**

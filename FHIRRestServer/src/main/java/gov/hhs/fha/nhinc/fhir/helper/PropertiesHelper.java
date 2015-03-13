@@ -30,8 +30,8 @@ import java.io.File;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -39,7 +39,9 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PropertiesHelper {
 
-    private static final Log LOG = LogFactory.getLog(PropertiesHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PropertiesHelper.class);
+
+    private static PropertiesHelper instance = null;
 
     /**
      * This method retrieves the property from the specified property file.Apache Commons PropertyConfiguration is used
@@ -74,5 +76,12 @@ public class PropertiesHelper {
 
         return (new File(directoryName + File.separator + documentFileName));
 
+    }
+
+    public static PropertiesHelper getInstance() {
+        if (instance == null) {
+            instance = new PropertiesHelper();
+        }
+        return instance;
     }
 }
