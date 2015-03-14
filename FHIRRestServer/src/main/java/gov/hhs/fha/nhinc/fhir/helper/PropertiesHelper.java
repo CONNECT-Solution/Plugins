@@ -78,7 +78,7 @@ public class PropertiesHelper {
 
     private static class SingletonHolder {
 
-        public static final PropertiesHelper INSTANCE = new PropertiesHelper();
+        private static final PropertiesHelper INSTANCE = new PropertiesHelper();
     }
 
     // singleton
