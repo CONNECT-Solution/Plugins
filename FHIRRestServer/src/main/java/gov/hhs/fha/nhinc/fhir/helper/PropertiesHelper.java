@@ -41,8 +41,6 @@ public class PropertiesHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(PropertiesHelper.class);
 
-    private static PropertiesHelper instance = null;
-
     /**
      * This method retrieves the property from the specified property file.Apache Commons PropertyConfiguration is used
      * to load the property file and Reloads Property Files.
@@ -78,10 +76,13 @@ public class PropertiesHelper {
 
     }
 
+    private static class SingletonHolder {
+
+        public static final PropertiesHelper INSTANCE = new PropertiesHelper();
+    }
+
+    // singleton
     public static PropertiesHelper getInstance() {
-        if (instance == null) {
-            instance = new PropertiesHelper();
-        }
-        return instance;
+        return SingletonHolder.INSTANCE;
     }
 }
