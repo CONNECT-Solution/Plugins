@@ -41,6 +41,13 @@ public class PropertiesHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(PropertiesHelper.class);
 
+    /* A private Constructor to prevents any other
+     * class from instantiating.
+     */
+    private PropertiesHelper() {
+
+    }
+
     /**
      * This method retrieves the property from the specified property file.Apache Commons PropertyConfiguration is used
      * to load the property file and Reloads Property Files.
