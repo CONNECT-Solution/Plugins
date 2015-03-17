@@ -1368,18 +1368,18 @@
                 </categoryBag>
             </businessService>
 			
-			<businessService serviceKey="uddi:nhincnode:fhirdocumentreferenceresource">
+			<businessService serviceKey="uddi:nhincnode:fhirbinaryresource">
                 <name xml:lang="en">FHIRBinaryResource</name>
                 <bindingTemplates>
-                    <bindingTemplate bindingKey="uddi:nhincnode:fhirdocumentreferenceresource" serviceKey="uddi:nhincnode:fhirdocumentreferenceresource">
-                        <accessPoint useType="endPoint"></accessPoint>
+                    <bindingTemplate bindingKey="uddi:nhincnode:fhirdocumentreferenceresource" serviceKey="uddi:nhincnode:fhirbinaryresource">
+                        <accessPoint useType="endPoint">http://localhost:8080/FHIRRepo</accessPoint>
                         <categoryBag>
                             <keyedReference tModelKey="CONNECT:adapter:apilevel" keyName="" keyValue="LEVEL_a0"/> 
                         </categoryBag>
                     </bindingTemplate>
                 </bindingTemplates>
                 <categoryBag>
-                    <keyedReference tModelKey="uddi:nhin:standard-servicenames" keyName="fhirdocumentreferenceresource" keyValue="fhirdocumentreferenceresource"/>
+                    <keyedReference tModelKey="uddi:nhin:standard-servicenames" keyName="fhirbinaryresource" keyValue="fhirbinaryresource"/>
                 </categoryBag>
             </businessService>
 

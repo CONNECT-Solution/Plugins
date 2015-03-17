@@ -100,7 +100,7 @@ public class DocRepositoryFHIRAdapterImpl {
         uri = (uri.startsWith("urn:oid:")) ? uri : "urn:oid:" + uri;
 
         Map<String, String> fhirParams = new HashMap<>();
-        fhirParams.put("", uri);
+        fhirParams.put("identifier", uri);
 
         AtomFeed docFeed = client.searchFhirResource(FHIRConstants.FHIR_DOC_REFERENCE_URL_KEY, fhirParams, DocumentReference.class);
 
@@ -117,8 +117,8 @@ public class DocRepositoryFHIRAdapterImpl {
         LOG.debug("Binary Resource url: " + url);
         LOG.debug("Document Resource Location: " + location);
 
-        if (location.startsWith(url)) {
-            return location.substring(location.lastIndexOf(url));
+        if (location.toLowerCase().startsWith(url.toLowerCase())) {
+            return location.substring(url.length(), location.length());
         }
 
         throw new UnknownResourceLocation("Location value does not match system endpoint. ");

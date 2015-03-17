@@ -153,7 +153,7 @@ public class DocRegistryFHIRAdapterImpl {
             if(!aa.startsWith("urn:oid:")) {
                 aa = "urn:oid:" + aa;
             }
-            returnValue = aa + PatientIdFormatUtil.parsePatientId(patientId);
+            returnValue = aa + "|" + PatientIdFormatUtil.parsePatientId(patientId);
         } else {
             returnValue = patientId;
         }
