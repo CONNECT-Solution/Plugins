@@ -1,5 +1,5 @@
 /** 
- * FHIR Reference Client used without modification from repo:
+ * FHIR Reference Client used with minor modifications from repo:
  * https://github.com/cnanjo/FhirJavaReferenceClient
  * 
  * Reference Client license: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -79,6 +79,7 @@ import org.hl7.fhir.instance.utils.Version;
  * TODO Review all sad paths. 
  * 
  * @author Claude Nanjo
+ * @author jsmith
  *
  */
 public class FHIRSimpleClient implements FHIRClient {
@@ -164,6 +165,12 @@ public class FHIRSimpleClient implements FHIRClient {
 		}
 		return result.getPayload();
 	}
+    
+    @Override
+    public <T extends Resource> byte[] readBinary(Class<T> resourceClass, String id) {
+        return ClientUtils.issueGetFeedRequestBinary(resourceAddress.resolveGetUriFromResourceClassAndId(resourceClass, id), 
+            getPreferredResourceFormat(), proxy);
+    }
 
 	@Override
 	public <T extends Resource> AtomEntry<T> vread(Class<T> resourceClass, String id, String version) {

@@ -65,6 +65,13 @@ public class AdapterFHIRClient {
         
         return fhirClient.read(resourceType, id);
     }
+    
+    public byte[] readBinaryResource(String serviceName, Class resourceType, String id) throws ConnectionManagerException, URISyntaxException {
+        String url = getAdapterUrl(serviceName);
+        fhirClient.initialize(url);
+        
+        return fhirClient.readBinary(resourceType, id);
+    }
 
     public String getAdapterUrl(String serviceName) throws ConnectionManagerException {
         return proxyHelper.getAdapterEndPointFromConnectionManager(serviceName);

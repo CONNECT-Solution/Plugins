@@ -32,21 +32,20 @@ import gov.hhs.fha.nhinc.fhir.exception.UnknownResourceLocation;
 import gov.hhs.fha.nhinc.fhir.util.FHIRConstants;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
-import gov.hhs.fha.nhinc.util.StringUtil;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetRequestType.DocumentRequest;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType;
 import ihe.iti.xds_b._2007.RetrieveDocumentSetResponseType.DocumentResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
 import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryResponseType;
 import org.apache.log4j.Logger;
-import org.hl7.fhir.instance.model.AtomEntry;
 import org.hl7.fhir.instance.model.AtomFeed;
 import org.hl7.fhir.instance.model.Binary;
 import org.hl7.fhir.instance.model.DocumentReference;
@@ -55,7 +54,7 @@ import org.hl7.fhir.instance.model.DocumentReference;
  *
  * @author jassmit
  */
-public class DocRepositoryFHIRAdapterImpl {
+public class DocRepositoryFHIRAdapterImpl extends FhirAdapter {
 
     private final AdapterFHIRClient client = new AdapterFHIRClient();
 
@@ -73,16 +72,15 @@ public class DocRepositoryFHIRAdapterImpl {
                     DocumentReference docReference = getDocReference(docRequest);
                     String id = filterId(docReference.getLocationSimple());
 
-                    AtomEntry entry = client.readFhirResource(FHIRConstants.FHIR_BINARY_URL_KEY, Binary.class, id);
-                    if (entry != null && entry.getResource() instanceof Binary) {
-                        Binary binary = (Binary) entry.getResource();
+                    byte[] doc = client.readBinaryResource(FHIRConstants.FHIR_BINARY_URL_KEY, Binary.class, id);
+                    if (doc != null && doc.length > 0) {
                         DocumentResponse docResponse = new DocumentResponse();
-                        DataHandler dataHandler = getDataHandler(binary);
+                        DataHandler dataHandler = getDataHandler(doc, docReference.getMimeTypeSimple());
                         docResponse.setDocumentUniqueId(docRequest.getDocumentUniqueId());
                         docResponse.setHomeCommunityId(docRequest.getHomeCommunityId());
                         docResponse.setRepositoryUniqueId(docRequest.getRepositoryUniqueId());
                         docResponse.setMimeType(docReference.getMimeTypeSimple());
-                        
+
                         docResponse.setDocument(dataHandler);
                         response.getDocumentResponse().add(docResponse);
                     }
@@ -101,6 +99,7 @@ public class DocRepositoryFHIRAdapterImpl {
 
         Map<String, String> fhirParams = new HashMap<>();
         fhirParams.put("identifier", uri);
+        addFormatParam(fhirParams);
 
         AtomFeed docFeed = client.searchFhirResource(FHIRConstants.FHIR_DOC_REFERENCE_URL_KEY, fhirParams, DocumentReference.class);
 
@@ -124,9 +123,8 @@ public class DocRepositoryFHIRAdapterImpl {
         throw new UnknownResourceLocation("Location value does not match system endpoint. ");
     }
 
-    private DataHandler getDataHandler(Binary binary) throws UnsupportedEncodingException, URISyntaxException, MalformedURLException {
-        String content = StringUtil.convertToStringUTF8(binary.getContent());
-        URI uri = new URI(content);
-        return new DataHandler(uri.toURL());
+    private DataHandler getDataHandler(byte[] doc, String content) throws UnsupportedEncodingException, URISyntaxException, MalformedURLException {
+        DataSource dataSource = new ByteArrayDataSource(doc, content);
+        return new DataHandler(dataSource);
     }
 }
