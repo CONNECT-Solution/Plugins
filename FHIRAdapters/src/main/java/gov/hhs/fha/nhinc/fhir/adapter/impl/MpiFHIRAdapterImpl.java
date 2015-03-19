@@ -48,7 +48,7 @@ import org.hl7.v3.PRPAMT201306UV02ParameterList;
  *
  * @author jassmit
  */
-public class MpiFHIRAdapterImpl {
+public class MpiFHIRAdapterImpl extends FhirAdapter {
     
     private final AdapterFHIRClient client = new AdapterFHIRClient();
     private final ResourceTransformer transformer = new ResourceTransformer();
@@ -90,7 +90,8 @@ public class MpiFHIRAdapterImpl {
             params.put("gender", sourcePatient.getGender());
             params.put("birthdate", sourcePatient.getDateOfBirth());
             params.put("given", sourcePatient.getNames().get(0).getFirstName());
-            params.put("family", sourcePatient.getNames().get(0).getLastName());            
+            params.put("family", sourcePatient.getNames().get(0).getLastName());
+            addFormatParam(params);
         }
         
         return params;

@@ -52,7 +52,7 @@ import org.hl7.fhir.instance.model.Resource;
  *
  * @author jassmit
  */
-public class DocRegistryFHIRAdapterImpl {
+public class DocRegistryFHIRAdapterImpl extends FhirAdapter {
 
     private final AdapterFHIRClient client = new AdapterFHIRClient();
     private final ResourceTransformer transformer = new ResourceTransformer();
@@ -132,6 +132,9 @@ public class DocRegistryFHIRAdapterImpl {
                 //TODO: Need to figure out how to query for multiple doc types.
                 fhirParams.put("type", docTypes.get(0));
             }
+            
+            addFormatParam(fhirParams);
+            
             //TODO: Plenty of other params that can be pulled from request, probably should pull out full query params
             // and then convert to map.
             
@@ -153,7 +156,7 @@ public class DocRegistryFHIRAdapterImpl {
             if(!aa.startsWith("urn:oid:")) {
                 aa = "urn:oid:" + aa;
             }
-            returnValue = aa + PatientIdFormatUtil.parsePatientId(patientId);
+            returnValue = aa + "|" + PatientIdFormatUtil.parsePatientId(patientId);
         } else {
             returnValue = patientId;
         }

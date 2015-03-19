@@ -135,14 +135,20 @@ public class ResourceTransformer {
                 document.setMimeType(reference.getMimeTypeSimple());
 
                 if (reference.getStatus() != null) {
-                    document.setStatus(reference.getStatus().asStringValue());
+                    document.setStatus(reference.getStatusSimple().name());
                 }
 
+                
                 document.setDocumentTitle(reference.getDescriptionSimple());
-                document.setSize(reference.getSizeSimple());
-
+                
+                if(reference.getSize() != null) {
+                    document.setSize(reference.getSizeSimple());
+                }
+                
                 try {
-                    document.setCreationTime(convertDateAndTime(reference.getCreated().getValue()));
+                    if(reference.getCreated() != null && reference.getCreated().getValue() != null) {
+                        document.setCreationTime(convertDateAndTime(reference.getCreated().getValue()));
+                    }
                 } catch (ParseException ex) {
                     LOG.warning("Error parsing creation time for document: " + ex, ex);
                 }
