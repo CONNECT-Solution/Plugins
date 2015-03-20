@@ -1,0 +1,2490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project activeEnvironment="Default" name="CONNECT-FHIRAdapters" resourceRoot="" soapui-version="4.5.1" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="HAPI-FHIR" type="rest" basePath="" id="720d39e6-b99d-49c1-9dec-cd294092d192" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:endpoints><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient</con:endpoint><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient/${#Project#_id}</con:endpoint><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference</con:endpoint><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference/${#Project#_id}</con:endpoint><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Binary/${#Project#_id}</con:endpoint><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient/_tags</con:endpoint><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Practitioner</con:endpoint><con:endpoint>http://192.168.35.61:8080/connect/fhir/Binary/docReferencetxt1</con:endpoint><con:endpoint>http://localhost:8080/connect/fhir/Binary/docPdf1</con:endpoint><con:endpoint>http://GFE-ONC-LDEV41.connect.org:8080/connect/fhir/Binary/docReferencepdf</con:endpoint></con:endpoints><con:resource name="Patient" path="" id="8beb8fea-2327-4fbc-b6e1-4dfb61adacfd"><con:settings/><con:parameters><con:parameter><con:name>_format</con:name><con:value>xml</con:value><con:style>QUERY</con:style><con:default>xml</con:default></con:parameter></con:parameters><con:method name="Add Patient" method="POST" id="c2eba016-134d-4f23-aae1-5d8fc30d2556"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html; charset=UTF-8</con:mediaType><con:status>404</con:status><con:params/><con:element xmlns:xht="http://www.w3.org/1999/xhtml">xht:html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:Patient</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain;charset=UTF-8</con:mediaType><con:status>201</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Add Patient" mediaType="application/xml" postQueryString="false" id="bf7c7a63-2214-4c8f-a50c-8e3bd302b7af"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient</con:endpoint><con:request><![CDATA[<Patient xmlns="http://hl7.org/fhir">
+    <!-- 0..* An identifier for the person as this patient -->
+    <identifier>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | secondary]"/>
+        <!-- 0..1 -->
+        <label value="[string - Description of identifier (e.g., SSN)]"/>
+        <!-- 0..1 -->
+        <system value="[uri - The namespace for the identifier]"/>
+        <!-- 0..1  -->
+        <value value="[string - unique identifier (e.g., 123-45-6789)]"/>
+        <!-- 0..1 Time period when id is/was valid for use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+        <!-- 0..1 Resource(Organization) Organization that issued id (may be just text) -->
+        <assigner>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference (to an Org resource)]"/>
+            <!-- 0..1 -->
+            <display value="[string - Text alternative for the resource (e.g., Org Name)]"/>
+        </assigner>
+    </identifier>
+
+    <!-- 0..* A name associated with the patient -->
+    <name>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | nickname | anonymous | old | maiden]"/>
+        <!-- 0..1 -->
+        <text value="[string - Text representation of the full name]"/>
+        <!-- 0..* -->
+        <family value="[string - Family name (often called 'Surname')]"/>
+        <!-- 0..* -->
+        <given value="[string - Given names (not always 'first'). Includes middle names]"/>
+        <!-- 0..* -->
+        <prefix value="[string - Parts that come before the name]"/>
+        <!-- 0..* -->
+        <suffix value="[string - Parts that come after the name]"/>
+        <!-- 0..1 Time period when name was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </name>
+
+    <!-- 0..* A contact detail for the individual -->
+    <telecom>
+        <!-- 0..1 -->
+        <system value="[phone | fax | email | url]"/>
+        <!-- 0..1 -->
+        <value value="[string - the actual contact details]"/>
+        <!-- 0..1 -->
+        <use value="[home | work | temp | old | mobile - purpose of this address]"/>
+        <!-- 0..1 Time period when the contact was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </telecom>
+
+    <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+    <gender>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </gender>
+
+    <!-- 0..1 The date and time of birth for the individual -->
+    <birthDate value="[dateTime]"/>
+
+    <!-- 0..1 Indicates if the individual is deceased or not -->
+    <!-- Alternatively, can use deceasedDateTime with a dateTime value -->
+    <deceasedBoolean value="[true | false]" />
+
+    <!-- 0..* Addresses for the individual -->
+    <address>
+        <!-- 0..1 - purpose of this address -->
+        <use value="[home | work | temp | old]"/>
+        <!-- 0..1 -->
+        <text value="[string - Text representation of the address]"/>
+        <!-- 0..* -->
+        <line value="[string - Street name, number, direction and PO Box etc.]"/>
+        <!-- 0..1 -->
+        <city value="[string - Name of city, town etc.]"/>
+        <!-- 0..1 -->
+        <state value="[string - Sub-unit of country (abbreviations ok)]"/>
+        <!-- 0..1 -->
+        <zip value="[string - Postal code for area]"/>
+        <!-- 0..1 Country (can be ISO 3166 3 letter code) -->
+        <country value="[string]"/>
+        <!-- 0..1 Period Time period when address was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </address>
+
+    <!-- 0..1 CodeableConcept Marital (civil) status of a person -->
+    <maritalStatus>
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet> 
+        </coding>
+    </maritalStatus>
+
+    <!-- 0..1 boolean|integer Whether patient is part of a multiple birth -->
+    <!-- Alternatively, can use multipleBirthInteger with a integer value for birth order -->
+    <multipleBirthBoolean value="[true | false]"/>
+
+    <!-- 0..* Attachment Image of the person -->
+    <photo>
+        <!-- 1..1 -->
+        <contentType value="[code - Mime type of the content, with charset etc.]"/>
+        <!-- 0..1 -->
+        <language value="[code - Human language of the content (BCP-47)]"/>
+        <!-- 0..1 -->
+        <data value="[base64Binary - Data inline, base64ed]"/>
+        <!-- 0..1 -->
+        <url value="[uri - Uri where the data can be found]"/>
+        <!-- 0..1 -->
+        <size value="[integer - Number of bytes of content (if url provided)]"/>
+        <!-- 0..1 -->
+        <hash value="[base64Binary - Hash of the data (sha-1, base64ed )]"/>
+        <!-- 0..1 -->
+        <title value="[string - Label to display in place of the data]"/>
+    </photo>
+
+    <!-- 0..* A contact party (e.g. guardian, partner, friend) for the patient -->
+    <contact>
+        <!-- 0..* CodeableConcept The kind of relationship -->
+        <relationship>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </relationship>
+        <!-- 0..1 A name associated with the person -->
+        <name>
+            <!-- 0..1 -->
+            <use value="[usual | official | temp | nickname | anonymous | old | maiden]"/>
+            <!-- 0..1 -->
+            <text value="[string - Text representation of the full name]"/>
+            <!-- 0..* -->
+            <family value="[string - Family name (often called 'Surname')]"/>
+            <!-- 0..* -->
+            <given value="[string - Given names (not always 'first'). Includes middle names]"/>
+            <!-- 0..* -->
+            <prefix value="[string - Parts that come before the name]"/>
+            <!-- 0..* -->
+            <suffix value="[string - Parts that come after the name]"/>
+            <!-- 0..1 Time period when name was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </name>
+        <!-- 0..* A contact detail for the person -->
+        <telecom>
+            <!-- 0..1 -->
+            <system value="[phone | fax | email | url]"/>
+            <!-- 0..1 -->
+            <value value="[string - the actual contact details]"/>
+            <!-- 0..1 -->
+            <use value="[home | work | temp | old | mobile - purpose of this address]"/>
+            <!-- 0..1 Time period when the contact was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </telecom>
+        <!-- 0..1 Address for the contact person -->
+        <address>
+            <!-- 0..1 home | work | temp | old - purpose of this address -->
+            <use value="[code]"/>
+            <!-- 0..1 -->
+            <text value="[string - Text representation of the address]"/>
+            <!-- 0..* -->
+            <line value="[string - Street name, number, direction and PO Box etc]"/>
+            <!-- 0..1 -->
+            <city value="[string - Name of city, town etc.]"/>
+            <!-- 0..1 -->
+            <state value="[string - Sub-unit of country (abbreviations ok)]"/>
+            <!-- 0..1 -->
+            <zip value="[string - Postal code for area]"/>
+            <!-- 0..1 Country (can be ISO 3166 3 letter code) -->
+            <country value="[string]"/>
+            <!-- 0..1 Period Time period when address was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </address>
+        <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+        <gender>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </gender>
+        <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
+        <organization>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </organization>
+    </contact>
+
+    <!-- 0..1 If this patient is an animal (non-human) -->
+    <animal>
+        <!-- 1..1 CodeableConcept E.g. Dog, Cow -->
+        <species>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </species>
+        <!-- 0..1 CodeableConcept E.g. Poodle, Angus -->
+        <breed>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </breed>
+        <!-- 0..1 CodeableConcept E.g. Neutered, Intact -->
+        <genderStatus>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </genderStatus>
+    </animal>
+
+    <!-- 0..* CodeableConcept Languages which may be used to communicate with the patient about his or her health -->
+    <communication>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </communication>
+
+    <!-- 0..* Resource(Organization|Practitioner) Patient's nominated care provider -->
+    <careProvider>
+        <!-- 0..1 -->
+        <reference value="[string - Relative, internal or absolute URL reference]"/>
+        <!-- 0..1 -->
+        <display value="[string -  Text alternative for the resource]"/>
+    </careProvider>
+
+    <!-- 0..1 Resource(Organization) Organization that is the custodian of the patient record -->
+    <managingOrganization>
+        <!-- 0..1 -->
+        <reference value="[string - Relative, internal or absolute URL reference]"/>
+        <!-- 0..1 -->
+        <display value="[string -  Text alternative for the resource]"/>
+    </managingOrganization>
+
+    <!-- 0..* Link to another patient resource that concerns the same actual person -->
+    <link>
+        <!-- 1..1 Resource(Patient) The other patient resource that the link refers to -->
+        <other>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </other>
+        <!-- 1..1 - type of link -->
+        <type value="[replace | refer | seealso]"/>
+    </link>
+
+    <!-- 0..1 Whether this patient's record is in active use -->
+    <active value="[true | false]"/>
+</Patient>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="Get Patient" method="GET" id="2af4460c-4995-4546-87d4-2a253c477382"><con:settings/><con:parameters><con:parameter><con:name>_id</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>family</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>given</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>birthdate</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>identifier</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>provider</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>gender</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>identifier</con:name><con:style>QUERY</con:style></con:parameter></con:parameters><con:representation type="RESPONSE"><con:mediaType>application/xml+fhir;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:Patient</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/atom+xml;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:atom="http://www.w3.org/2005/Atom">atom:feed</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json+fhir;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:pat="http://fhirtest.uhn.ca/baseDstu1/Patient">pat:Response</con:element></con:representation><con:representation type="FAULT"><con:mediaType>application/xml+fhir;charset=UTF-8</con:mediaType><con:status>400 500</con:status><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:OperationOutcome</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/pdf</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/xml+fhir</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Patient by Id" mediaType="application/xml" id="519ddaea-36e3-474a-8c28-9339452e4c28"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient/${#Project#_id}</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="Get Patient Resource" mediaType="application/xml" id="6f3b319d-1afa-4b34-911b-b48f6eb6ce9a"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="Update Patient" method="PUT" id="5d8b6c69-336d-4c6e-a5ee-b2c25f9c23f5"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html; charset=UTF-8</con:mediaType><con:status>404</con:status><con:params/><con:element xmlns:xht="http://www.w3.org/1999/xhtml">xht:html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:Patient</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain;charset=UTF-8</con:mediaType><con:status>201 200</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Update Patient" mediaType="application/xml" postQueryString="false" id="0a688f54-bb7c-4c66-8ecb-f366fcbe2e7c"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient/${#Project#_id}</con:endpoint><con:request><![CDATA[<Patient xmlns="http://hl7.org/fhir">
+    <!-- 0..* An identifier for the person as this patient -->
+    <identifier>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | secondary]"/>
+        <!-- 0..1 -->
+        <label value="[string - Description of identifier (e.g., SSN)]"/>
+        <!-- 0..1 -->
+        <system value="[uri - The namespace for the identifier]"/>
+        <!-- 0..1  -->
+        <value value="[string - unique identifier (e.g., 123-45-6789)]"/>
+        <!-- 0..1 Time period when id is/was valid for use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+        <!-- 0..1 Resource(Organization) Organization that issued id (may be just text) -->
+        <assigner>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference (to an Org resource)]"/>
+            <!-- 0..1 -->
+            <display value="[string - Text alternative for the resource (e.g., Org Name)]"/>
+        </assigner>
+    </identifier>
+
+    <!-- 0..* A name associated with the patient -->
+    <name>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | nickname | anonymous | old | maiden]"/>
+        <!-- 0..1 -->
+        <text value="[string - Text representation of the full name]"/>
+        <!-- 0..* -->
+        <family value="[string - Family name (often called 'Surname')]"/>
+        <!-- 0..* -->
+        <given value="[string - Given names (not always 'first'). Includes middle names]"/>
+        <!-- 0..* -->
+        <prefix value="[string - Parts that come before the name]"/>
+        <!-- 0..* -->
+        <suffix value="[string - Parts that come after the name]"/>
+        <!-- 0..1 Time period when name was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </name>
+
+    <!-- 0..* A contact detail for the individual -->
+    <telecom>
+        <!-- 0..1 -->
+        <system value="[phone | fax | email | url]"/>
+        <!-- 0..1 -->
+        <value value="[string - the actual contact details]"/>
+        <!-- 0..1 -->
+        <use value="[home | work | temp | old | mobile - purpose of this address]"/>
+        <!-- 0..1 Time period when the contact was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </telecom>
+
+    <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+    <gender>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </gender>
+
+    <!-- 0..1 The date and time of birth for the individual -->
+    <birthDate value="[dateTime]"/>
+
+    <!-- 0..1 Indicates if the individual is deceased or not -->
+    <!-- Alternatively, can use deceasedDateTime with a dateTime value -->
+    <deceasedBoolean value="[true | false]" />
+
+    <!-- 0..* Addresses for the individual -->
+    <address>
+        <!-- 0..1 - purpose of this address -->
+        <use value="[home | work | temp | old]"/>
+        <!-- 0..1 -->
+        <text value="[string - Text representation of the address]"/>
+        <!-- 0..* -->
+        <line value="[string - Street name, number, direction and PO Box etc.]"/>
+        <!-- 0..1 -->
+        <city value="[string - Name of city, town etc.]"/>
+        <!-- 0..1 -->
+        <state value="[string - Sub-unit of country (abbreviations ok)]"/>
+        <!-- 0..1 -->
+        <zip value="[string - Postal code for area]"/>
+        <!-- 0..1 Country (can be ISO 3166 3 letter code) -->
+        <country value="[string]"/>
+        <!-- 0..1 Period Time period when address was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </address>
+
+    <!-- 0..1 CodeableConcept Marital (civil) status of a person -->
+    <maritalStatus>
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet> 
+        </coding>
+    </maritalStatus>
+
+    <!-- 0..1 boolean|integer Whether patient is part of a multiple birth -->
+    <!-- Alternatively, can use multipleBirthInteger with a integer value for birth order -->
+    <multipleBirthBoolean value="[true | false]"/>
+
+    <!-- 0..* Attachment Image of the person -->
+    <photo>
+        <!-- 1..1 -->
+        <contentType value="[code - Mime type of the content, with charset etc.]"/>
+        <!-- 0..1 -->
+        <language value="[code - Human language of the content (BCP-47)]"/>
+        <!-- 0..1 -->
+        <data value="[base64Binary - Data inline, base64ed]"/>
+        <!-- 0..1 -->
+        <url value="[uri - Uri where the data can be found]"/>
+        <!-- 0..1 -->
+        <size value="[integer - Number of bytes of content (if url provided)]"/>
+        <!-- 0..1 -->
+        <hash value="[base64Binary - Hash of the data (sha-1, base64ed )]"/>
+        <!-- 0..1 -->
+        <title value="[string - Label to display in place of the data]"/>
+    </photo>
+
+    <!-- 0..* A contact party (e.g. guardian, partner, friend) for the patient -->
+    <contact>
+        <!-- 0..* CodeableConcept The kind of relationship -->
+        <relationship>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </relationship>
+        <!-- 0..1 A name associated with the person -->
+        <name>
+            <!-- 0..1 -->
+            <use value="[usual | official | temp | nickname | anonymous | old | maiden]"/>
+            <!-- 0..1 -->
+            <text value="[string - Text representation of the full name]"/>
+            <!-- 0..* -->
+            <family value="[string - Family name (often called 'Surname')]"/>
+            <!-- 0..* -->
+            <given value="[string - Given names (not always 'first'). Includes middle names]"/>
+            <!-- 0..* -->
+            <prefix value="[string - Parts that come before the name]"/>
+            <!-- 0..* -->
+            <suffix value="[string - Parts that come after the name]"/>
+            <!-- 0..1 Time period when name was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </name>
+        <!-- 0..* A contact detail for the person -->
+        <telecom>
+            <!-- 0..1 -->
+            <system value="[phone | fax | email | url]"/>
+            <!-- 0..1 -->
+            <value value="[string - the actual contact details]"/>
+            <!-- 0..1 -->
+            <use value="[home | work | temp | old | mobile - purpose of this address]"/>
+            <!-- 0..1 Time period when the contact was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </telecom>
+        <!-- 0..1 Address for the contact person -->
+        <address>
+            <!-- 0..1 home | work | temp | old - purpose of this address -->
+            <use value="[code]"/>
+            <!-- 0..1 -->
+            <text value="[string - Text representation of the address]"/>
+            <!-- 0..* -->
+            <line value="[string - Street name, number, direction and PO Box etc]"/>
+            <!-- 0..1 -->
+            <city value="[string - Name of city, town etc.]"/>
+            <!-- 0..1 -->
+            <state value="[string - Sub-unit of country (abbreviations ok)]"/>
+            <!-- 0..1 -->
+            <zip value="[string - Postal code for area]"/>
+            <!-- 0..1 Country (can be ISO 3166 3 letter code) -->
+            <country value="[string]"/>
+            <!-- 0..1 Period Time period when address was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </address>
+        <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+        <gender>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </gender>
+        <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
+        <organization>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </organization>
+    </contact>
+
+    <!-- 0..1 If this patient is an animal (non-human) -->
+    <animal>
+        <!-- 1..1 CodeableConcept E.g. Dog, Cow -->
+        <species>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </species>
+        <!-- 0..1 CodeableConcept E.g. Poodle, Angus -->
+        <breed>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </breed>
+        <!-- 0..1 CodeableConcept E.g. Neutered, Intact -->
+        <genderStatus>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </genderStatus>
+    </animal>
+
+    <!-- 0..* CodeableConcept Languages which may be used to communicate with the patient about his or her health -->
+    <communication>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </communication>
+
+    <!-- 0..* Resource(Organization|Practitioner) Patient's nominated care provider -->
+    <careProvider>
+        <!-- 0..1 -->
+        <reference value="[string - Relative, internal or absolute URL reference]"/>
+        <!-- 0..1 -->
+        <display value="[string -  Text alternative for the resource]"/>
+    </careProvider>
+
+    <!-- 0..1 Resource(Organization) Organization that is the custodian of the patient record -->
+    <managingOrganization>
+        <!-- 0..1 -->
+        <reference value="[string - Relative, internal or absolute URL reference]"/>
+        <!-- 0..1 -->
+        <display value="[string -  Text alternative for the resource]"/>
+    </managingOrganization>
+
+    <!-- 0..* Link to another patient resource that concerns the same actual person -->
+    <link>
+        <!-- 1..1 Resource(Patient) The other patient resource that the link refers to -->
+        <other>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </other>
+        <!-- 1..1 - type of link -->
+        <type value="[replace | refer | seealso]"/>
+    </link>
+
+    <!-- 0..1 Whether this patient's record is in active use -->
+    <active value="[true | false]"/>
+</Patient>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="Delete Patient" method="DELETE" id="57af80bf-f660-4d0f-bcda-914d8a8d655e"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html; charset=UTF-8</con:mediaType><con:status>404</con:status><con:params/><con:element xmlns:xht="http://www.w3.org/1999/xhtml">xht:html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:Patient</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain;charset=UTF-8</con:mediaType><con:status>201</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>204</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Delete Patient" mediaType="application/xml" postQueryString="false" id="de16f06e-f955-4976-9b89-4135fecfbdeb"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient/${#Project#_id}</con:endpoint><con:request><![CDATA[<Patient xmlns="http://hl7.org/fhir">
+    <!-- 0..* An identifier for the person as this patient -->
+    <identifier>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | secondary]"/>
+        <!-- 0..1 -->
+        <label value="[string - Description of identifier (e.g., SSN)]"/>
+        <!-- 0..1 -->
+        <system value="[uri - The namespace for the identifier]"/>
+        <!-- 0..1  -->
+        <value value="[string - unique identifier (e.g., 123-45-6789)]"/>
+        <!-- 0..1 Time period when id is/was valid for use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+        <!-- 0..1 Resource(Organization) Organization that issued id (may be just text) -->
+        <assigner>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference (to an Org resource)]"/>
+            <!-- 0..1 -->
+            <display value="[string - Text alternative for the resource (e.g., Org Name)]"/>
+        </assigner>
+    </identifier>
+
+    <!-- 0..* A name associated with the patient -->
+    <name>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | nickname | anonymous | old | maiden]"/>
+        <!-- 0..1 -->
+        <text value="[string - Text representation of the full name]"/>
+        <!-- 0..* -->
+        <family value="[string - Family name (often called 'Surname')]"/>
+        <!-- 0..* -->
+        <given value="[string - Given names (not always 'first'). Includes middle names]"/>
+        <!-- 0..* -->
+        <prefix value="[string - Parts that come before the name]"/>
+        <!-- 0..* -->
+        <suffix value="[string - Parts that come after the name]"/>
+        <!-- 0..1 Time period when name was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </name>
+
+    <!-- 0..* A contact detail for the individual -->
+    <telecom>
+        <!-- 0..1 -->
+        <system value="[phone | fax | email | url]"/>
+        <!-- 0..1 -->
+        <value value="[string - the actual contact details]"/>
+        <!-- 0..1 -->
+        <use value="[home | work | temp | old | mobile - purpose of this address]"/>
+        <!-- 0..1 Time period when the contact was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </telecom>
+
+    <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+    <gender>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </gender>
+
+    <!-- 0..1 The date and time of birth for the individual -->
+    <birthDate value="[dateTime]"/>
+
+    <!-- 0..1 Indicates if the individual is deceased or not -->
+    <!-- Alternatively, can use deceasedDateTime with a dateTime value -->
+    <deceasedBoolean value="[true | false]" />
+
+    <!-- 0..* Addresses for the individual -->
+    <address>
+        <!-- 0..1 - purpose of this address -->
+        <use value="[home | work | temp | old]"/>
+        <!-- 0..1 -->
+        <text value="[string - Text representation of the address]"/>
+        <!-- 0..* -->
+        <line value="[string - Street name, number, direction and PO Box etc.]"/>
+        <!-- 0..1 -->
+        <city value="[string - Name of city, town etc.]"/>
+        <!-- 0..1 -->
+        <state value="[string - Sub-unit of country (abbreviations ok)]"/>
+        <!-- 0..1 -->
+        <zip value="[string - Postal code for area]"/>
+        <!-- 0..1 Country (can be ISO 3166 3 letter code) -->
+        <country value="[string]"/>
+        <!-- 0..1 Period Time period when address was/is in use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+    </address>
+
+    <!-- 0..1 CodeableConcept Marital (civil) status of a person -->
+    <maritalStatus>
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet> 
+        </coding>
+    </maritalStatus>
+
+    <!-- 0..1 boolean|integer Whether patient is part of a multiple birth -->
+    <!-- Alternatively, can use multipleBirthInteger with a integer value for birth order -->
+    <multipleBirthBoolean value="[true | false]"/>
+
+    <!-- 0..* Attachment Image of the person -->
+    <photo>
+        <!-- 1..1 -->
+        <contentType value="[code - Mime type of the content, with charset etc.]"/>
+        <!-- 0..1 -->
+        <language value="[code - Human language of the content (BCP-47)]"/>
+        <!-- 0..1 -->
+        <data value="[base64Binary - Data inline, base64ed]"/>
+        <!-- 0..1 -->
+        <url value="[uri - Uri where the data can be found]"/>
+        <!-- 0..1 -->
+        <size value="[integer - Number of bytes of content (if url provided)]"/>
+        <!-- 0..1 -->
+        <hash value="[base64Binary - Hash of the data (sha-1, base64ed )]"/>
+        <!-- 0..1 -->
+        <title value="[string - Label to display in place of the data]"/>
+    </photo>
+
+    <!-- 0..* A contact party (e.g. guardian, partner, friend) for the patient -->
+    <contact>
+        <!-- 0..* CodeableConcept The kind of relationship -->
+        <relationship>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </relationship>
+        <!-- 0..1 A name associated with the person -->
+        <name>
+            <!-- 0..1 -->
+            <use value="[usual | official | temp | nickname | anonymous | old | maiden]"/>
+            <!-- 0..1 -->
+            <text value="[string - Text representation of the full name]"/>
+            <!-- 0..* -->
+            <family value="[string - Family name (often called 'Surname')]"/>
+            <!-- 0..* -->
+            <given value="[string - Given names (not always 'first'). Includes middle names]"/>
+            <!-- 0..* -->
+            <prefix value="[string - Parts that come before the name]"/>
+            <!-- 0..* -->
+            <suffix value="[string - Parts that come after the name]"/>
+            <!-- 0..1 Time period when name was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </name>
+        <!-- 0..* A contact detail for the person -->
+        <telecom>
+            <!-- 0..1 -->
+            <system value="[phone | fax | email | url]"/>
+            <!-- 0..1 -->
+            <value value="[string - the actual contact details]"/>
+            <!-- 0..1 -->
+            <use value="[home | work | temp | old | mobile - purpose of this address]"/>
+            <!-- 0..1 Time period when the contact was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </telecom>
+        <!-- 0..1 Address for the contact person -->
+        <address>
+            <!-- 0..1 home | work | temp | old - purpose of this address -->
+            <use value="[code]"/>
+            <!-- 0..1 -->
+            <text value="[string - Text representation of the address]"/>
+            <!-- 0..* -->
+            <line value="[string - Street name, number, direction and PO Box etc]"/>
+            <!-- 0..1 -->
+            <city value="[string - Name of city, town etc.]"/>
+            <!-- 0..1 -->
+            <state value="[string - Sub-unit of country (abbreviations ok)]"/>
+            <!-- 0..1 -->
+            <zip value="[string - Postal code for area]"/>
+            <!-- 0..1 Country (can be ISO 3166 3 letter code) -->
+            <country value="[string]"/>
+            <!-- 0..1 Period Time period when address was/is in use -->
+            <period>
+                <!-- 0..1 -->
+                <start value="[dateTime]"/>
+                <!-- 0..1 -->
+                <end value="[dateTime]"/>
+            </period>
+        </address>
+        <!-- 0..1 CodeableConcept Gender for administrative purposes -->
+        <gender>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </gender>
+        <!-- ?? 0..1 Resource(Organization) Organization that is associated with the contact -->
+        <organization>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </organization>
+    </contact>
+
+    <!-- 0..1 If this patient is an animal (non-human) -->
+    <animal>
+        <!-- 1..1 CodeableConcept E.g. Dog, Cow -->
+        <species>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </species>
+        <!-- 0..1 CodeableConcept E.g. Poodle, Angus -->
+        <breed>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </breed>
+        <!-- 0..1 CodeableConcept E.g. Neutered, Intact -->
+        <genderStatus>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </genderStatus>
+    </animal>
+
+    <!-- 0..* CodeableConcept Languages which may be used to communicate with the patient about his or her health -->
+    <communication>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </communication>
+
+    <!-- 0..* Resource(Organization|Practitioner) Patient's nominated care provider -->
+    <careProvider>
+        <!-- 0..1 -->
+        <reference value="[string - Relative, internal or absolute URL reference]"/>
+        <!-- 0..1 -->
+        <display value="[string -  Text alternative for the resource]"/>
+    </careProvider>
+
+    <!-- 0..1 Resource(Organization) Organization that is the custodian of the patient record -->
+    <managingOrganization>
+        <!-- 0..1 -->
+        <reference value="[string - Relative, internal or absolute URL reference]"/>
+        <!-- 0..1 -->
+        <display value="[string -  Text alternative for the resource]"/>
+    </managingOrganization>
+
+    <!-- 0..* Link to another patient resource that concerns the same actual person -->
+    <link>
+        <!-- 1..1 Resource(Patient) The other patient resource that the link refers to -->
+        <other>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </other>
+        <!-- 1..1 - type of link -->
+        <type value="[replace | refer | seealso]"/>
+    </link>
+
+    <!-- 0..1 Whether this patient's record is in active use -->
+    <active value="[true | false]"/>
+</Patient>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="DocumentReference" path="" id="12c055af-c390-46e3-8ca9-60140d05b6b2"><con:settings/><con:parameters><con:parameter><con:name>_format</con:name><con:value>xml</con:value><con:style>QUERY</con:style><con:default>xml</con:default></con:parameter></con:parameters><con:method name="Add DocumentReference" method="POST" id="6f5d91d7-0faf-4a49-a2ee-23b77e10191a"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:DocumentReference</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain;charset=UTF-8</con:mediaType><con:status>201</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Add DocumentReference" mediaType="application/xml" postQueryString="false" id="b5dc0b67-ae29-42ab-9599-d9f32ad9f0a1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference</con:endpoint><con:request><![CDATA[<DocumentReference xmlns="http://hl7.org/fhir">
+    <!-- 1..1 Identifier Master Version Specific Identifier -->
+    <masterIdentifier>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | secondary]"/>
+        <!-- 0..1 -->
+        <label value="[string - Description of identifier (e.g., SSN)]"/>
+        <!-- 0..1 -->
+        <system value="[uri - The namespace for the identifier]"/>
+        <!-- 0..1  -->
+        <value value="[string - unique identifier (e.g., 123-45-6789)]"/>
+        <!-- 0..1 Time period when id is/was valid for use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+        <!-- 0..1 Resource(Organization) Organization that issued id (may be just text) -->
+        <assigner>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference (to an Org resource)]"/>
+            <!-- 0..1 -->
+            <display value="[string - Text alternative for the resource (e.g., Org Name)]"/>
+        </assigner>
+    </masterIdentifier>
+
+    <!-- 0..* Identifier Other identifiers for the document -->
+    <identifier>
+        <!-- 0..1 -->
+        <use value="[usual | official | temp | secondary]"/>
+        <!-- 0..1 -->
+        <label value="[string - Description of identifier (e.g., SSN)]"/>
+        <!-- 0..1 -->
+        <system value="[uri - The namespace for the identifier]"/>
+        <!-- 0..1  -->
+        <value value="[string - unique identifier (e.g., 123-45-6789)]"/>
+        <!-- 0..1 Time period when id is/was valid for use -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+        <!-- 0..1 Resource(Organization) Organization that issued id (may be just text) -->
+        <assigner>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference (to an Org resource)]"/>
+            <!-- 0..1 -->
+            <display value="[string - Text alternative for the resource (e.g., Org Name)]"/>
+        </assigner>
+    </identifier>
+
+    <!-- 1..1 Resource(Patient|Practitioner|Group|Device) Who|what is the subject of the document -->
+    <subject>
+        <!-- 0..1 Relative, internal or absolute URL reference -->
+        <reference value="[string]"/>
+        <!-- 0..1 Text alternative for the resource -->
+        <display value="[string]"/>
+    </subject>
+
+    <!-- 1..1 CodeableConcept What kind of document this is (LOINC if possible) -->
+    <type>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </type>
+
+    <!-- 0..1 CodeableConcept Categorization of Document -->
+    <class>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </class>
+
+    <!-- 1..* Resource(Practitioner|Device|Patient|RelatedPerson) Who and/or what authored the document -->
+    <author>
+        <!-- 0..1 Relative, internal or absolute URL reference -->
+        <reference value="[string]"/>
+        <!-- 0..1 Text alternative for the resource -->
+        <display value="[string]"/>
+    </author>
+
+    <!-- 0..1 Resource(Organization) Org which maintains the document -->
+    <custodian>
+        <!-- 0..1 Relative, internal or absolute URL reference -->
+        <reference value="[string]"/>
+        <!-- 0..1 Text alternative for the resource -->
+        <display value="[string]"/>
+    </custodian>
+
+    <!-- 0..1 Manages access policies for the document -->
+    <policyManager value="[uri]"/>
+
+    <!-- 0..1 Resource(Practitioner|Organization) Who/What authenticated the document -->
+    <authenticator>
+        <!-- 0..1 Relative, internal or absolute URL reference -->
+        <reference value="[string]"/>
+        <!-- 0..1 Text alternative for the resource -->
+        <display value="[string]"/>
+    </authenticator>
+
+    <!-- 0..1 Document creation time -->
+    <created value="[dateTime]"/>
+
+    <!-- 1..1 When this document reference created -->
+    <indexed value="[instant]"/>
+
+    <!-- 1..1 current | superceded | entered in error -->
+    <status value="[code]"/>
+
+    <!-- 0..1 CodeableConcept preliminary | final | appended | amended | entered in error -->
+    <docStatus>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </docStatus>
+
+    <!-- 0..* Relationships to other documents -->
+    <relatesTo>
+        <!-- 1..1 -->
+        <code value="[replaces | transforms | signs | appends]"/>
+        <!-- 1..1 Resource(DocumentReference) Target of the relationship -->
+        <target>
+            <!-- 0..1 -->
+            <reference value="[string - Relative, internal or absolute URL reference]"/>
+            <!-- 0..1 -->
+            <display value="[string -  Text alternative for the resource]"/>
+        </target>
+    </relatesTo>
+
+    <!-- 0..1 Human-readable description (title) -->
+    <description value="[string]"/>
+
+    <!-- 0..* CodeableConcept Sensitivity of source document -->
+    <confidentiality>
+        <!-- 0..* Coding Code defined by a terminology system -->
+        <coding>
+            <!-- 0..1 -->
+            <system value="[uri - Identity of the terminology system]"/>
+            <!-- 0..1 -->
+            <version value="[string - Version of the system - if relevant]"/>
+            <!-- 0..1 -->
+            <code value="[code - Symbol in syntax defined by the system]"/>
+            <!-- 0..1 -->
+            <display value="[string - Representation defined by the system]"/>
+            <!-- 0..1 If this code was chosen directly by the user -->
+            <primary value="[true | false]"/>
+            <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+            <valueSet>
+                <!-- 0..1 -->
+                <reference value="[string - Relative, internal or absolute URL reference]"/>
+                <!-- 0..1 -->
+                <display value="[string -  Text alternative for the resource]"/>
+            </valueSet>
+        </coding>
+        <!-- 0..1 -->
+        <text value="[string - Plain text representation of the concept]"/>
+    </confidentiality>
+
+    <!-- 0..1 The marked primary language for the document -->
+    <primaryLanguage value="[code]"/>
+
+    <!-- 1..1 Mime type, + maybe character encoding -->
+    <mimeType value="[code]"/>
+
+    <!-- 0..* Format/content rules for the document -->
+    <format value="[uri]"/>
+
+    <!-- 0..1 Size of the document in bytes -->
+    <size value="[integer]"/>
+
+    <!-- 0..1 HexBinary representation of SHA1 -->
+    <hash value="[string]"/>
+
+    <!-- ?? 0..1 Where to access the document -->
+    <location value="[uri]"/>
+
+    <!-- ?? 0..1 If access is not fully described by location -->
+    <service>
+        <!-- 1..1 CodeableConcept Type of service (i.e. XDS.b) -->
+        <type>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </type>
+        <!-- 0..1 Where service is located (usually a URL) -->
+        <address value="[string]"/>
+        <!-- 0..* Service call parameters -->
+        <parameter>
+            <!-- 1..1 Parameter name in service call -->
+            <name value="[string]"/>
+            <!-- 0..1 Parameter value for the name -->
+            <value value="[string]"/>
+        </parameter>
+    </service>
+
+    <!-- 0..1 Clinical context of document -->
+    <context>
+        <!-- 0..* CodeableConcept Main Clinical Acts Documented -->
+        <event>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </event>
+        <!-- 0..1 Period Time of service that is being documented -->
+        <period>
+            <!-- 0..1 -->
+            <start value="[dateTime]"/>
+            <!-- 0..1 -->
+            <end value="[dateTime]"/>
+        </period>
+        <!-- 0..1 CodeableConcept Kind of facility where patient was seen -->
+        <facilityType>
+            <!-- 0..* Coding Code defined by a terminology system -->
+            <coding>
+                <!-- 0..1 -->
+                <system value="[uri - Identity of the terminology system]"/>
+                <!-- 0..1 -->
+                <version value="[string - Version of the system - if relevant]"/>
+                <!-- 0..1 -->
+                <code value="[code - Symbol in syntax defined by the system]"/>
+                <!-- 0..1 -->
+                <display value="[string - Representation defined by the system]"/>
+                <!-- 0..1 If this code was chosen directly by the user -->
+                <primary value="[true | false]"/>
+                <!-- 0..1 Resource(ValueSet) Set this coding was chosen from -->
+                <valueSet>
+                    <!-- 0..1 -->
+                    <reference value="[string - Relative, internal or absolute URL reference]"/>
+                    <!-- 0..1 -->
+                    <display value="[string -  Text alternative for the resource]"/>
+                </valueSet>
+            </coding>
+            <!-- 0..1 -->
+            <text value="[string - Plain text representation of the concept]"/>
+        </facilityType>
+    </context>
+</DocumentReference>]]></con:request><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="Get DocumentReference" method="GET" id="b22e28d7-98f8-4b58-b348-41e0e6132c60"><con:settings/><con:parameters><con:parameter required="false" disableUrlEncoding="false"><con:name>identifier</con:name><con:value/><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>subject.identifier</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter required="false" disableUrlEncoding="false"><con:name>subject:Patient</con:name><con:value/><con:style>QUERY</con:style><con:type xmlns:xs="http://www.w3.org/2001/XMLSchema">xs:string</con:type><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>type</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>class</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>status</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter><con:parameter><con:name>_id</con:name><con:value/><con:style>QUERY</con:style><con:default/></con:parameter></con:parameters><con:representation type="RESPONSE"><con:mediaType>application/xml+fhir;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:DocumentReference</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/atom+xml;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:atom="http://www.w3.org/2005/Atom">atom:feed</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json+fhir;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:doc="http://fhirtest.uhn.ca/baseDstu1/DocumentReference">doc:Response</con:element></con:representation><con:request name="Get DocumentReference by Id" mediaType="application/xml" id="1aac334b-b3fe-4972-962b-e2f815a31b1f"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference/${#Project#_id}</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="Get DocumentReference Resource" mediaType="application/xml" id="2c6de7fb-477e-41e5-87e6-6366d2475b02"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="Update DocumentReference" method="PUT" id="cde9cae7-4305-4e84-b471-f74190313d91"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:DocumentReference</con:element></con:representation><con:representation type="FAULT"><con:mediaType>text/plain;charset=ISO-8859-1</con:mediaType><con:status>422</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Update DocumentReference" mediaType="application/xml" postQueryString="false" id="930f5efa-45c3-4acd-94dc-b905e31f5995"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference/${#Project#_id}</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="Delete DocumentReference" method="DELETE" id="145f84d0-3bb4-42fe-bd68-55ec2338b676"><con:settings/><con:parameters/><con:request name="Delete DocumentReference" mediaType="application/xml" id="3024dd37-bd72-4eb9-8b7b-f3d7cb7d6b63"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference/${#Project#DocRef_id1}</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="Binary" path="" id="1a6c8981-13bd-4365-b5e6-d81a12a6b26a"><con:settings/><con:parameters/><con:method name="Get Binary" method="GET" id="154df2a8-5f03-4ef4-9d87-d51099af9704"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/json+fhir;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element xmlns:ns="http://fhirtest.uhn.ca/baseDstu1/DocumentReference/18622">ns:Response</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/octet-stream</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType>application/xml+fhir;charset=UTF-8</con:mediaType><con:status>500</con:status><con:params/><con:element xmlns:fhir="http://hl7.org/fhir">fhir:OperationOutcome</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/pdf</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Get Binary by Id" mediaType="application/xml" id="12e44c5d-32c4-423e-9538-92928a5e0997"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Binary/${#Project#_id}</con:endpoint><con:request/><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="AdapterPatientDiscoveryBindingSoap" type="wsdl" bindingName="{urn:gov:hhs:fha:nhinc:adapterpatientdiscovery}AdapterPatientDiscoveryBindingSoap" soapVersion="1_2" anonymous="optional" definition="file:/C:/nhin/src/Plugins/FHIRSoapTests/AdapterPatientDiscovery.wsdl" id="d93092f6-2158-4628-a30d-0adead74c821" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:endpoints><con:endpoint>https://localhost:${HttpsDefaultPort}/Adapter/PatientDiscovery/A_0/AdapterPatientDiscovery</con:endpoint></con:endpoints><con:operation isOneWay="false" action="urn:RespondingGateway_PRPA_IN201305UV02" name="RespondingGateway_PRPA_IN201305UV02" bindingOperationName="RespondingGateway_PRPA_IN201305UV02" type="Request-Response" outputName="RespondingGateway_PRPA_IN201306UV02Response" inputName="RespondingGateway_PRPA_IN201305UV02Request" receivesAttachments="false" sendsAttachments="false" id="724df3b5-c382-473b-aa59-546eb8c048be"><con:settings/></con:operation></con:interface><con:interface anonymous="optional" bindingName="{urn:gov:hhs:fha:nhinc:entitypatientdiscovery}EntityPatientDiscoveryBindingSoap" definition="file:/C:/nhin/src/Plugins/FHIRSoapTests/EntityPatientDiscovery.wsdl" name="EntityPatientDiscoveryBindingSoap" soapVersion="1_2" type="wsdl" wsaVersion="NONE" xsi:type="con:WsdlInterface" id="7379e135-8256-48d3-8238-f3903e8f02ce" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:settings/>
+
+		<con:endpoints>
+		<con:endpoint>http://localhost:8080/Gateway/PatientDiscovery/1_0/EntityPatientDiscovery</con:endpoint></con:endpoints>
+		<con:operation action="urn:gov:hhs:fha:nhinc:entitypatientdiscovery:RespondingGateway_PRPA_IN201305UV02RequestMessage" bindingOperationName="RespondingGateway_PRPA_IN201305UV02" inputName="RespondingGateway_PRPA_IN201305UV02Request" isOneWay="false" name="RespondingGateway_PRPA_IN201305UV02" outputName="RespondingGateway_PRPA_IN201306UV02Response" receivesAttachments="false" sendsAttachments="false" type="Request-Response" anonymous="optional" id="26c36c5e-f2cd-4063-9b67-6ea8c109bf18">
+			<con:settings/>
+		</con:operation>
+	</con:interface><con:interface anonymous="optional" bindingName="{urn:gov:hhs:fha:nhinc:entitydocquery}EntityDocQueryBindingSoap" definition="file:/C:/nhin/src/Plugins/FHIRSoapTests/EntityDocQuery.wsdl" name="EntityDocQueryBindingSoap" soapVersion="1_2" type="wsdl" wsaVersion="NONE" xsi:type="con:WsdlInterface" id="5daa9b4b-f512-4fff-8f14-a09243836e2d" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:settings/>
+
+		<con:endpoints>
+		<con:endpoint>http://localhost:8080/Gateway/DocumentQuery/2_0/EntityService/EntityDocQueryUnsecured</con:endpoint></con:endpoints>
+		<con:operation action="urn:gov:hhs:fha:nhinc:entitydocquery:RespondingGateway_CrossGatewayQueryRequest" anonymous="optional" bindingOperationName="RespondingGateway_CrossGatewayQuery" inputName="RespondingGateway_CrossGatewayQueryRequest" isOneWay="false" name="RespondingGateway_CrossGatewayQuery" outputName="RespondingGateway_CrossGatewayQueryResponse" receivesAttachments="false" sendsAttachments="false" type="Request-Response" id="4803e34a-deea-4927-9a10-9e6aacf3b1c1">
+			<con:settings/>
+		</con:operation>
+	</con:interface><con:interface anonymous="optional" bindingName="{urn:gov:hhs:fha:nhinc:entitydocretrieve}EntityDocRetrieveBindingSoap" definition="file:/C:/nhin/src/Plugins/FHIRSoapTests/EntityDocRetrieve.wsdl" name="EntityDocRetrieveBindingSoap" soapVersion="1_2" type="wsdl" wsaVersion="NONE" xsi:type="con:WsdlInterface" id="8e4c2eb6-4a15-45ac-b3e8-c54a0390fa81" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:settings/>
+
+		<con:endpoints>
+		<con:endpoint>http://localhost:8080/Gateway/DocumentRetrieve/3_0/EntityService/EntityDocRetrieve</con:endpoint><con:endpoint>http://localhost:8080/Gateway/DocumentRetrieve/2_0/EntityService/EntityDocRetrieve</con:endpoint></con:endpoints>
+		<con:operation action="urn:gov:hhs:fha:nhinc:entitydocretrieve:RespondingGateway_CrossGatewayRetrieveRequestMessage" anonymous="optional" bindingOperationName="RespondingGateway_CrossGatewayRetrieve" inputName="RespondingGateway_CrossGatewayRetrieveRequest" isOneWay="false" name="RespondingGateway_CrossGatewayRetrieve" outputName="RespondingGateway_CrossGatewayRetrieveResponse" receivesAttachments="false" sendsAttachments="false" type="Request-Response" id="4231241f-589a-4331-8b74-2c3053ec6364">
+			<con:settings/>
+		</con:operation>
+	</con:interface><con:testSuite name="CONNECT Fhir Suite (REST)" id="81ed19be-566e-43ac-bc8c-218797667182"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="PD-QD-RD (REST)" searchProperties="true" id="6b79692f-5a32-4406-80cf-60ee547fda86"><con:settings/><con:testStep type="restrequest" name="Patient Discovery (Unique)" id="eb9a9819-1fac-412a-9aa4-8e5f26a04ea9"><con:settings/><con:config service="HAPI-FHIR" resourcePath="" methodName="Get Patient" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Patient Discovery (Unique)" mediaType="application/xml" accept=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/Patient</con:endpoint><con:request/><con:assertion type="Valid HTTP Status Codes" name="Valid HTTP Status Codes" id="b947abe0-2e2d-4c99-85d1-d52bc813b954"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" name="XPath Match" id="29922b6b-bb6b-4a94-8988-e3e95250a68d"><con:configuration><path>declare namespace ns1='http://www.w3.org/2005/Atom';
+declare namespace os='http://a9.com/-/spec/opensearch/1.1/';
+
+//ns1:feed/os:totalResults</path><content>1</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="given" value="${#Project#GivenName}"/>
+  <con:entry key="family" value="${#Project#FamilyName}"/>
+</con:parameters></con:restRequest></con:config></con:testStep><con:testStep type="transfer" name="Property Transfer: Patient Id (Uri)" id="20e55c80-244d-49a0-a2ff-739046fb96f6"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false" disabled="false"><con:name>SubjectUri</con:name><con:sourceType>ResponseAsXml</con:sourceType><con:sourceStep>Patient Discovery (Unique)</con:sourceStep><con:sourcePath>declare namespace ns1='http://www.w3.org/2005/Atom';
+
+//ns1:feed/ns1:entry[1]/ns1:id</con:sourcePath><con:targetType>subject:Patient</con:targetType><con:targetStep>Query for Document</con:targetStep></con:transfers></con:config></con:testStep><con:testStep type="restrequest" name="Query for Document" id="d8fb2460-1633-409c-9f08-8cbcd3294a82"><con:settings/><con:config service="HAPI-FHIR" resourcePath="" methodName="Get DocumentReference" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Query for Document" mediaType="application/xml" accept=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://fhirtest.uhn.ca/baseDstu1/DocumentReference</con:endpoint><con:request/><con:assertion type="Valid HTTP Status Codes" name="Valid HTTP Status Codes" id="064b06c9-62e8-4df2-96c0-762adcd12a52"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><entry key="subject:Patient" value="http://fhirtest.uhn.ca/baseDstu1/Patient/18053" xmlns="http://eviware.com/soapui/config"/></con:parameters></con:restRequest></con:config></con:testStep><con:testStep type="transfer" name="Property Transfer: Document Location (Uri)" id="a05877c0-9a9d-49a3-86ce-c780a4156c16"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false" disabled="false"><con:name>DocRefUriToDelete</con:name><con:sourceType>ResponseAsXml</con:sourceType><con:sourceStep>Query for Document</con:sourceStep><con:sourcePath>declare namespace ns1='http://www.w3.org/2005/Atom';
+declare namespace ns2='http://hl7.org/fhir';
+//ns1:feed/ns1:entry[1]/ns1:content/ns2:DocumentReference/ns2:location/@value</con:sourcePath><con:targetType>Endpoint</con:targetType><con:targetStep>Retrieve Document</con:targetStep></con:transfers></con:config></con:testStep><con:testStep type="restrequest" name="Retrieve Document" id="e141c483-1883-4112-9437-36bbf29bbf87"><con:settings/><con:config service="HAPI-FHIR" resourcePath="" methodName="Get Binary" xsi:type="con:RestRequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:restRequest name="Retrieve Document" mediaType="application/xml" accept=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://GFE-ONC-LDEV41.connect.org:8080/connect/fhir/Binary/docReferencepdf</con:endpoint><con:request/><con:assertion type="Valid HTTP Status Codes" name="Valid HTTP Status Codes" id="f875b546-79d7-4987-be98-0fc1bcd19d49"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:restRequest></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="CONNECT FHIR Suite (SOAP)"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="PD-QD-RD (SOAP)" searchProperties="true" id="b89a0755-86f4-4bad-8758-24526bfdadfb"><con:settings/><con:testStep name="Patient Discovery" type="request" id="77f94724-9235-40a1-ae93-e079c47f65c5">
+	<con:settings/>
+	<con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:interface>EntityPatientDiscoveryBindingSoap</con:interface>
+		<con:operation>RespondingGateway_PRPA_IN201305UV02</con:operation>
+		<con:request name="Patient Discovery">
+			<con:settings>
+				<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+	</con:settings>
+	<con:encoding>UTF-8</con:encoding>
+	
+	<con:endpoint>http://localhost:8080/Gateway/PatientDiscovery/1_0/EntityPatientDiscovery</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:hl7-org:v3" xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon" xmlns:add="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+   <soap:Header/>
+   <soap:Body testSuite="Entity_g1" testCase="Patient Discovery">
+      <urn:RespondingGateway_PRPA_IN201305UV02Request>
+         <urn:PRPA_IN201305UV02 ITSVersion="XML_1.0">
+            <urn:id root="1.1" extension="-5a3e95b1:11d1fa33d45:-7f9b"/>
+            <urn:creationTime value="20091116084800"/>
+            <urn:interactionId root="2.16.840.1.113883.1.6" extension="PRPA_IN201305UV02"/>
+            <urn:processingCode code="T"/>
+            <urn:processingModeCode code="T"/>
+            <urn:acceptAckCode code="AL"/>
+            <urn:receiver typeCode="RCV">
+               <urn:device classCode="DEV" determinerCode="INSTANCE">
+                  <urn:id root="1.2.345.678.999"/>
+                  <urn:asAgent classCode="AGNT">
+                     <urn:representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                        <urn:id root="${#Project#RemoteHCID}"/>
+                     </urn:representedOrganization>
+                  </urn:asAgent>
+               </urn:device>
+            </urn:receiver>
+            <urn:sender typeCode="SND">
+               <urn:device classCode="DEV" determinerCode="INSTANCE">
+                  <urn:id root="1.2.345.678.999"/>
+                  <urn:asAgent classCode="AGNT">
+                     <urn:representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                        <urn:id root="${#Project#LocalHCID}"/>
+                     </urn:representedOrganization>
+                  </urn:asAgent>
+               </urn:device>
+            </urn:sender>
+            <urn:controlActProcess classCode="CACT" moodCode="EVN">
+               <urn:authorOrPerformer typeCode="AUT">
+                  <urn:assignedDevice>
+                     <urn:id root="${#Project#LocalAA}"/>
+                  </urn:assignedDevice>
+               </urn:authorOrPerformer>
+               <urn:queryByParameter>
+                  <urn:queryId root="${#Project#LocalHCID}" extension="-abd3453dcd24wkkks545"/>
+                  <urn:statusCode code="new"/>
+                  <urn:responseModalityCode code="R"/>
+                  <urn:responsePriorityCode code="I"/>
+                  <urn:matchCriterionList>
+                     <urn:matchAlgorithm>
+                        <urn:value>"XYZ MatchAlgorithm"</urn:value>
+                        <urn:semanticsText>MatchAlgorithm</urn:semanticsText>
+                     </urn:matchAlgorithm>
+                     <urn:minimumDegreeMatch>
+                        <urn:value type="INT" value="99"/>
+                        <urn:semanticsText>MinimumDegreeMatch</urn:semanticsText>
+                     </urn:minimumDegreeMatch>
+                  </urn:matchCriterionList>
+                  <urn:parameterList>
+                     <urn:livingSubjectAdministrativeGender>
+                        <urn:value code="${#Project#Gender}"/>
+                        <urn:semanticsText representation="TXT">LivingSubject.administrativeGender</urn:semanticsText>
+                     </urn:livingSubjectAdministrativeGender>
+                     <urn:livingSubjectBirthTime>
+                        <urn:value value="${#Project#DOB}"/>
+                        <urn:semanticsText representation="TXT">LivingSubject.birthTime</urn:semanticsText>
+                     </urn:livingSubjectBirthTime>
+                     <urn:livingSubjectName>
+                        <urn:value>
+                           <urn:family partType="FAM">${#Project#FamilyName}</urn:family>
+                           <urn:given partType="GIV">${#Project#GivenName}</urn:given>
+                        </urn:value>
+                        <urn:semanticsText representation="TXT">LivingSubject.name</urn:semanticsText>
+                     </urn:livingSubjectName>
+                     <urn:livingSubjectId>
+                        <urn:value root="${#Project#LocalAA}" extension="${#Project#LocalPatientID}"/>
+                        <urn:semanticsText representation="TXT"/>
+                     </urn:livingSubjectId>
+                  </urn:parameterList>
+               </urn:queryByParameter>
+            </urn:controlActProcess>
+         </urn:PRPA_IN201305UV02>
+         <urn:assertion>
+            <urn1:nationalProviderId>1234567890</urn1:nationalProviderId>
+            <urn1:address>
+               <urn1:addressType>
+                  <urn1:code>W</urn1:code>
+               </urn1:addressType>
+               <urn1:city>Melbourne</urn1:city>
+               <urn1:country>US</urn1:country>
+               <urn1:state>FL</urn1:state>
+               <urn1:streetAddress>123 Johnson Rd</urn1:streetAddress>
+               <urn1:zipCode>12345</urn1:zipCode>
+            </urn1:address>
+            <urn1:dateOfBirth>${#Project#DOB}</urn1:dateOfBirth>
+            <urn1:explanationNonClaimantSignature>NEEDED</urn1:explanationNonClaimantSignature>
+            <urn1:haveSecondWitnessSignature>true</urn1:haveSecondWitnessSignature>
+            <urn1:haveSignature>true</urn1:haveSignature>
+            <urn1:haveWitnessSignature>true</urn1:haveWitnessSignature>
+            <urn1:homeCommunity>
+               <urn1:homeCommunityId>${#Project#LocalHCID}</urn1:homeCommunityId>
+            </urn1:homeCommunity>
+            <urn1:personName>
+               <urn1:familyName>${#Project#FamilyName}</urn1:familyName>
+               <urn1:givenName>${#Project#GivenName}</urn1:givenName>
+               <urn1:nameType>
+                  <urn1:code>G</urn1:code>
+               </urn1:nameType>
+               <urn1:secondNameOrInitials>FJ</urn1:secondNameOrInitials>
+               <urn1:fullName>Joe Smith</urn1:fullName>
+               <urn1:prefix>Mr</urn1:prefix>
+            </urn1:personName>
+            <urn1:phoneNumber>
+               <urn1:areaCode>123</urn1:areaCode>
+               <urn1:countryCode>1</urn1:countryCode>
+               <urn1:extension>1234</urn1:extension>
+               <urn1:localNumber>3456789</urn1:localNumber>
+               <urn1:phoneNumberType>
+                  <urn1:code>W</urn1:code>
+               </urn1:phoneNumberType>
+            </urn1:phoneNumber>
+            <urn1:secondWitnessAddress>
+               <urn1:addressType>
+                  <urn1:code>W</urn1:code>
+               </urn1:addressType>
+               <urn1:city>Melbourne</urn1:city>
+               <urn1:country>US</urn1:country>
+               <urn1:state>FL</urn1:state>
+               <urn1:streetAddress>123 Johnson Rd</urn1:streetAddress>
+               <urn1:zipCode>12345</urn1:zipCode>
+            </urn1:secondWitnessAddress>
+            <urn1:secondWitnessName>
+               <urn1:familyName>Hughes</urn1:familyName>
+               <urn1:givenName>Howie</urn1:givenName>
+               <urn1:nameType>
+                  <urn1:code>G</urn1:code>
+               </urn1:nameType>
+               <urn1:secondNameOrInitials>HH</urn1:secondNameOrInitials>
+               <urn1:fullName>Howie Hughes</urn1:fullName>
+               <urn1:prefix>Dr</urn1:prefix>
+            </urn1:secondWitnessName>
+            <urn1:secondWitnessPhone>
+               <urn1:areaCode>123</urn1:areaCode>
+               <urn1:countryCode>1</urn1:countryCode>
+               <urn1:extension>1546</urn1:extension>
+               <urn1:localNumber>4567892</urn1:localNumber>
+               <urn1:phoneNumberType>
+                  <urn1:code>W</urn1:code>
+               </urn1:phoneNumberType>
+            </urn1:secondWitnessPhone>
+            <urn1:SSN>123456789</urn1:SSN>
+            <urn1:uniquePatientId>1111^^^&amp;1.1&amp;ISO</urn1:uniquePatientId>
+            <urn1:witnessAddress>
+               <urn1:addressType>
+                  <urn1:code>W</urn1:code>
+               </urn1:addressType>
+               <urn1:city>Frankfort</urn1:city>
+               <urn1:country>US</urn1:country>
+               <urn1:state>MN</urn1:state>
+               <urn1:streetAddress>432 Jackson St</urn1:streetAddress>
+               <urn1:zipCode>65498</urn1:zipCode>
+            </urn1:witnessAddress>
+            <urn1:witnessName>
+               <urn1:familyName>Ugble</urn1:familyName>
+               <urn1:givenName>Gary</urn1:givenName>
+               <urn1:nameType>
+                  <urn1:code>G</urn1:code>
+               </urn1:nameType>
+               <urn1:secondNameOrInitials>GU</urn1:secondNameOrInitials>
+               <urn1:fullName>Gary Ugble</urn1:fullName>
+               <urn1:prefix>Mr</urn1:prefix>
+            </urn1:witnessName>
+            <urn1:witnessPhone>
+               <urn1:areaCode>987</urn1:areaCode>
+               <urn1:countryCode>1</urn1:countryCode>
+               <urn1:extension>6549</urn1:extension>
+               <urn1:localNumber>2222222</urn1:localNumber>
+               <urn1:phoneNumberType>
+                  <urn1:code>H</urn1:code>
+               </urn1:phoneNumberType>
+            </urn1:witnessPhone>
+            <urn1:userInfo>
+               <urn1:personName>
+                  <urn1:familyName>Anderson</urn1:familyName>
+                  <urn1:givenName>Wilma</urn1:givenName>
+                  <urn1:nameType>
+                     <urn1:code>G</urn1:code>
+                  </urn1:nameType>
+                  <urn1:secondNameOrInitials>WA</urn1:secondNameOrInitials>
+                  <urn1:fullName>Wilma Anderson</urn1:fullName>
+                  <urn1:prefix>Mrs</urn1:prefix>
+               </urn1:personName>
+               <urn1:userName>wanderson</urn1:userName>
+               <urn1:org>
+                  <urn1:homeCommunityId>${#Project#LocalHCID}</urn1:homeCommunityId>
+               </urn1:org>
+               <urn1:roleCoded>
+                  <urn1:code>307969004</urn1:code>
+                  <urn1:codeSystem>2.16.840.1.113883.6.96</urn1:codeSystem>
+                  <urn1:codeSystemName>SNOMED_CT</urn1:codeSystemName>
+                  <urn1:codeSystemVersion>1.0</urn1:codeSystemVersion>
+                  <urn1:displayName>Public Health</urn1:displayName>
+                  <urn1:originalText>Public Health</urn1:originalText>
+               </urn1:roleCoded>
+            </urn1:userInfo>
+            <urn1:authorized>true</urn1:authorized>
+            <urn1:purposeOfDisclosureCoded>
+               <urn1:code>PUBLICHEALTH</urn1:code>
+               <urn1:codeSystem>2.16.840.1.113883.3.18.7.1</urn1:codeSystem>
+               <urn1:codeSystemName>nhin-purpose</urn1:codeSystemName>
+               <urn1:codeSystemVersion>1.0</urn1:codeSystemVersion>
+               <urn1:displayName>Use or disclosure of Psychotherapy Notes</urn1:displayName>
+               <urn1:originalText>Use or disclosure of Psychotherapy Notes</urn1:originalText>
+            </urn1:purposeOfDisclosureCoded>
+            <urn1:samlAuthnStatement>
+               <urn1:authInstant>2009-04-16T13:15:39Z</urn1:authInstant>
+               <urn1:sessionIndex>987</urn1:sessionIndex>
+               <urn1:authContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</urn1:authContextClassRef>
+               <urn1:subjectLocalityAddress>158.147.185.168</urn1:subjectLocalityAddress>
+               <urn1:subjectLocalityDNSName>cs.myharris.net</urn1:subjectLocalityDNSName>
+            </urn1:samlAuthnStatement>
+            <urn1:samlAuthzDecisionStatement>
+               <urn1:decision>Permit</urn1:decision>
+               <urn1:resource>https://158.147.185.168:8181/SamlReceiveService/SamlProcessWS</urn1:resource>
+               <urn1:action>TestSaml</urn1:action>
+               <urn1:evidence>
+                  <urn1:assertion>
+                     <urn1:id>40df7c0a-ff3e-4b26-baeb-f2910f6d05a9</urn1:id>
+                     <urn1:issueInstant>2009-04-16T13:10:39.093Z</urn1:issueInstant>
+                     <urn1:version>2.0</urn1:version>
+                     <urn1:issuerFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</urn1:issuerFormat>
+                     <urn1:issuer>CN=SAML User,OU=Harris,O=HITS,L=Melbourne,ST=FL,C=US</urn1:issuer>
+                     <urn1:conditions>
+                        <urn1:notBefore>2009-04-16T13:10:39.093Z</urn1:notBefore>
+                        <urn1:notOnOrAfter>2009-12-31T12:00:00.000Z</urn1:notOnOrAfter>
+                     </urn1:conditions>
+                     <urn1:accessConsentPolicy>Claim-Ref-1234</urn1:accessConsentPolicy>
+                     <urn1:instanceAccessConsentPolicy>Claim-Instance-1</urn1:instanceAccessConsentPolicy>
+                  </urn1:assertion>
+               </urn1:evidence>
+            </urn1:samlAuthzDecisionStatement>
+         </urn:assertion>
+         <urn:NhinTargetCommunities>
+            <urn1:nhinTargetCommunity>
+               <urn1:homeCommunity>
+                  <urn1:homeCommunityId>${#Project#RemoteHCID}</urn1:homeCommunityId>
+               </urn1:homeCommunity>
+            </urn1:nhinTargetCommunity>
+         </urn:NhinTargetCommunities>
+      </urn:RespondingGateway_PRPA_IN201305UV02Request>
+   </soap:Body>
+</soap:Envelope>]]></con:request>
+	<con:assertion type="SOAP Response" id="f59ad792-a9c0-474a-90e6-96f09e904e26"/>
+	<con:assertion disabled="true" type="Schema Compliance" id="9b8ca1f8-5ecd-435f-9bec-1003680c5daa">
+		<con:configuration>
+			<definition/>
+		</con:configuration>
+	</con:assertion>
+	<con:assertion type="SOAP Fault Assertion" id="f8079cd0-01bc-4e64-afbd-eff064107c0b"/>
+	<con:assertion name="Check for existance of [ns3:controlActProcess]" type="XPath Match" id="bf022445-c95c-4c28-a3c9-9006e4b419a6">
+		<con:configuration>
+			<path>declare namespace ns3='urn:hl7-org:v3';
+				exists( //ns3:PRPA_IN201306UV02/ns3:controlActProcess)</path>
+			<content>true</content>
+			<allowWildcards>false</allowWildcards>
+			<ignoreNamspaceDifferences>false</ignoreNamspaceDifferences>
+		</con:configuration>
+	</con:assertion>
+	<con:assertion name="Given Name XPath Match" type="XPath Match" id="96e9e139-deb3-4a66-8973-dd004441140d">
+		<con:configuration><path>declare namespace ns1='urn:hl7-org:v3';
+				//ns1:PRPA_IN201306UV02[1]/ns1:controlActProcess[1]/ns1:subject[1]/ns1:registrationEvent[1]/ns1:subject1[1]/ns1:patient[1]/ns1:patientPerson[1]/ns1:name[1]/ns1:given[1]</path><content>${#Project#GivenName}</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration>
+	</con:assertion>
+	<con:assertion name="Family Name XPath Match" type="XPath Match" id="630174a5-446e-4348-a94d-0b06b4bb9534">
+		<con:configuration><path>declare namespace ns1='urn:hl7-org:v3';
+				//ns1:PRPA_IN201306UV02[1]/ns1:controlActProcess[1]/ns1:subject[1]/ns1:registrationEvent[1]/ns1:subject1[1]/ns1:patient[1]/ns1:patientPerson[1]/ns1:name[1]/ns1:family[1]</path><content>${#Project#FamilyName}</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration>
+	</con:assertion>
+	<con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+	<con:jmsPropertyConfig/>
+	<con:wsaConfig mustUnderstand="NONE" version="200508"/>
+	<con:wsrmConfig version="1.2"/>
+</con:request>
+</con:config>
+</con:testStep><con:testStep type="transfer" name="RemotePatientID - Property Transfer" id="7300dc11-2bdb-48bf-9108-af714982213d"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>RemotePID</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Patient Discovery</con:sourceStep><con:sourcePath>declare namespace ns1='urn:hl7-org:v3';
+//ns1:PRPA_IN201306UV02[1]/ns1:controlActProcess[1]/ns1:subject[1]/ns1:registrationEvent[1]/ns1:subject1[1]/ns1:patient[1]/ns1:id/@extension</con:sourcePath><con:targetType>RemotePatientID</con:targetType><con:targetStep>#Project#</con:targetStep></con:transfers></con:config></con:testStep><con:testStep name="Document Query" type="request" id="5067238f-05d9-4f42-b274-2fe40571837b">
+	<con:settings/>
+	<con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<con:interface>EntityDocQueryBindingSoap</con:interface>
+		<con:operation>RespondingGateway_CrossGatewayQuery</con:operation>
+		<con:request name="Document Query">
+			<con:settings>
+				<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+	</con:settings>
+	<con:encoding>UTF-8</con:encoding>
+	
+	<con:endpoint>http://localhost:8080/Gateway/DocumentQuery/3_0/EntityService/EntityDocQueryUnsecured</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:gov:hhs:fha:nhinc:common:nhinccommonentity" xmlns:urn1="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0" xmlns:urn2="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:urn3="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+    <soap:Header/>
+    <soap:Body testSuite="Entity_g1" testCase="Document Query">
+        <urn:RespondingGateway_CrossGatewayQueryRequest>
+            <urn1:AdhocQueryRequest federated="false" startIndex="0" maxResults="-1">
+                <urn1:ResponseOption returnType="LeafClass" returnComposedObjects="false"/>
+                <urn2:AdhocQuery home="${#Project#LocalHCID}" id="urn:uuid:14d4debf-8f97-4251-9a74-a90016b0af0d">
+                    <urn2:Slot name="$XDSDocumentEntryPatientId">
+                        <urn2:ValueList>
+                            <urn2:Value>'${#Project#RemotePatientID}'</urn2:Value>
+                        </urn2:ValueList>
+                    </urn2:Slot>
+                    <urn2:Slot name="$XDSDocumentEntryStatus">
+                        <urn2:ValueList>
+                            <urn2:Value>current</urn2:Value>
+                        </urn2:ValueList>
+                    </urn2:Slot>
+                    <urn2:Slot name="$XDSDocumentEntryClassCode">
+                        <urn2:ValueList>
+                            <urn2:Value>34133-9</urn2:Value>
+                        </urn2:ValueList>
+                    </urn2:Slot>
+                    <urn2:Slot name="$XDSDocumentEntryClassCodeScheme">
+                        <urn2:ValueList>
+                            <urn2:Value>2.16.840.1.113883.6.1</urn2:Value>
+                        </urn2:ValueList>
+                    </urn2:Slot>
+                </urn2:AdhocQuery>
+            </urn1:AdhocQueryRequest>
+            <urn:assertion>
+                <urn3:nationalProviderId>1234567890</urn3:nationalProviderId>
+                <urn3:address xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:addressType>
+                        <urn3:code>AddrCode</urn3:code>
+                        <urn3:codeSystem>AddrCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>AddrCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>AddrCode</urn3:displayName>
+                        <urn3:originalText>AddrCode</urn3:originalText>
+                    </urn3:addressType>
+                    <urn3:city>AddrCity</urn3:city>
+                    <urn3:country>AddrCountry</urn3:country>
+                    <urn3:state>AddrState</urn3:state>
+                    <urn3:streetAddress>AddrStreet</urn3:streetAddress>
+                    <urn3:zipCode>AddrZip</urn3:zipCode>
+                </urn3:address>
+                <urn3:dateOfBirth xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">06/04/1959 05:21:00</urn3:dateOfBirth>
+                <urn3:explanationNonClaimantSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">Electronic</urn3:explanationNonClaimantSignature>
+                <urn3:haveSecondWitnessSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">false</urn3:haveSecondWitnessSignature>
+                <urn3:haveSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">false</urn3:haveSignature>
+                <urn3:haveWitnessSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">false</urn3:haveWitnessSignature>
+                <urn3:homeCommunity xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:homeCommunityId>${#Project#LocalHCID}</urn3:homeCommunityId>
+                </urn3:homeCommunity>
+                <urn3:personName xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:familyName>Smith</urn3:familyName>
+                    <urn3:givenName>Sandy</urn3:givenName>
+                    <urn3:nameType>
+                        <urn3:code>nameCode</urn3:code>
+                        <urn3:codeSystem>nameCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>nameCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>nameCode</urn3:displayName>
+                        <urn3:originalText>nameCode</urn3:originalText>
+                    </urn3:nameType>
+                    <urn3:secondNameOrInitials>S</urn3:secondNameOrInitials>
+                    <urn3:fullName>Sandy S. Smith</urn3:fullName>
+                </urn3:personName>
+                <urn3:phoneNumber xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:areaCode>321</urn3:areaCode>
+                    <urn3:countryCode>1</urn3:countryCode>
+                    <urn3:extension>5436</urn3:extension>
+                    <urn3:localNumber>253-6849</urn3:localNumber>
+                    <urn3:phoneNumberType>
+                        <urn3:code>phoneCode</urn3:code>
+                        <urn3:codeSystem>phoneCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>phoneCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>phoneCode</urn3:displayName>
+                        <urn3:originalText>phoneCode</urn3:originalText>
+                    </urn3:phoneNumberType>
+                </urn3:phoneNumber>
+                <urn3:secondWitnessAddress xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:addressType>
+                        <urn3:code>AddrCode</urn3:code>
+                        <urn3:codeSystem>AddrCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>AddrCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>AddrCode</urn3:displayName>
+                        <urn3:originalText>AddrCode</urn3:originalText>
+                    </urn3:addressType>
+                    <urn3:city>Addr2City</urn3:city>
+                    <urn3:country>Addr2Country</urn3:country>
+                    <urn3:state>Addr2State</urn3:state>
+                    <urn3:streetAddress>Addr2Street</urn3:streetAddress>
+                    <urn3:zipCode>Addr2Zip</urn3:zipCode>
+                </urn3:secondWitnessAddress>
+                <urn3:secondWitnessName xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:familyName>Smith</urn3:familyName>
+                    <urn3:givenName>Sammy</urn3:givenName>
+                    <urn3:nameType>
+                        <urn3:code>nameCode</urn3:code>
+                        <urn3:codeSystem>nameCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>nameCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>nameCode</urn3:displayName>
+                        <urn3:originalText>nameCode</urn3:originalText>
+                    </urn3:nameType>
+                    <urn3:secondNameOrInitials>s</urn3:secondNameOrInitials>
+                    <urn3:fullName>Sammy S. Smith</urn3:fullName>
+                </urn3:secondWitnessName>
+                <urn3:secondWitnessPhone xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:areaCode>321</urn3:areaCode>
+                    <urn3:countryCode>1</urn3:countryCode>
+                    <urn3:extension>5424</urn3:extension>
+                    <urn3:localNumber>542-6823</urn3:localNumber>
+                    <urn3:phoneNumberType>
+                        <urn3:code>phoneCode</urn3:code>
+                        <urn3:codeSystem>phoneCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>phoneCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>phoneCode</urn3:displayName>
+                        <urn3:originalText>phoneCode</urn3:originalText>
+                    </urn3:phoneNumberType>
+                </urn3:secondWitnessPhone>
+                <urn3:SSN xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">253-98-7546</urn3:SSN>
+                <urn3:uniquePatientId xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">500000000^^^&amp;1.1&amp;ISO</urn3:uniquePatientId>
+                <urn3:witnessAddress xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:addressType>
+                        <urn3:code>addrCode</urn3:code>
+                        <urn3:codeSystem>addrCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>addrCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>addrCode</urn3:displayName>
+                        <urn3:originalText>addrCode</urn3:originalText>
+                    </urn3:addressType>
+                    <urn3:city>Burnell</urn3:city>
+                    <urn3:country>USA</urn3:country>
+                    <urn3:state>FL</urn3:state>
+                    <urn3:streetAddress>825 North</urn3:streetAddress>
+                    <urn3:zipCode>32184</urn3:zipCode>
+                </urn3:witnessAddress>
+                <urn3:witnessName xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:familyName>Smith</urn3:familyName>
+                    <urn3:givenName>Scott</urn3:givenName>
+                    <urn3:nameType>
+                        <urn3:code>nameCode</urn3:code>
+                        <urn3:codeSystem>nameCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>nameCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>nameCode</urn3:displayName>
+                        <urn3:originalText>nameCode</urn3:originalText>
+                    </urn3:nameType>
+                    <urn3:secondNameOrInitials>S.</urn3:secondNameOrInitials>
+                    <urn3:fullName>Scott S. Smith</urn3:fullName>
+                </urn3:witnessName>
+                <urn3:witnessPhone xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:areaCode>321</urn3:areaCode>
+                    <urn3:countryCode>1</urn3:countryCode>
+                    <urn3:extension>8432</urn3:extension>
+                    <urn3:localNumber>985-2239</urn3:localNumber>
+                    <urn3:phoneNumberType>
+                        <urn3:code>phoneCode</urn3:code>
+                        <urn3:codeSystem>phoneCodeSyst</urn3:codeSystem>
+                        <urn3:codeSystemName>phoneCodeSystName</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>phoneCode</urn3:displayName>
+                        <urn3:originalText>phoneCode</urn3:originalText>
+                    </urn3:phoneNumberType>
+                </urn3:witnessPhone>
+                <urn3:userInfo xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:personName>
+                        <urn3:familyName>Skagerberg</urn3:familyName>
+                        <urn3:givenName>Karl</urn3:givenName>
+                        <urn3:nameType>
+                            <urn3:code>nameCode</urn3:code>
+                            <urn3:codeSystem>nameCodeSyst</urn3:codeSystem>
+                            <urn3:codeSystemName>nameCodeSystName</urn3:codeSystemName>
+                            <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                            <urn3:displayName>nameCode</urn3:displayName>
+                            <urn3:originalText>nameCode</urn3:originalText>
+                        </urn3:nameType>
+                        <urn3:secondNameOrInitials>S</urn3:secondNameOrInitials>
+                        <urn3:fullName>Kasrl S. Skagerberg</urn3:fullName>
+                    </urn3:personName>
+                    <urn3:userName>kskagerberg</urn3:userName>
+                    <urn3:org>
+                        <urn3:homeCommunityId>${#Project#LocalHCID}</urn3:homeCommunityId>
+                    </urn3:org>
+                    <urn3:roleCoded>
+                        <urn3:code>307969004</urn3:code>
+                        <urn3:codeSystem>2.16.840.1.113883.6.96</urn3:codeSystem>
+                        <urn3:codeSystemName>SNOMED_CT</urn3:codeSystemName>
+                        <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                        <urn3:displayName>Public Health</urn3:displayName>
+                        <urn3:originalText>Public Health</urn3:originalText>
+                    </urn3:roleCoded>
+                </urn3:userInfo>
+                <urn3:authorized xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">true</urn3:authorized>
+                <urn3:purposeOfDisclosureCoded xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:code>PUBLICHEALTH</urn3:code>
+                    <urn3:codeSystem>2.16.840.1.113883.3.18.7.1</urn3:codeSystem>
+                    <urn3:codeSystemName>nhin-purpose</urn3:codeSystemName>
+                    <urn3:codeSystemVersion>1.0</urn3:codeSystemVersion>
+                    <urn3:displayName>Use or disclosure of Psychotherapy Notes</urn3:displayName>
+                    <urn3:originalText>Use or disclosure of Psychotherapy Notes</urn3:originalText>
+                </urn3:purposeOfDisclosureCoded>
+                <urn3:samlAuthnStatement xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:authInstant>2009-04-16T13:15:39Z</urn3:authInstant>
+                    <urn3:sessionIndex>987</urn3:sessionIndex>
+                    <urn3:authContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</urn3:authContextClassRef>
+                    <urn3:subjectLocalityAddress>158.147.185.168</urn3:subjectLocalityAddress>
+                    <urn3:subjectLocalityDNSName>cs.myharris.net</urn3:subjectLocalityDNSName>
+                </urn3:samlAuthnStatement>
+                <urn3:samlAuthzDecisionStatement xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn3:decision>Permit</urn3:decision>
+                    <urn3:resource>https://158.147.185.168:8181/SamlReceiveService/SamlProcessWS</urn3:resource>
+                    <urn3:action>TestSaml</urn3:action>
+                    <urn3:evidence>
+                        <urn3:assertion>
+                            <urn3:id>40df7c0a-ff3e-4b26-baeb-f2910f6d05a9</urn3:id>
+                            <urn3:issueInstant>2009-04-16T13:10:39.093Z</urn3:issueInstant>
+                            <urn3:version>2.0</urn3:version>
+                            <urn3:issuerFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</urn3:issuerFormat>
+                            <urn3:issuer>CN=SAML User,OU=Harris,O=HITS,L=Melbourne,ST=FL,C=US</urn3:issuer>
+                            <urn3:conditions>
+                                <urn3:notBefore>2009-04-16T13:10:39.093Z</urn3:notBefore>
+                                <urn3:notOnOrAfter>2009-12-31T12:00:00.000Z</urn3:notOnOrAfter>
+                            </urn3:conditions>
+                            <urn3:accessConsentPolicy>urn:oid:1.2.3.4</urn3:accessConsentPolicy>
+                            <urn3:instanceAccessConsentPolicy>urn:oid:1.2.3.4.123456789</urn3:instanceAccessConsentPolicy>
+                        </urn3:assertion>
+                    </urn3:evidence>
+                </urn3:samlAuthzDecisionStatement>
+            </urn:assertion>
+            <urn:NhinTargetCommunities>
+                <urn3:nhinTargetCommunity>
+                    <urn3:homeCommunity>
+                        <urn3:homeCommunityId>${#Project#RemoteHCID}</urn3:homeCommunityId>
+                    </urn3:homeCommunity>
+                </urn3:nhinTargetCommunity>
+            </urn:NhinTargetCommunities>
+        </urn:RespondingGateway_CrossGatewayQueryRequest>
+    </soap:Body>
+</soap:Envelope>]]></con:request>
+	<con:assertion type="SOAP Response" id="0120ac00-f9c8-4dca-941d-a1caf64c1b48"/>
+	<con:assertion type="Schema Compliance" id="1fd003f1-d1d7-44b5-8258-29101e6b64ff" disabled="true">
+		<con:configuration><definition/></con:configuration>
+	</con:assertion>
+	<con:assertion type="SOAP Fault Assertion" id="b8e802ba-5210-480e-8bc8-6e5cbb768ed9"/>
+	
+	<con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+	<con:jmsPropertyConfig/>
+	<con:wsaConfig mustUnderstand="NONE" version="200508"/>
+	<con:wsrmConfig version="1.2"/>
+</con:request>
+</con:config>
+</con:testStep><con:testStep type="transfer" name="Repo &amp; Doc Id - Property Transfer"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>DocID</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Document Query</con:sourceStep><con:sourcePath>declare namespace ns3='urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0'
+declare namespace ns17='urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0'
+
+//ns3:AdhocQueryResponse[1]/ns17:RegistryObjectList[1]/ns17:ExtrinsicObject[1]/ns17:Slot[@name='URI']/ns17:ValueList/ns17:Value</con:sourcePath><con:targetType>DocID</con:targetType><con:targetStep>#Project#</con:targetStep></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false"><con:name>RepoID</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>Document Query</con:sourceStep><con:sourcePath>declare namespace ns3='urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0'
+declare namespace ns17='urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0'
+
+//ns3:AdhocQueryResponse[1]/ns17:RegistryObjectList[1]/ns17:ExtrinsicObject[1]/ns17:Slot[@name='repositoryUniqueId']/ns17:ValueList/ns17:Value</con:sourcePath><con:targetType>RepoID</con:targetType><con:targetStep>#Project#</con:targetStep></con:transfers></con:config></con:testStep><con:testStep name="Document Retrieve" type="request" id="0495c6dc-68e4-4074-89a6-781f284c653e">
+		<con:settings/>
+		<con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+			<con:interface>EntityDocRetrieveBindingSoap</con:interface>
+			<con:operation>RespondingGateway_CrossGatewayRetrieve</con:operation>
+			<con:request incomingWss="" name="Document Retrieve" outgoingWss="" wssPasswordType="">
+				<con:settings>
+					<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@expand-mtom-attachments">true</con:setting>
+					<con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
+		</con:settings>
+		<con:encoding>UTF-8</con:encoding>
+		
+		<con:endpoint>http://localhost:8080/Gateway/DocumentRetrieve/3_0/EntityService/EntityDocRetrieve</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:urn="urn:gov:hhs:fha:nhinc:common:nhinccommonentity" xmlns:urn1="urn:ihe:iti:xds-b:2007" xmlns:urn2="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+    <soap:Header/>
+    <soap:Body testSuite="Entity_g1" testCase="Document Retrieve">
+        <urn:RespondingGateway_CrossGatewayRetrieveRequest>
+            <urn1:RetrieveDocumentSetRequest>
+                <urn1:DocumentRequest>
+                    <urn1:HomeCommunityId>${#Project#RemoteHCID}</urn1:HomeCommunityId>
+                    <urn1:RepositoryUniqueId>${#Project#RepoID}</urn1:RepositoryUniqueId>
+                    <urn1:DocumentUniqueId>${#Project#DocID}</urn1:DocumentUniqueId>
+                </urn1:DocumentRequest>
+            </urn1:RetrieveDocumentSetRequest>
+            <urn:assertion>
+                <urn2:nationalProviderId>1234567890</urn2:nationalProviderId>
+                <urn2:address xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:addressType>
+                        <urn2:code>AddrCode</urn2:code>
+                        <urn2:codeSystem>AddrCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>AddrCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>AddrCode</urn2:displayName>
+                        <urn2:originalText>AddrCode</urn2:originalText>
+                    </urn2:addressType>
+                    <urn2:city>AddrCity</urn2:city>
+                    <urn2:country>AddrCountry</urn2:country>
+                    <urn2:state>AddrState</urn2:state>
+                    <urn2:streetAddress>AddrStreet</urn2:streetAddress>
+                    <urn2:zipCode>AddrZip</urn2:zipCode>
+                </urn2:address>
+                <urn2:dateOfBirth xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">06/04/1959 05:21:00</urn2:dateOfBirth>
+                <urn2:explanationNonClaimantSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">Electronic</urn2:explanationNonClaimantSignature>
+                <urn2:haveSecondWitnessSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">false</urn2:haveSecondWitnessSignature>
+                <urn2:haveSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">false</urn2:haveSignature>
+                <urn2:haveWitnessSignature xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">false</urn2:haveWitnessSignature>
+                <urn2:homeCommunity xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:homeCommunityId>${#Project#LocalHCID}</urn2:homeCommunityId>
+                </urn2:homeCommunity>
+                <urn2:personName xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:familyName>Smith</urn2:familyName>
+                    <urn2:givenName>Sandy</urn2:givenName>
+                    <urn2:nameType>
+                        <urn2:code>nameCode</urn2:code>
+                        <urn2:codeSystem>nameCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>nameCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>nameCode</urn2:displayName>
+                        <urn2:originalText>nameCode</urn2:originalText>
+                    </urn2:nameType>
+                    <urn2:secondNameOrInitials>S</urn2:secondNameOrInitials>
+                    <urn2:fullName>Sandy S. Smith</urn2:fullName>
+                </urn2:personName>
+                <urn2:phoneNumber xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:areaCode>321</urn2:areaCode>
+                    <urn2:countryCode>1</urn2:countryCode>
+                    <urn2:extension>5436</urn2:extension>
+                    <urn2:localNumber>253-6849</urn2:localNumber>
+                    <urn2:phoneNumberType>
+                        <urn2:code>phoneCode</urn2:code>
+                        <urn2:codeSystem>phoneCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>phoneCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>phoneCode</urn2:displayName>
+                        <urn2:originalText>phoneCode</urn2:originalText>
+                    </urn2:phoneNumberType>
+                </urn2:phoneNumber>
+                <urn2:secondWitnessAddress xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:addressType>
+                        <urn2:code>AddrCode</urn2:code>
+                        <urn2:codeSystem>AddrCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>AddrCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>AddrCode</urn2:displayName>
+                        <urn2:originalText>AddrCode</urn2:originalText>
+                    </urn2:addressType>
+                    <urn2:city>Addr2City</urn2:city>
+                    <urn2:country>Addr2Country</urn2:country>
+                    <urn2:state>Addr2State</urn2:state>
+                    <urn2:streetAddress>Addr2Street</urn2:streetAddress>
+                    <urn2:zipCode>Addr2Zip</urn2:zipCode>
+                </urn2:secondWitnessAddress>
+                <urn2:secondWitnessName xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:familyName>Smith</urn2:familyName>
+                    <urn2:givenName>Sammy</urn2:givenName>
+                    <urn2:nameType>
+                        <urn2:code>nameCode</urn2:code>
+                        <urn2:codeSystem>nameCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>nameCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>nameCode</urn2:displayName>
+                        <urn2:originalText>nameCode</urn2:originalText>
+                    </urn2:nameType>
+                    <urn2:secondNameOrInitials>s</urn2:secondNameOrInitials>
+                    <urn2:fullName>Sammy S. Smith</urn2:fullName>
+                </urn2:secondWitnessName>
+                <urn2:secondWitnessPhone xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:areaCode>321</urn2:areaCode>
+                    <urn2:countryCode>1</urn2:countryCode>
+                    <urn2:extension>5424</urn2:extension>
+                    <urn2:localNumber>542-6823</urn2:localNumber>
+                    <urn2:phoneNumberType>
+                        <urn2:code>phoneCode</urn2:code>
+                        <urn2:codeSystem>phoneCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>phoneCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>phoneCode</urn2:displayName>
+                        <urn2:originalText>phoneCode</urn2:originalText>
+                    </urn2:phoneNumberType>
+                </urn2:secondWitnessPhone>
+                <urn2:SSN xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">253-98-7546</urn2:SSN>
+                <urn2:uniquePatientId xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">500000000^^^&amp;1.1&amp;ISO</urn2:uniquePatientId>
+                <urn2:witnessAddress xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:addressType>
+                        <urn2:code>addrCode</urn2:code>
+                        <urn2:codeSystem>addrCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>addrCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>addrCode</urn2:displayName>
+                        <urn2:originalText>addrCode</urn2:originalText>
+                    </urn2:addressType>
+                    <urn2:city>Burnell</urn2:city>
+                    <urn2:country>USA</urn2:country>
+                    <urn2:state>FL</urn2:state>
+                    <urn2:streetAddress>825 North</urn2:streetAddress>
+                    <urn2:zipCode>32184</urn2:zipCode>
+                </urn2:witnessAddress>
+                <urn2:witnessName xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:familyName>Smith</urn2:familyName>
+                    <urn2:givenName>Scott</urn2:givenName>
+                    <urn2:nameType>
+                        <urn2:code>nameCode</urn2:code>
+                        <urn2:codeSystem>nameCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>nameCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>nameCode</urn2:displayName>
+                        <urn2:originalText>nameCode</urn2:originalText>
+                    </urn2:nameType>
+                    <urn2:secondNameOrInitials>S.</urn2:secondNameOrInitials>
+                    <urn2:fullName>Scott S. Smith</urn2:fullName>
+                </urn2:witnessName>
+                <urn2:witnessPhone xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:areaCode>321</urn2:areaCode>
+                    <urn2:countryCode>1</urn2:countryCode>
+                    <urn2:extension>8432</urn2:extension>
+                    <urn2:localNumber>985-2239</urn2:localNumber>
+                    <urn2:phoneNumberType>
+                        <urn2:code>phoneCode</urn2:code>
+                        <urn2:codeSystem>phoneCodeSyst</urn2:codeSystem>
+                        <urn2:codeSystemName>phoneCodeSystName</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>phoneCode</urn2:displayName>
+                        <urn2:originalText>phoneCode</urn2:originalText>
+                    </urn2:phoneNumberType>
+                </urn2:witnessPhone>
+                <urn2:userInfo xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:personName>
+                        <urn2:familyName>Skagerberg</urn2:familyName>
+                        <urn2:givenName>Karl</urn2:givenName>
+                        <urn2:nameType>
+                            <urn2:code>nameCode</urn2:code>
+                            <urn2:codeSystem>nameCodeSyst</urn2:codeSystem>
+                            <urn2:codeSystemName>nameCodeSystName</urn2:codeSystemName>
+                            <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                            <urn2:displayName>nameCode</urn2:displayName>
+                            <urn2:originalText>nameCode</urn2:originalText>
+                        </urn2:nameType>
+                        <urn2:secondNameOrInitials>S</urn2:secondNameOrInitials>
+                        <urn2:fullName>Kasrl S. Skagerberg</urn2:fullName>
+                    </urn2:personName>
+                    <urn2:userName>kskagerb</urn2:userName>
+                    <urn2:org>
+                        <urn2:homeCommunityId>${#Project#LocalHCID}</urn2:homeCommunityId>
+                    </urn2:org>
+                    <urn2:roleCoded>
+                        <urn2:code>307969004</urn2:code>
+                        <urn2:codeSystem>2.16.840.1.113883.6.96</urn2:codeSystem>
+                        <urn2:codeSystemName>SNOMED_CT</urn2:codeSystemName>
+                        <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                        <urn2:displayName>Public Health</urn2:displayName>
+                        <urn2:originalText>Public Health</urn2:originalText>
+                    </urn2:roleCoded>
+                </urn2:userInfo>
+                <urn2:authorized xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">true</urn2:authorized>
+                <urn2:purposeOfDisclosureCoded xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:code>PUBLICHEALTH</urn2:code>
+                    <urn2:codeSystem>2.16.840.1.113883.3.18.7.1</urn2:codeSystem>
+                    <urn2:codeSystemName>nhin-purpose</urn2:codeSystemName>
+                    <urn2:codeSystemVersion>1.0</urn2:codeSystemVersion>
+                    <urn2:displayName>Use or disclosure of Psychotherapy Notes</urn2:displayName>
+                    <urn2:originalText>Use or disclosure of Psychotherapy Notes</urn2:originalText>
+                </urn2:purposeOfDisclosureCoded>
+                <urn2:samlAuthnStatement xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:authInstant>2009-04-16T13:15:39Z</urn2:authInstant>
+                    <urn2:sessionIndex>987</urn2:sessionIndex>
+                    <urn2:authContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</urn2:authContextClassRef>
+                    <urn2:subjectLocalityAddress>158.147.185.168</urn2:subjectLocalityAddress>
+                    <urn2:subjectLocalityDNSName>cs.myharris.net</urn2:subjectLocalityDNSName>
+                </urn2:samlAuthnStatement>
+                <urn2:samlAuthzDecisionStatement xmlns:urn1="urn:gov:hhs:fha:nhinc:common:nhinccommon">
+                    <urn2:decision>Permit</urn2:decision>
+                    <urn2:resource>https://158.147.185.168:8181/SamlReceiveService/SamlProcessWS</urn2:resource>
+                    <urn2:action>TestSaml</urn2:action>
+                    <urn2:evidence>
+                        <urn2:assertion>
+                            <urn2:id>40df7c0a-ff3e-4b26-baeb-f2910f6d05a9</urn2:id>
+                            <urn2:issueInstant>2009-04-16T13:10:39.093Z</urn2:issueInstant>
+                            <urn2:version>2.0</urn2:version>
+                            <urn2:issuerFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</urn2:issuerFormat>
+                            <urn2:issuer>CN=SAML User,OU=Harris,O=HITS,L=Melbourne,ST=FL,C=US</urn2:issuer>
+                            <urn2:conditions>
+                                <urn2:notBefore>2009-04-16T13:10:39.093Z</urn2:notBefore>
+                                <urn2:notOnOrAfter>2009-12-31T12:00:00.000Z</urn2:notOnOrAfter>
+                            </urn2:conditions>
+                            <urn2:accessConsentPolicy>urn:oid:1.2.3.4</urn2:accessConsentPolicy>
+                            <urn2:instanceAccessConsentPolicy>urn:oid:1.2.3.4.123456789</urn2:instanceAccessConsentPolicy>
+                        </urn2:assertion>
+                    </urn2:evidence>
+                </urn2:samlAuthzDecisionStatement>
+            </urn:assertion>
+            <urn:NhinTargetCommunities>
+                <urn2:nhinTargetCommunity>
+                    <urn2:homeCommunity>
+                        <urn2:homeCommunityId>${#Project#RemoteHCID}</urn2:homeCommunityId>
+                    </urn2:homeCommunity>
+                </urn2:nhinTargetCommunity>
+            </urn:NhinTargetCommunities>
+        </urn:RespondingGateway_CrossGatewayRetrieveRequest>
+    </soap:Body>
+</soap:Envelope>]]></con:request>
+		<con:assertion type="SOAP Response" id="62523cb7-d03e-41f2-b30e-6e4829caf215"/>
+		<con:assertion type="SOAP Fault Assertion" id="46e13bdf-a38b-4f91-9fdd-0016ab312a44"/>
+		<con:assertion disabled="true" type="Schema Compliance" id="e55a66c9-c9ca-4d52-ac65-f5d41b7b4660">
+			<con:configuration>
+				<definition/>
+			</con:configuration>
+		</con:assertion>
+		<con:assertion name="Doc Repository ID" type="XPath Match" id="6e6d1146-faf5-4968-8711-f83b2029c03a">
+			<con:configuration><path>declare namespace ns5='urn:ihe:iti:xds-b:2007';
+//ns5:RetrieveDocumentSetResponse[1]/ns5:DocumentResponse[1]/ns5:RepositoryUniqueId[1]</path><content>${#Project#RepoID}</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration>
+		</con:assertion>
+		<con:assertion name="Doc ID" type="XPath Match" id="804524e7-b12a-4cd6-8219-0f9989ffb3c2">
+			<con:configuration><path>declare namespace ns5='urn:ihe:iti:xds-b:2007';
+//ns5:RetrieveDocumentSetResponse[1]/ns5:DocumentResponse[1]/ns5:DocumentUniqueId[1]</path><content>${#Project#DocID}</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration>
+		</con:assertion>
+		<con:assertion name="Document Data" type="GroovyScriptAssertion" id="1f0fdd06-b13f-4708-91e2-438c0c756042">
+			<con:configuration>
+				<scriptText>def groovyUtils = new com.eviware.soapui.support.GroovyUtils( context )
+					def holder = groovyUtils.getXmlHolder( messageExchange.responseContent )
+					holder.namespaces["ns"]="urn:ihe:iti:xds-b:2007"
+					def docData = holder["//ns:RetrieveDocumentSetResponse[1]/ns:DocumentResponse[1]/ns:Document[1]"]
+					log.info docData.toString()
+					assert (docData.size() != 0)</scriptText>
+			</con:configuration>
+		</con:assertion>
+		<con:credentials><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
+		<con:jmsPropertyConfig/>
+		<con:wsaConfig action="urn:gov:hhs:fha:nhinc:entitydocretrieve/EntityDocRetrievePortType/RespondingGateway_CrossGatewayRetrieveRequest" mustUnderstand="NONE" version="200508"/>
+		<con:wsrmConfig version="1.2"/>
+	</con:request>
+</con:config>
+</con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties><con:property><con:name>LocalAA</con:name><con:value>1.1</con:value></con:property><con:property><con:name>LocalHCID</con:name><con:value>urn:oid:1.1</con:value></con:property><con:property><con:name>LocalPatientID</con:name><con:value>D123401</con:value></con:property><con:property><con:name>RemoteAA</con:name><con:value>dummysystem</con:value></con:property><con:property><con:name>RemoteHCID</con:name><con:value>urn:oid:dummysystem</con:value></con:property><con:property><con:name>Gender</con:name><con:value>M</con:value></con:property><con:property><con:name>DOB</con:name><con:value>1985-01-01</con:value></con:property><con:property><con:name>FamilyName</con:name><con:value>Queen</con:value></con:property><con:property><con:name>GivenName</con:name><con:value>Oliver</con:value></con:property><con:property><con:name>RemotePatientID</con:name><con:value/></con:property><con:property><con:name>RepoID</con:name><con:value/></con:property><con:property><con:name>DocID</con:name><con:value/></con:property></con:properties><con:afterLoadScript>com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext.metaClass.findProperty = { propertyName ->
+    return delegate.getProperty(propertyName) ?:
+    delegate.testCase.getPropertyValue(propertyName) ?:
+    delegate.testCase.testSuite.getPropertyValue(propertyName) ?:
+    delegate.testCase.testSuite.project.getPropertyValue(propertyName)
+}</con:afterLoadScript><con:wssContainer/><con:sensitiveInformation/></con:soapui-project>
