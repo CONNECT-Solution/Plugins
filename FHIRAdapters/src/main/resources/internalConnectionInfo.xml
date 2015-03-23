@@ -1205,7 +1205,7 @@
                 <name xml:lang="en">adapterxdsbdocrepository</name>
                 <bindingTemplates>
                     <bindingTemplate bindingKey="uddi:nhincnode:adapterxdsbdocrepository" serviceKey="uddi:nhincnode:adapterxdsbdocrepository">
-                        <accessPoint useType="endPoint">http://localhost:8080/CONNECTAdapter/DocumentRepository_Service</accessPoint>
+                        <accessPoint useType="endPoint">http://localhost:8080/FHIRAdapters/AdapterDocRepositoryFHIR</accessPoint>
                         <categoryBag>
                             <keyedReference tModelKey="CONNECT:adapter:apilevel" keyName="" keyValue="LEVEL_a0"/> 
                         </categoryBag>

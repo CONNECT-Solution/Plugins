@@ -1,10 +1,11 @@
+# Build Files #
 *.class
+target/
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# IDE Files #
 nb-configuration.xml
-/XDSbPlugin/AdapterDocRegistry2Soap12Web/target/
-/XDSbPlugin/AdapterDocRepository2Soap12Web/target/
-/FHIRAdapters/target/
