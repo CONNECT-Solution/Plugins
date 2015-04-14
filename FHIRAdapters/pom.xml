@@ -9,7 +9,7 @@
     <artifactId>FHIRAdapters</artifactId>
     <name>${project.artifactId}</name>
     <packaging>war</packaging>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -17,9 +17,9 @@
         <connect.webservices.version>4.2.0-SNAPSHOT</connect.webservices.version>
         <connect.commontypes.version>4.2.0-SNAPSHOT</connect.commontypes.version>
     </properties>
-    
+
     <dependencies>
-        
+
         <!-- FHIR Client -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -41,9 +41,9 @@
             <artifactId>fhir-0.81</artifactId>
             <version>2382-SNAPSHOT</version>
         </dependency>
-        
+
         <!-- CONNECT Web Services -->
-        
+
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCommonTypesLib</artifactId>
@@ -63,10 +63,14 @@
             <groupId>org.connectopensource</groupId>
             <artifactId>PatientDiscoveryWebservices</artifactId>
             <version>${connect.webservices.version}</version>
-        </dependency>        
-        
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocumentSubmissionWebervices</artifactId>
+            <version>${connect.webservices.version}</version>
+        </dependency>
         <!-- CONNECT Core -->
-        
+
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>PatientDiscoveryCore</artifactId>
@@ -87,7 +91,12 @@
             <artifactId>CONNECTCoreLib</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocumentSubmissionCore</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>log4j</groupId>
@@ -102,5 +111,5 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-	
+
 </project>

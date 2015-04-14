@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:soap="http://cxf.apache.org/bindings/soap" xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:cxf="http://cxf.apache.org/core" xmlns:p="http://cxf.apache.org/policy"
-    xsi:schemaLocation="
+       xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:soap="http://cxf.apache.org/bindings/soap" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:cxf="http://cxf.apache.org/core" xmlns:p="http://cxf.apache.org/policy"
+       xsi:schemaLocation="
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
 http://cxf.apache.org/policy http://cxf.apache.org/schemas/policy.xsd
 http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
- 
+
     <!-- Adapter Registry -->
-    
+
     <jaxws:endpoint xmlns:adr="urn:ihe:iti:xds-b:2007" id="DocumentRegistry"
-        address="/AdapterDocRegistryFHIR" serviceName="adr:DocumentRegistry_Service" endpointName="adr:DocumentRegistry_Port_Soap"
-        implementor="gov.hhs.fha.nhinc.fhir.adapter.DocRegistryFHIRAdapter" wsdlLocation="classpath:wsdl/AdapterComponentDocRegistry.wsdl">
+                    address="/AdapterDocRegistryFHIR" serviceName="adr:DocumentRegistry_Service" endpointName="adr:DocumentRegistry_Port_Soap"
+                    implementor="gov.hhs.fha.nhinc.fhir.adapter.DocRegistryFHIRAdapter" wsdlLocation="classpath:wsdl/AdapterComponentDocRegistry.wsdl">
     </jaxws:endpoint>
-    
+
     <!-- Adapter Repository -->
-    
+
     <jaxws:endpoint xmlns:adrepo="urn:ihe:iti:xds-b:2007" id="DocumentRepository"
-        address="/AdapterDocRepositoryFHIR" serviceName="adrepo:DocumentRepository_Service" endpointName="adrepo:DocumentRepository_Port_Soap"
-        implementor="gov.hhs.fha.nhinc.fhir.adapter.DocRepositoryFHIRAdapter" wsdlLocation="classpath:wsdl/AdapterComponentDocRepository.wsdl">
+                    address="/AdapterDocRepositoryFHIR" serviceName="adrepo:DocumentRepository_Service" endpointName="adrepo:DocumentRepository_Port_Soap"
+                    implementor="gov.hhs.fha.nhinc.fhir.adapter.DocRepositoryFHIRAdapter" wsdlLocation="classpath:wsdl/AdapterComponentDocRepository.wsdl">
     </jaxws:endpoint>
-    
+
     <!-- Adapter MPI -->
 
     <jaxws:endpoint xmlns:tns="urn:gov:hhs:fha:nhinc:adaptermpi" id="AdapterMpiService" address="/AdapterMpiFHIRService"
-        serviceName="tns:AdapterMpiService" endpointName="tns:AdapterMpiPort" implementor="gov.hhs.fha.nhinc.fhir.adapter.MpiFHIRAdapter"
-        wsdlLocation="classpath:wsdl/AdapterMpi.wsdl">
+                    serviceName="tns:AdapterMpiService" endpointName="tns:AdapterMpiPort" implementor="gov.hhs.fha.nhinc.fhir.adapter.MpiFHIRAdapter"
+                    wsdlLocation="classpath:wsdl/AdapterMpi.wsdl">
     </jaxws:endpoint>
-       
+
+    <!-- Adapter Document Submission -->
+
+    <jaxws:endpoint xmlns:ads="urn:ihe:iti:xds-b:2007" id="DocumentSubmission"
+                    address="/AdapterDocSubmissionFHIR" serviceName="ads:AdapterComponentXDR_Service" endpointName="ads:AdapterComponentXDR_Port_Soap"
+                    implementor="gov.hhs.fha.nhinc.fhir.adapter.DocSubmissionFHIRAdapter" wsdlLocation="classpath:wsdl/AdapterComponentXDR.wsdl">
+    </jaxws:endpoint>
 </beans>
