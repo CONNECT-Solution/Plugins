@@ -27,15 +27,23 @@
 package gov.hhs.fha.nhinc.fhir;
 
 import ca.uhn.fhir.model.dstu.resource.Binary;
+import ca.uhn.fhir.model.dstu.resource.OperationOutcome;
 import ca.uhn.fhir.model.primitive.IdDt;
+import ca.uhn.fhir.rest.annotation.Create;
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.Read;
+import ca.uhn.fhir.rest.annotation.ResourceParam;
+import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.server.IResourceProvider;
+import gov.hhs.fha.nhinc.connectmgr.ConnectionManagerException;
 import gov.hhs.fha.nhinc.fhir.helper.PropertiesHelper;
+import gov.hhs.fha.nhinc.webserviceproxy.WebServiceProxyHelper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.io.FileUtils;
@@ -57,11 +65,13 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
     private static final String PROPERTYFILENAME = "fhirRestServer.properties";
     private static final String PROPDIRECTORY = "fhirConfigDirectory";
     private static final PropertiesConfiguration config = PropertiesHelper.getInstance().getProperty(PROPERTYFILENAME);
+    private static final String BINARYFILEPROPERTY = "docBinary";
+    private static final String BINARY_URL_KEY = "FHIRBinaryResource";
+    private static final WebServiceProxyHelper proxyHelper = new WebServiceProxyHelper();
 
     private static final Logger LOG = LoggerFactory.getLogger(RestBinaryDocResourceProvider.class);
 
     public RestBinaryDocResourceProvider() {
-
     }
 
     /**
@@ -77,11 +87,42 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
     @Read
     public Binary getDocument(@IdParam IdDt docReference) {
         PropertiesHelper instance = PropertiesHelper.getInstance();
-        String documentFileName = config.getString(docReference.getIdPart());
+        String documentFileName = (String) config.getString(docReference.getIdPart());
         if (documentFileName == null || documentFileName.isEmpty()) {
             throw new NullPointerException("Returned Document FileName is not valid");
         }
         return createEncodedDoc(instance.getDocumentFile(documentFileName, config.getString(PROPDIRECTORY)));
+    }
+
+    /**
+     * This method saves the Binary document into a local directory/store. The properties file is updated with the newly
+     * saved binary document.
+     *
+     * @param theBinaryDoc
+     * @return MethodOutcome
+     */
+    @Create
+    public MethodOutcome createDocumentBinary(@ResourceParam Binary theBinaryDoc) {
+        LOG.info("createDocumentBinary()");
+        // Save this Binary Document to the local store
+        MethodOutcome retVal = new MethodOutcome();
+        PropertiesHelper instance = PropertiesHelper.getInstance();
+        OperationOutcome outcomeEx = new OperationOutcome();;
+        try {
+            UUID uid = UUID.randomUUID(); //TODO check if we need to genearte the id or use patien id
+            LOG.info("UUID generated id: " + uid);
+            IdDt idDt = new IdDt("Binary", uid.toString(), "1");
+            theBinaryDoc.setId(getServiceUrl(BINARY_URL_KEY) + "/Binary/" + idDt.getValue());
+            saveDocument(theBinaryDoc, uid.toString());
+            PropertiesHelper.getInstance().savePropertyFile(BINARYFILEPROPERTY, uid.toString());
+            retVal.setId(idDt);
+        } catch (ConnectionManagerException connEx) {
+            outcomeEx.addIssue().setDetails(connEx.getMessage());
+        } catch (IOException ex) {
+            outcomeEx.addIssue().setDetails(ex.getMessage());
+        }
+        retVal.setOperationOutcome(outcomeEx);
+        return retVal;
     }
 
     private Binary createEncodedDoc(File document) {
@@ -107,4 +148,12 @@ public class RestBinaryDocResourceProvider implements IResourceProvider {
         return Binary.class;
     }
 
+    private void saveDocument(Binary theBinaryDoc, String fileName) throws IOException {
+        Path path = Paths.get(config.getString(PROPDIRECTORY) + "/" + fileName);
+        Files.write(path, theBinaryDoc.getContent());
+    }
+
+    public String getServiceUrl(String serviceName) throws ConnectionManagerException {
+        return proxyHelper.getAdapterEndPointFromConnectionManager(serviceName);
+    }
 }
