@@ -33,8 +33,8 @@ http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
     <!-- Adapter Document Submission -->
 
-    <jaxws:endpoint xmlns:ads="urn:ihe:iti:xds-b:2007" id="DocumentSubmission"
-                    address="/AdapterDocSubmissionFHIR" serviceName="ads:AdapterComponentXDR_Service" endpointName="ads:AdapterComponentXDR_Port_Soap"
+    <jaxws:endpoint xmlns:tns="urn:gov:hhs:fha:nhinc:adaptercomponentxdr" id="DocumentSubmission"
+                    address="/AdapterDocSubmissionFHIR" serviceName="tns:AdapterComponentXDR_Service" endpointName="tns:AdapterComponentXDR_Port"
                     implementor="gov.hhs.fha.nhinc.fhir.adapter.DocSubmissionFHIRAdapter" wsdlLocation="classpath:wsdl/AdapterComponentXDR.wsdl">
     </jaxws:endpoint>
 </beans>
