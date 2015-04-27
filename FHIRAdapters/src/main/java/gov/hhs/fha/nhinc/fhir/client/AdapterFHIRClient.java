@@ -85,6 +85,9 @@ public class AdapterFHIRClient {
         return fhirClient.readBinary(resourceType, id);
     }
 
+    /* Creates a Bianry resource in local store using FHIRRestBinary application
+     *
+     */
     public MethodOutcome createBinaryDocument(String serviceName, Binary binary) {
         MethodOutcome outcome = null;
         try {
@@ -102,6 +105,9 @@ public class AdapterFHIRClient {
         return outcome;
     }
 
+    /*
+     * Post a DocumentReference and Binary resource to FHIR server
+     */
     public List<IResource> postResources(List<IResource> resources) throws ConnectionManagerException {
         IGenericClient client = getHAPIClient(getAdapterUrl(FHIRConstants.FHIR_DOC_REFERENCE_URL_KEY));
         Bundle b = Bundle.withResources(resources, fhirContext, "");
@@ -114,6 +120,9 @@ public class AdapterFHIRClient {
         return resources;
     }
 
+    /*
+     * Query FHIR server for patient with given and family name
+     */
     public List<IResource> queryPatient(Map<String, String> param) throws ConnectionManagerException {
         IGenericClient client = getHAPIClient(getAdapterUrl(FHIRConstants.FHIR_DOC_REFERENCE_URL_KEY));
         Bundle b = client.search()
@@ -125,6 +134,9 @@ public class AdapterFHIRClient {
         LOG.info("result.size: " + b.size());
         return b.toListOfResources();
     }
+    /*
+     * returns servcie url based on serviceName from internalConnectionInfo.xml
+     */
 
     public String getAdapterUrl(String serviceName) throws ConnectionManagerException {
         return proxyHelper.getAdapterEndPointFromConnectionManager(serviceName);

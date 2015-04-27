@@ -37,11 +37,7 @@ import gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException;
 import gov.hhs.fha.nhinc.fhir.util.DocSubmissionConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
-import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType.Document;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,7 +47,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.activation.DataHandler;
 import javax.xml.bind.JAXBElement;
 
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ClassificationType;
@@ -64,34 +59,16 @@ import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryObjectType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.RegistryPackageType;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.SlotType1;
 import oasis.names.tc.ebxml_regrep.xsd.rim._3.ValueListType;
-import oasis.names.tc.ebxml_regrep.xsd.rs._3.RegistryError;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.cxf.helpers.IOUtils;
 import org.apache.log4j.Logger;
-import org.hl7.v3.ADExplicit;
-import org.hl7.v3.AdxpExplicitCity;
-import org.hl7.v3.AdxpExplicitCountry;
-import org.hl7.v3.AdxpExplicitPostalCode;
-import org.hl7.v3.AdxpExplicitState;
-import org.hl7.v3.AdxpExplicitStreetAddressLine;
-import org.hl7.v3.BinaryDataEncoding;
-import org.hl7.v3.CE;
-import org.hl7.v3.ENExplicit;
-import org.hl7.v3.EnExplicitFamily;
-import org.hl7.v3.EnExplicitGiven;
-import org.hl7.v3.IVLTSExplicit;
-import org.hl7.v3.PRPAMT201306UV02LivingSubjectAdministrativeGender;
-import org.hl7.v3.PRPAMT201306UV02LivingSubjectBirthTime;
-import org.hl7.v3.PRPAMT201306UV02LivingSubjectName;
-import org.hl7.v3.PRPAMT201306UV02PatientAddress;
-import org.hl7.v3.STExplicit;
 
 public class DocSubmissionParser {
 
     private static final Logger LOG = Logger.getLogger(DocSubmissionParser.class);
 
     /**
+     * This method parses the DS request and get the PatientId from XDSSubmissionSet.patientId
      *
      * @param registryList
      * @return
@@ -110,6 +87,7 @@ public class DocSubmissionParser {
     }
 
     /**
+     * This method parses the DS request and get the PatientId from sourcePatientId
      *
      * @param registryList
      * @return
@@ -129,6 +107,13 @@ public class DocSubmissionParser {
         return patientId;
     }
 
+    /**
+     * This method parses the DS request and get the Document codingScheme
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     */
     public CodeableConceptDt extractDocumentTypeMetaData(String documentId, RegistryObjectListType registryList) {
         LOG.info("extractDocumentTypeMetaData()");
         CodeableConceptDt type = null;
@@ -148,6 +133,13 @@ public class DocSubmissionParser {
         return type;
     }
 
+    /**
+     * This method parses the DS request and get the Document class codingScheme
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     */
     public CodeableConceptDt extractDocumentClassMetaData(String documentId, RegistryObjectListType registryList) {
         LOG.info("extractDocumentClassMetaData()");
         CodeableConceptDt classCode = null;
@@ -166,6 +158,14 @@ public class DocSubmissionParser {
         return classCode;
     }
 
+    /**
+     * This method parses the DS request and gets the creationTime
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     * @throws java.text.ParseException
+     */
     public DateTimeDt extractDocumentCreationTime(String documentId, RegistryObjectListType registryList) throws ParseException {
         LOG.info("extractDocumentCreationTime()");
         ExtrinsicObjectType extrinsicObj = extractExtrinsicObject(documentId, registryList);
@@ -183,6 +183,13 @@ public class DocSubmissionParser {
         return null;
     }
 
+    /**
+     * This method parses the DS request and get the authorPerson data
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     */
     public List<ResourceReferenceDt> extractDocumentAuthorMetaData(String documentId, RegistryObjectListType registryList) {
         LOG.info("extractDocumentAuthorMetaData()");
         List<ResourceReferenceDt> authors = new ArrayList<ResourceReferenceDt>();
@@ -206,6 +213,13 @@ public class DocSubmissionParser {
         return authors;
     }
 
+    /**
+     * This method parses the DS request and get the Document mimeType
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     */
     public String extractDocumentType(String documentId, RegistryObjectListType registryList) {
         LOG.info("extractDocumentType()");
         ExtrinsicObjectType extrinsicObj = extractExtrinsicObject(documentId, registryList);
@@ -215,6 +229,12 @@ public class DocSubmissionParser {
         return null;
     }
 
+    /**
+     * This method parses the DS request and get all the document Ids present in the request
+     *
+     * @param request
+     * @return
+     */
     public List<String> extractDocumentIds(ProvideAndRegisterDocumentSetRequestType request) {
         LOG.info("extractDocumentIds()");
         List<String> documentIds = new ArrayList<String>();
@@ -231,6 +251,12 @@ public class DocSubmissionParser {
         return documentIds;
     }
 
+    /**
+     * This method parses the DS request and gets the external identifier of the document
+     *
+     * @param registryList
+     * @return
+     */
     public String extractDocumentIdentificationValue(RegistryObjectListType registryList) {
         LOG.info("extractDocumentIdentificationValue");
         ExternalIdentifierType extDocId = extractExternalIdentifier(registryList, DocSubmissionConstants.XDS_EXTERNAL_DOCUMENT_IDENTIFICATION_SCHEME);
@@ -238,146 +264,6 @@ public class DocSubmissionParser {
             return extDocId.getValue();
         }
         return null;
-    }
-
-    public RegistryError createRegistryError(String error, String code) {
-        RegistryError regError = new RegistryError();
-        regError.setErrorCode(code);
-        regError.setCodeContext(error);
-        regError.setSeverity(DocSubmissionConstants.DS_RESPONSE_ERROR_SEVERITY);
-
-        return regError;
-    }
-
-    public RegistryPackageType extractRegistryPackage(RegistryObjectListType registryList)
-        throws DocSubmissionException {
-        RegistryPackageType regPackage = null;
-        if (registryList != null && registryList.getIdentifiable() != null && registryList.getIdentifiable().size() > 0) {
-            List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
-            for (JAXBElement<? extends IdentifiableType> object : identifiers) {
-                if (object.getValue() != null && object.getValue() instanceof RegistryPackageType) {
-                    regPackage = (RegistryPackageType) object.getValue();
-                    break;
-                }
-            }
-        } else {
-            LOG.error("RegistryPackage is null.");
-            throw new DocSubmissionException("Unable to read Registry Package in request.",
-                DocSubmissionConstants.XDR_EC_XDSRegistryMetadataError);
-        }
-
-        return regPackage;
-    }
-
-    public String documentToString(Document document) throws IOException {
-        InputStream is = null;
-        try {
-            is = document.getValue().getInputStream();
-            return IOUtils.toString(is);
-        } finally {
-            is.close();
-        }
-    }
-
-    private PersonNameType extractName(String value) {
-        PersonNameType name = null;
-
-        String pattern = "([a-zA-Z]*)(\\^)([a-zA-Z]*)(\\^\\^\\^)";
-        Pattern namePattern = Pattern.compile(pattern);
-
-        Matcher matcher = namePattern.matcher(value);
-
-        if (matcher.matches()) {
-            name = new PersonNameType();
-            name.setFamilyName(matcher.group(1));
-            name.setGivenName(matcher.group(3));
-        } else {
-            pattern = "([a-zA-Z]*)(\\^)" + pattern;
-            namePattern = Pattern.compile(pattern);
-            matcher = namePattern.matcher(value);
-
-            if (matcher.matches()) {
-                name = new PersonNameType();
-                name.setFamilyName(matcher.group(1));
-                name.setGivenName(matcher.group(3));
-                name.setSecondNameOrInitials(matcher.group(5));
-            }
-        }
-
-        return name;
-    }
-
-    private PRPAMT201306UV02PatientAddress extractAddress(String addressValue) {
-        PRPAMT201306UV02PatientAddress address = null;
-        org.hl7.v3.ObjectFactory objectFactory = new org.hl7.v3.ObjectFactory();
-
-        String pattern = "([^\\^]*)(\\^\\^)([^\\^]*)(\\^)([^\\^]*)(\\^)([^\\^]*)(\\^)([^\\^]*)";
-        Pattern addressPattern = Pattern.compile(pattern);
-
-        Matcher matcher = addressPattern.matcher(addressValue);
-
-        if (matcher.matches()) {
-            address = new PRPAMT201306UV02PatientAddress();
-
-            ADExplicit explicit = createBasicAddress(matcher, objectFactory);
-
-            AdxpExplicitCountry countryAddress = new AdxpExplicitCountry();
-            countryAddress.setContent(matcher.group(9));
-            JAXBElement<AdxpExplicitCountry> countryJAX = objectFactory.createADExplicitCountry(countryAddress);
-
-            explicit.getContent().add(countryJAX);
-
-            address.getValue().add(explicit);
-        } else {
-            pattern = "([^\\^]*)(\\^\\^)([^\\^]*)(\\^)([^\\^]*)(\\^)([^\\^]*)";
-            addressPattern = Pattern.compile(pattern);
-            matcher = addressPattern.matcher(addressValue);
-
-            if (matcher.matches()) {
-                address = new PRPAMT201306UV02PatientAddress();
-
-                ADExplicit explicit = createBasicAddress(matcher, objectFactory);
-
-                address.getValue().add(explicit);
-            }
-        }
-
-        return address;
-    }
-
-    private ADExplicit createBasicAddress(Matcher matcher, org.hl7.v3.ObjectFactory objectFactory) {
-        ADExplicit explicit = new ADExplicit();
-
-        AdxpExplicitStreetAddressLine streetAddress = new AdxpExplicitStreetAddressLine();
-        streetAddress.setContent(matcher.group(1));
-        JAXBElement<AdxpExplicitStreetAddressLine> streetAddressJAX = objectFactory
-            .createADExplicitStreetAddressLine(streetAddress);
-
-        AdxpExplicitCity cityAddress = new AdxpExplicitCity();
-        cityAddress.setContent(matcher.group(3));
-        JAXBElement<AdxpExplicitCity> cityJAX = objectFactory.createADExplicitCity(cityAddress);
-
-        AdxpExplicitState stateAddress = new AdxpExplicitState();
-        stateAddress.setContent(matcher.group(5));
-        JAXBElement<AdxpExplicitState> stateJAX = objectFactory.createADExplicitState(stateAddress);
-
-        AdxpExplicitPostalCode postalAddress = new AdxpExplicitPostalCode();
-        postalAddress.setContent(matcher.group(7));
-        JAXBElement<AdxpExplicitPostalCode> postalJAX = objectFactory.createADExplicitPostalCode(postalAddress);
-
-        explicit.getContent().add(streetAddressJAX);
-        explicit.getContent().add(cityJAX);
-        explicit.getContent().add(stateJAX);
-        explicit.getContent().add(postalJAX);
-
-        return explicit;
-    }
-
-    private STExplicit createST(String mediaType) {
-        STExplicit semantics = new STExplicit();
-        semantics.setMediaType(mediaType);
-        semantics.setRepresentation(BinaryDataEncoding.TXT);
-        return semantics;
     }
 
     /**
@@ -417,76 +303,14 @@ public class DocSubmissionParser {
     }
 
     /**
-     * @param e
-     * @return
-     */
-    public String getDocumentId(ExtrinsicObjectType e) {
-        return e.getId();
-    }
-
-    /**
-     * @param documentId
-     * @param request
-     * @return
-     * @throws IOException
-     */
-    public byte[] getDocumentById(String documentId, ProvideAndRegisterDocumentSetRequestType request)
-        throws IOException {
-        byte[] document = null;
-        for (Document d : request.getDocument()) {
-            if (StringUtils.equals(documentId, d.getId())) {
-                document = convertToBytes(d.getValue());
-            }
-        }
-        return document;
-    }
-
-    /**
-     * Saves the data handler as a byte array. The data handler will be empty at the end of this call.
+     * This method parses the DS request and returns Patient name as a String(first name, middle initial if any and last
+     * name)
      *
-     * @param dh - the data handler to convert
-     * @return a byte array containing the data from the data handler
-     * @throws IOException
+     * @param registryList
+     * @return
+     * @throws gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException
      */
-    public byte[] convertToBytes(DataHandler dh) throws IOException {
-        InputStream is = dh.getInputStream();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        try {
-            int read = 0;
-            byte[] bytes = new byte[1024];
-            while ((read = is.read(bytes)) != -1) {
-                baos.write(bytes, 0, read);
-            }
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (Exception e) {
-                    LOG.error("Could not close input stream : " + e.getMessage());
-                }
-            }
-        }
-        return baos.toByteArray();
-    }
-
-    private ExtrinsicObjectType extractExtrinsicObject(String documentId, RegistryObjectListType registryList) {
-        LOG.info("extractExtrinsicObject()");
-        CodeableConceptDt type = null;
-        List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
-        for (JAXBElement<? extends IdentifiableType> object : identifiers) {
-            if (object.getValue() != null && object.getValue() instanceof ExtrinsicObjectType) {
-                ExtrinsicObjectType extrinsicObj = (ExtrinsicObjectType) object.getValue();
-                if (extrinsicObj.getId().equals(documentId)) {
-                    return extrinsicObj;
-                }
-            }
-        }
-        return null;
-    }
-
     public String getPatientName(RegistryObjectListType registryList) throws DocSubmissionException {
-
         ValueListType valueList = extractPatientInfoValueListFromRegistryList(registryList);
         StringBuilder builder = new StringBuilder();
         for (String value : valueList.getValue()) {
@@ -508,6 +332,13 @@ public class DocSubmissionParser {
         return builder.toString();
     }
 
+    /**
+     * This method parses the DS request and returns a map containing given and family name
+     *
+     * @param registryList
+     * @return
+     * @throws gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException
+     */
     public Map<String, String> getPatientQueryParam(RegistryObjectListType registryList) throws DocSubmissionException {
         ValueListType valueList = extractPatientInfoValueListFromRegistryList(registryList);
         for (String value : valueList.getValue()) {
@@ -526,6 +357,48 @@ public class DocSubmissionParser {
         return null;
     }
 
+    private PersonNameType extractName(String value) {
+        PersonNameType name = null;
+
+        String pattern = "([a-zA-Z]*)(\\^)([a-zA-Z]*)(\\^\\^\\^)";
+        Pattern namePattern = Pattern.compile(pattern);
+
+        Matcher matcher = namePattern.matcher(value);
+
+        if (matcher.matches()) {
+            name = new PersonNameType();
+            name.setFamilyName(matcher.group(1));
+            name.setGivenName(matcher.group(3));
+        } else {
+            pattern = "([a-zA-Z]*)(\\^)" + pattern;
+            namePattern = Pattern.compile(pattern);
+            matcher = namePattern.matcher(value);
+
+            if (matcher.matches()) {
+                name = new PersonNameType();
+                name.setFamilyName(matcher.group(1));
+                name.setGivenName(matcher.group(3));
+                name.setSecondNameOrInitials(matcher.group(5));
+            }
+        }
+        return name;
+    }
+
+    private ExtrinsicObjectType extractExtrinsicObject(String documentId, RegistryObjectListType registryList) {
+        LOG.info("extractExtrinsicObject()");
+        CodeableConceptDt type = null;
+        List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
+        for (JAXBElement<? extends IdentifiableType> object : identifiers) {
+            if (object.getValue() != null && object.getValue() instanceof ExtrinsicObjectType) {
+                ExtrinsicObjectType extrinsicObj = (ExtrinsicObjectType) object.getValue();
+                if (extrinsicObj.getId().equals(documentId)) {
+                    return extrinsicObj;
+                }
+            }
+        }
+        return null;
+    }
+
     private ValueListType extractPatientInfoValueListFromRegistryList(RegistryObjectListType registryList)
         throws DocSubmissionException {
         ValueListType valueList = null;
@@ -538,7 +411,6 @@ public class DocSubmissionParser {
             throw new DocSubmissionException("No extrinsic objects included in request.",
                 DocSubmissionConstants.XDR_EC_XDSRegistryMetadataError);
         }
-
         return valueList;
     }
 
@@ -563,7 +435,7 @@ public class DocSubmissionParser {
         return foundClassification;
     }
 
-    ExtrinsicObjectType extractFirstExtrinsicObject(RegistryObjectListType registryList) {
+    private ExtrinsicObjectType extractFirstExtrinsicObject(RegistryObjectListType registryList) {
         ExtrinsicObjectType extrinsicObj = null;
         if (registryList != null && registryList.getIdentifiable() != null && registryList.getIdentifiable().size() > 0) {
             List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
@@ -576,7 +448,7 @@ public class DocSubmissionParser {
         return extrinsicObj;
     }
 
-    ValueListType getValueListFromSlot(List<SlotType1> slots, String name) {
+    private ValueListType getValueListFromSlot(List<SlotType1> slots, String name) {
         ValueListType valueList = null;
         for (SlotType1 slot : slots) {
             if (slot.getName() != null && slot.getName().equals(name)) {
@@ -590,7 +462,7 @@ public class DocSubmissionParser {
         return valueList;
     }
 
-    String getPatientIdFromExternalIdentifiers(List<ExternalIdentifierType> externalIdentifiers, String name) {
+    private String getPatientIdFromExternalIdentifiers(List<ExternalIdentifierType> externalIdentifiers, String name) {
         String patientId = null;
         for (ExternalIdentifierType identifier : externalIdentifiers) {
             if (identifier.getName() != null
@@ -602,65 +474,8 @@ public class DocSubmissionParser {
                 patientId = identifier.getValue();
                 break;
             }
-
         }
         return patientId;
-    }
-
-    PRPAMT201306UV02LivingSubjectName createSubjectName(PersonNameType name) {
-
-        PRPAMT201306UV02LivingSubjectName subjectName = new PRPAMT201306UV02LivingSubjectName();
-        ENExplicit explicitName = new ENExplicit();
-
-        org.hl7.v3.ObjectFactory objFactory = new org.hl7.v3.ObjectFactory();
-
-        EnExplicitFamily explicitFamilyValue = new EnExplicitFamily();
-        explicitFamilyValue.setContent(name.getFamilyName());
-        explicitFamilyValue.setPartType(DocSubmissionConstants.PARAMS_FAMILY_PART_TYPE);
-        JAXBElement<EnExplicitFamily> explicitFamily = objFactory.createENExplicitFamily(explicitFamilyValue);
-
-        EnExplicitGiven explicitGivenValue = new EnExplicitGiven();
-        explicitGivenValue.setContent(name.getGivenName());
-        explicitGivenValue.setPartType(DocSubmissionConstants.PARAMS_GIVEN_PART_TYPE);
-        JAXBElement<EnExplicitGiven> explicitGiven = objFactory.createENExplicitGiven(explicitGivenValue);
-
-        explicitName.getContent().add(explicitFamily);
-        explicitName.getContent().add(explicitGiven);
-
-        if (name.getSecondNameOrInitials() != null && !name.getSecondNameOrInitials().equals("")) {
-            EnExplicitGiven explicitMiddleValue = new EnExplicitGiven();
-            explicitMiddleValue.setContent(name.getSecondNameOrInitials());
-            explicitMiddleValue.setPartType(DocSubmissionConstants.PARAMS_GIVEN_PART_TYPE);
-            JAXBElement<EnExplicitGiven> explicitMiddle = objFactory.createENExplicitGiven(explicitMiddleValue);
-            explicitName.getContent().add(explicitMiddle);
-        }
-
-        subjectName.setSemanticsText(createST(DocSubmissionConstants.SUBJECT_NAME_SEMANTICS));
-
-        subjectName.getValue().add(explicitName);
-
-        return subjectName;
-    }
-
-    PRPAMT201306UV02LivingSubjectAdministrativeGender createAdminGender(String gender) {
-        PRPAMT201306UV02LivingSubjectAdministrativeGender adminGender = new PRPAMT201306UV02LivingSubjectAdministrativeGender();
-        CE code = new CE();
-        code.setCode(gender);
-        adminGender.getValue().add(code);
-
-        adminGender.setSemanticsText(createST(DocSubmissionConstants.SUBJECT_GENDER_SEMANTICS));
-        return adminGender;
-    }
-
-    PRPAMT201306UV02LivingSubjectBirthTime createBirthTime(String time) {
-        PRPAMT201306UV02LivingSubjectBirthTime birthTime = new PRPAMT201306UV02LivingSubjectBirthTime();
-
-        IVLTSExplicit explicitDate = new IVLTSExplicit();
-        explicitDate.setValue(time);
-        birthTime.getValue().add(explicitDate);
-
-        birthTime.setSemanticsText(createST(DocSubmissionConstants.SUBJECT_DOB_SEMANTICS));
-        return birthTime;
     }
 
     private ExternalIdentifierType extractExternalIdentifier(RegistryObjectListType registryList, String externalID) {
@@ -680,5 +495,24 @@ public class DocSubmissionParser {
             }
         }
         return null;
+    }
+
+    private RegistryPackageType extractRegistryPackage(RegistryObjectListType registryList)
+        throws DocSubmissionException {
+        RegistryPackageType regPackage = null;
+        if (registryList != null && registryList.getIdentifiable() != null && registryList.getIdentifiable().size() > 0) {
+            List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
+            for (JAXBElement<? extends IdentifiableType> object : identifiers) {
+                if (object.getValue() != null && object.getValue() instanceof RegistryPackageType) {
+                    regPackage = (RegistryPackageType) object.getValue();
+                    break;
+                }
+            }
+        } else {
+            LOG.error("RegistryPackage is null.");
+            throw new DocSubmissionException("Unable to read Registry Package in request.",
+                DocSubmissionConstants.XDR_EC_XDSRegistryMetadataError);
+        }
+        return regPackage;
     }
 }
