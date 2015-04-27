@@ -37,7 +37,6 @@ import gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException;
 import gov.hhs.fha.nhinc.fhir.util.DocSubmissionConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,7 +67,6 @@ public class DocSubmissionParser {
     private static final Logger LOG = Logger.getLogger(DocSubmissionParser.class);
 
     /**
-     * This method parses the DS request and get the PatientId from XDSSubmissionSet.patientId
      *
      * @param registryList
      * @return
@@ -87,7 +85,6 @@ public class DocSubmissionParser {
     }
 
     /**
-     * This method parses the DS request and get the PatientId from sourcePatientId
      *
      * @param registryList
      * @return
@@ -110,7 +107,6 @@ public class DocSubmissionParser {
     /**
      * This method parses the DS request and get the Document codingScheme
      *
-     * @param documentId
      * @param registryList
      * @return
      */
@@ -136,7 +132,6 @@ public class DocSubmissionParser {
     /**
      * This method parses the DS request and get the Document class codingScheme
      *
-     * @param documentId
      * @param registryList
      * @return
      */
@@ -161,10 +156,8 @@ public class DocSubmissionParser {
     /**
      * This method parses the DS request and gets the creationTime
      *
-     * @param documentId
      * @param registryList
      * @return
-     * @throws java.text.ParseException
      */
     public DateTimeDt extractDocumentCreationTime(String documentId, RegistryObjectListType registryList) throws ParseException {
         LOG.info("extractDocumentCreationTime()");
@@ -186,7 +179,6 @@ public class DocSubmissionParser {
     /**
      * This method parses the DS request and get the authorPerson data
      *
-     * @param documentId
      * @param registryList
      * @return
      */
@@ -266,6 +258,54 @@ public class DocSubmissionParser {
         return null;
     }
 
+    public RegistryPackageType extractRegistryPackage(RegistryObjectListType registryList)
+        throws DocSubmissionException {
+        RegistryPackageType regPackage = null;
+        if (registryList != null && registryList.getIdentifiable() != null && registryList.getIdentifiable().size() > 0) {
+            List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
+            for (JAXBElement<? extends IdentifiableType> object : identifiers) {
+                if (object.getValue() != null && object.getValue() instanceof RegistryPackageType) {
+                    regPackage = (RegistryPackageType) object.getValue();
+                    break;
+                }
+            }
+        } else {
+            LOG.error("RegistryPackage is null.");
+            throw new DocSubmissionException("Unable to read Registry Package in request.",
+                DocSubmissionConstants.XDR_EC_XDSRegistryMetadataError);
+        }
+
+        return regPackage;
+    }
+
+    private PersonNameType extractName(String value) {
+        PersonNameType name = null;
+
+        String pattern = "([a-zA-Z]*)(\\^)([a-zA-Z]*)(\\^\\^\\^)";
+        Pattern namePattern = Pattern.compile(pattern);
+
+        Matcher matcher = namePattern.matcher(value);
+
+        if (matcher.matches()) {
+            name = new PersonNameType();
+            name.setFamilyName(matcher.group(1));
+            name.setGivenName(matcher.group(3));
+        } else {
+            pattern = "([a-zA-Z]*)(\\^)" + pattern;
+            namePattern = Pattern.compile(pattern);
+            matcher = namePattern.matcher(value);
+
+            if (matcher.matches()) {
+                name = new PersonNameType();
+                name.setFamilyName(matcher.group(1));
+                name.setGivenName(matcher.group(3));
+                name.setSecondNameOrInitials(matcher.group(5));
+            }
+        }
+
+        return name;
+    }
+
     /**
      * Gets the classification value.
      *
@@ -302,15 +342,30 @@ public class DocSubmissionParser {
         return registryObject;
     }
 
+    private ExtrinsicObjectType extractExtrinsicObject(String documentId, RegistryObjectListType registryList) {
+        LOG.info("extractExtrinsicObject()");
+        CodeableConceptDt type = null;
+        List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
+        for (JAXBElement<? extends IdentifiableType> object : identifiers) {
+            if (object.getValue() != null && object.getValue() instanceof ExtrinsicObjectType) {
+                ExtrinsicObjectType extrinsicObj = (ExtrinsicObjectType) object.getValue();
+                if (extrinsicObj.getId().equals(documentId)) {
+                    return extrinsicObj;
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * This method parses the DS request and returns Patient name as a String(first name, middle initial if any and last
      * name)
      *
      * @param registryList
      * @return
-     * @throws gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException
      */
     public String getPatientName(RegistryObjectListType registryList) throws DocSubmissionException {
+
         ValueListType valueList = extractPatientInfoValueListFromRegistryList(registryList);
         StringBuilder builder = new StringBuilder();
         for (String value : valueList.getValue()) {
@@ -337,7 +392,6 @@ public class DocSubmissionParser {
      *
      * @param registryList
      * @return
-     * @throws gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException
      */
     public Map<String, String> getPatientQueryParam(RegistryObjectListType registryList) throws DocSubmissionException {
         ValueListType valueList = extractPatientInfoValueListFromRegistryList(registryList);
@@ -351,48 +405,6 @@ public class DocSubmissionParser {
                     param.put("given", name.getGivenName());
                     param.put("family", name.getFamilyName());
                     return param;
-                }
-            }
-        }
-        return null;
-    }
-
-    private PersonNameType extractName(String value) {
-        PersonNameType name = null;
-
-        String pattern = "([a-zA-Z]*)(\\^)([a-zA-Z]*)(\\^\\^\\^)";
-        Pattern namePattern = Pattern.compile(pattern);
-
-        Matcher matcher = namePattern.matcher(value);
-
-        if (matcher.matches()) {
-            name = new PersonNameType();
-            name.setFamilyName(matcher.group(1));
-            name.setGivenName(matcher.group(3));
-        } else {
-            pattern = "([a-zA-Z]*)(\\^)" + pattern;
-            namePattern = Pattern.compile(pattern);
-            matcher = namePattern.matcher(value);
-
-            if (matcher.matches()) {
-                name = new PersonNameType();
-                name.setFamilyName(matcher.group(1));
-                name.setGivenName(matcher.group(3));
-                name.setSecondNameOrInitials(matcher.group(5));
-            }
-        }
-        return name;
-    }
-
-    private ExtrinsicObjectType extractExtrinsicObject(String documentId, RegistryObjectListType registryList) {
-        LOG.info("extractExtrinsicObject()");
-        CodeableConceptDt type = null;
-        List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
-        for (JAXBElement<? extends IdentifiableType> object : identifiers) {
-            if (object.getValue() != null && object.getValue() instanceof ExtrinsicObjectType) {
-                ExtrinsicObjectType extrinsicObj = (ExtrinsicObjectType) object.getValue();
-                if (extrinsicObj.getId().equals(documentId)) {
-                    return extrinsicObj;
                 }
             }
         }
@@ -462,7 +474,7 @@ public class DocSubmissionParser {
         return valueList;
     }
 
-    private String getPatientIdFromExternalIdentifiers(List<ExternalIdentifierType> externalIdentifiers, String name) {
+    String getPatientIdFromExternalIdentifiers(List<ExternalIdentifierType> externalIdentifiers, String name) {
         String patientId = null;
         for (ExternalIdentifierType identifier : externalIdentifiers) {
             if (identifier.getName() != null
@@ -474,6 +486,7 @@ public class DocSubmissionParser {
                 patientId = identifier.getValue();
                 break;
             }
+
         }
         return patientId;
     }
@@ -495,24 +508,5 @@ public class DocSubmissionParser {
             }
         }
         return null;
-    }
-
-    private RegistryPackageType extractRegistryPackage(RegistryObjectListType registryList)
-        throws DocSubmissionException {
-        RegistryPackageType regPackage = null;
-        if (registryList != null && registryList.getIdentifiable() != null && registryList.getIdentifiable().size() > 0) {
-            List<JAXBElement<? extends IdentifiableType>> identifiers = registryList.getIdentifiable();
-            for (JAXBElement<? extends IdentifiableType> object : identifiers) {
-                if (object.getValue() != null && object.getValue() instanceof RegistryPackageType) {
-                    regPackage = (RegistryPackageType) object.getValue();
-                    break;
-                }
-            }
-        } else {
-            LOG.error("RegistryPackage is null.");
-            throw new DocSubmissionException("Unable to read Registry Package in request.",
-                DocSubmissionConstants.XDR_EC_XDSRegistryMetadataError);
-        }
-        return regPackage;
     }
 }
