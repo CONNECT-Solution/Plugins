@@ -71,5 +71,11 @@ public class DocSubmissionConstants {
     public static final String XDS_DOCUMENT_AUTHOR_PERSON = "authorPerson";
 
     public static final String SEPARATOR = " ";
-    public static final String CREATION_TIME_FORMAT = "yyyyMMdd";
+
+    public static final String XDS_CLASSIFICATION_FACILITY_TYPE = "urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1";
+    public static final String XDS_CLASSIFICATION_EVENT_CODE = "urn:uuid:2c6b8cb7-8b2a-4051-b291-b1ae6a575ef4";
+    public static final String XDS_DOCUMENT_SERVICE_START_TIME = "serviceStartTime";
+    public static final String XDS_DOCUMENT_SERVICE_STOP_TIME = "serviceStopTime";
+    public static final String XDS_DOCUMENT_SIZE = "size";
+    public static final String XDS_DOCUMENT_LANGUAGE = "languageCode";
 }

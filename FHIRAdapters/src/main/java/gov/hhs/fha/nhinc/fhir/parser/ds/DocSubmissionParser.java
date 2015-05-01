@@ -30,12 +30,16 @@ package gov.hhs.fha.nhinc.fhir.parser.ds;
  * @author tjafri
  */
 import ca.uhn.fhir.model.dstu.composite.CodeableConceptDt;
+import ca.uhn.fhir.model.dstu.composite.CodingDt;
+import ca.uhn.fhir.model.dstu.composite.PeriodDt;
 import ca.uhn.fhir.model.dstu.composite.ResourceReferenceDt;
+import ca.uhn.fhir.model.dstu.resource.DocumentReference.Context;
 import ca.uhn.fhir.model.primitive.DateTimeDt;
 import gov.hhs.fha.nhinc.common.nhinccommon.PersonNameType;
 import gov.hhs.fha.nhinc.fhir.exception.DocSubmissionException;
 import gov.hhs.fha.nhinc.fhir.util.DocSubmissionConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
+import gov.hhs.fha.nhinc.util.format.UTCDateUtil;
 import ihe.iti.xds_b._2007.ProvideAndRegisterDocumentSetRequestType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,6 +69,7 @@ import org.apache.log4j.Logger;
 public class DocSubmissionParser {
 
     private static final Logger LOG = Logger.getLogger(DocSubmissionParser.class);
+    private static final UTCDateUtil utcDateUtil = new UTCDateUtil();
 
     /**
      *
@@ -156,6 +161,7 @@ public class DocSubmissionParser {
     /**
      * This method parses the DS request and gets the creationTime
      *
+     * @param documentId
      * @param registryList
      * @return
      */
@@ -168,8 +174,7 @@ public class DocSubmissionParser {
                 if (slot.getName().equalsIgnoreCase(DocSubmissionConstants.XDS_DOCUMENT_CREATION_TIME)
                     && slot.getValueList() != null
                     && NullChecker.isNotNullish(slot.getValueList().getValue())) {
-                    SimpleDateFormat sdf = new SimpleDateFormat(DocSubmissionConstants.CREATION_TIME_FORMAT);
-                    return new DateTimeDt(sdf.parse(slot.getValueList().getValue().get(0)));
+                    return new DateTimeDt(utcDateUtil.parseUTCDateOptionalTimeZone(slot.getValueList().getValue().get(0)));
                 }
             }
         }
@@ -506,6 +511,131 @@ public class DocSubmissionParser {
                     }
                 }
             }
+        }
+        return null;
+    }
+
+    public String extractDocumentName(String documentId, RegistryObjectListType registryList) {
+        LOG.info("extractDocumentName()");
+        ExtrinsicObjectType extrinsicObj = extractExtrinsicObject(documentId, registryList);
+        if (extrinsicObj != null) {
+            if (extrinsicObj.getName() != null
+                && NullChecker.isNotNullish(extrinsicObj.getName().getLocalizedString())) {
+                return extrinsicObj.getName().getLocalizedString().get(0).getValue();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method parses the DS request and returns Document size name)
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     */
+    public int extractDocumentSize(String documentId, RegistryObjectListType registryList) {
+        LOG.info("extractDocumentSize()");
+        ExtrinsicObjectType extrinsicObj = extractExtrinsicObject(documentId, registryList);
+        if (extrinsicObj != null) {
+            List<SlotType1> slotList = extrinsicObj.getSlot();
+            for (SlotType1 slot : slotList) {
+                if (slot.getName().equalsIgnoreCase(DocSubmissionConstants.XDS_DOCUMENT_SIZE)
+                    && slot.getValueList() != null
+                    && NullChecker.isNotNullish(slot.getValueList().getValue())) {
+                    return (new Integer(slot.getValueList().getValue().get(0)));
+                }
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * This method parses the DS request and returns Document Language
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     */
+    public String extractLanguage(String documentId, RegistryObjectListType registryList) {
+        LOG.info("extractLanguage()");
+        ExtrinsicObjectType extrinsicObj = extractExtrinsicObject(documentId, registryList);
+        if (extrinsicObj != null) {
+            List<SlotType1> slotList = extrinsicObj.getSlot();
+            for (SlotType1 slot : slotList) {
+                if (slot.getName().equalsIgnoreCase(DocSubmissionConstants.XDS_DOCUMENT_LANGUAGE)
+                    && slot.getValueList() != null
+                    && NullChecker.isNotNullish(slot.getValueList().getValue())) {
+                    return slot.getValueList().getValue().get(0);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * This method parses the DS request and returns Context Information including serviceStartTime, ServiceEndTine,
+     * FacilityType and eventCode name)
+     *
+     * @param documentId
+     * @param registryList
+     * @return
+     * @throws java.text.ParseException
+     */
+    public Context extractConextInformation(String documentId, RegistryObjectListType registryList) throws ParseException {
+        LOG.info("extractConextInformation");
+        Context context = null;
+        ExtrinsicObjectType extrinsicObj = extractExtrinsicObject(documentId, registryList);
+        if (extrinsicObj != null) {
+            context = new Context();
+            //extracting the eventcode
+            CodeableConceptDt eventCode = getCodeClassification(
+                extrinsicObj.getClassification(), DocSubmissionConstants.XDS_CLASSIFICATION_EVENT_CODE);
+            //setting the event code
+            context.getEvent().add(eventCode);
+
+            //setting the Facility TYpe
+            context.setFacilityType(getCodeClassification(extrinsicObj.getClassification(),
+                DocSubmissionConstants.XDS_CLASSIFICATION_FACILITY_TYPE));
+
+            //setting the service start time and service stop time
+            PeriodDt period = new PeriodDt();
+            period.setStart(getServiceTime(extrinsicObj, DocSubmissionConstants.XDS_DOCUMENT_SERVICE_START_TIME));
+            period.setEnd(getServiceTime(extrinsicObj, DocSubmissionConstants.XDS_DOCUMENT_SERVICE_STOP_TIME));
+            context.setPeriod(period);
+        }
+        return context;
+    }
+
+    private DateTimeDt getServiceTime(ExtrinsicObjectType extrinsicObj, String serviceTimeCode) throws ParseException {
+        if (extrinsicObj != null) {
+            List<SlotType1> slotList = extrinsicObj.getSlot();
+            for (SlotType1 slot : slotList) {
+                if (slot.getName().equalsIgnoreCase(serviceTimeCode)
+                    && slot.getValueList() != null
+                    && NullChecker.isNotNullish(slot.getValueList().getValue())) {
+                    return new DateTimeDt(utcDateUtil.parseUTCDateOptionalTimeZone(slot.getValueList().getValue().get(0)));
+                }
+            }
+        }
+        return null;
+    }
+
+    private CodeableConceptDt getCodeClassification(List<ClassificationType> list, String scheme) {
+        ClassificationType classification = getClassificationFromSchema(list, scheme);
+        if (classification != null
+            && classification.getName() != null
+            && classification.getName().getLocalizedString() != null
+            && classification.getName().getLocalizedString().size() > 0) {
+
+            CodingDt code = new CodingDt();
+            code.setCode(classification.getNodeRepresentation());
+            CodeableConceptDt facilityConcept = new CodeableConceptDt();
+            code.setDisplay(classification.getName().getLocalizedString().get(0).getValue());
+            List<CodingDt> codingList = new ArrayList<CodingDt>();
+            codingList.add(code);
+            facilityConcept.setCoding(codingList);
+            return facilityConcept;
         }
         return null;
     }

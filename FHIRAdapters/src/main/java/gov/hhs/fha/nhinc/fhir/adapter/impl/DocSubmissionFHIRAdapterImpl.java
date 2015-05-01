@@ -120,7 +120,6 @@ public class DocSubmissionFHIRAdapterImpl {
                     //Document Reference Subject Information
                     ResourceReferenceDt patientRef = new ResourceReferenceDt("Patient/" + hapiPatientId);
                     patientRef.setDisplay(parser.getPatientName(registry));
-
                     Map<String, Binary> docMap = readDocumentsFromRequest(request);
                     for (Map.Entry<String, Binary> entry : docMap.entrySet()) {
 
@@ -136,6 +135,13 @@ public class DocSubmissionFHIRAdapterImpl {
                             docRef.setId("cid:" + outcome.getId().getIdPart());
                             docRef.setLocation(this.getBinaryResourceUri(outcome));
                             docRef.setSubject(patientRef);
+                            docRef.setContext(parser.extractConextInformation(docId, registry));
+                            // Set the size of document from request
+                            docRef.setSize(parser.extractDocumentSize(docId, registry));
+                            // set the language
+                            docRef.setPrimaryLanguage(parser.extractLanguage(docId, registry));
+                            //set the document name as DocRef Description
+                            docRef.setDescription(parser.extractDocumentName(docId, registry));
                             //Adding Author information
                             docRef.setAuthor(parser.extractDocumentAuthorMetaData(docId, registry));
                             //Add the DocumentReference and Binary to a list of IResource
@@ -226,7 +232,7 @@ public class DocSubmissionFHIRAdapterImpl {
         docRef.setMimeType(parser.extractDocumentType(docId, registry));
         docRef.setStatus(DocumentReferenceStatusEnum.CURRENT);
         String extDocId = parser.extractDocumentIdentificationValue(registry);
-        docRef.setMasterIdentifier(IdentifierUseEnum.OFFICIAL, "urn:oid" + extDocId, "urn:oid" + extDocId, "uniqueId");
+        docRef.setMasterIdentifier(IdentifierUseEnum.OFFICIAL, "urn:oid:" + extDocId, "urn:oid:" + extDocId, "uniqueId");
         docRef.addIdentifier()
             .setLabel("pid")
             .setUse(IdentifierUseEnum.USUAL)
