@@ -9,7 +9,7 @@
     <artifactId>FHIRAdapters</artifactId>
     <name>${project.artifactId}</name>
     <packaging>war</packaging>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
@@ -17,19 +17,19 @@
         <connect.webservices.version>4.2.0-SNAPSHOT</connect.webservices.version>
         <connect.commontypes.version>4.2.0-SNAPSHOT</connect.commontypes.version>
     </properties>
-    
+
     <dependencies>
-        
+
         <!-- FHIR Client -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.1</version>
+            <version>3.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.2.3</version>
+            <version>4.3.5</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -41,9 +41,9 @@
             <artifactId>fhir-0.81</artifactId>
             <version>2382-SNAPSHOT</version>
         </dependency>
-        
+
         <!-- CONNECT Web Services -->
-        
+
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCommonTypesLib</artifactId>
@@ -63,10 +63,14 @@
             <groupId>org.connectopensource</groupId>
             <artifactId>PatientDiscoveryWebservices</artifactId>
             <version>${connect.webservices.version}</version>
-        </dependency>        
-        
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocumentSubmissionWebervices</artifactId>
+            <version>${connect.webservices.version}</version>
+        </dependency>
         <!-- CONNECT Core -->
-        
+
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>PatientDiscoveryCore</artifactId>
@@ -87,13 +91,30 @@
             <artifactId>CONNECTCoreLib</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>DocumentSubmissionCore</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+        <!-- added for test -->
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-base</artifactId>
+            <version>0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.uhn.hapi.fhir</groupId>
+            <artifactId>hapi-fhir-structures-dstu</artifactId>
+            <version>0.9</version>
+        </dependency>
+        <!-- test -->
     </dependencies>
     <repositories>
         <repository>
@@ -102,5 +123,5 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
-	
+
 </project>

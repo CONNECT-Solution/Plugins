@@ -26,6 +26,7 @@
  */
 package gov.hhs.fha.nhinc.fhir.helper;
 
+import gov.hhs.fha.nhinc.properties.PropertyAccessorFileUtilities;
 import java.io.File;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -40,12 +41,13 @@ import org.slf4j.LoggerFactory;
 public class PropertiesHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(PropertiesHelper.class);
-
+    private PropertiesConfiguration config = null;
     /* A private Constructor to prevents any other
      * class from instantiating.
      */
-    private PropertiesHelper() {
 
+    private PropertiesHelper() {
+        config = new PropertiesConfiguration();
     }
 
     /**
@@ -57,7 +59,7 @@ public class PropertiesHelper {
      * @return PropertiesConfiguration object
      */
     public PropertiesConfiguration getProperty(String propertyFile) {
-        PropertiesConfiguration config = new PropertiesConfiguration();
+
         try {
             config.setReloadingStrategy(new FileChangedReloadingStrategy());
             config.load(propertyFile);
@@ -91,5 +93,23 @@ public class PropertiesHelper {
     // singleton
     public static PropertiesHelper getInstance() {
         return SingletonHolder.INSTANCE;
+    }
+
+    public void savePropertyFile(String property, String value) {
+        LOG.info("saveToPropertyFile()");
+        PropertyAccessorFileUtilities fileUtils = new PropertyAccessorFileUtilities();
+        String filePathAndName = fileUtils.getPropertyFileLocation("fhirRestServer");
+        try {
+            if (config.containsKey(property)) {
+                config.setProperty(property, value);
+            } else {
+                config.addProperty(property, value);
+            }
+            LOG.info("filePathAndName:  " + filePathAndName);
+            config.save(new File(filePathAndName));
+        } catch (ConfigurationException ex) {
+            ex.printStackTrace();
+            LOG.debug("Error while saving to property file :" + ex.getMessage());
+        }
     }
 }

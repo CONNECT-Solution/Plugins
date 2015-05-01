@@ -11,6 +11,13 @@
     <packaging>war</packaging>
 
     <dependencies>
+        <!-- CONNECT -->
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>CONNECTCoreLib</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!-- -->
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
             <artifactId>hapi-fhir-base</artifactId>
