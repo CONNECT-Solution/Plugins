@@ -12,6 +12,7 @@
         <!--<module>X12RealTimeLargePayloadTest</module>-->
         <module>FHIRAdapters</module>
         <module>HPD-WS-Client</module>
+		<module>CONNECTUniversalClientGUI</module>
     </modules>
     <properties>
         <cxf.version>2.7.3</cxf.version>
