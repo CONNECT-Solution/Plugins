@@ -9,9 +9,10 @@
     <description>These plugins can be used along with CONNECT.</description>
     <modules>
         <module>XDSbPlugin</module>
-        <module>X12RealTimeLargePayloadTest</module>
+        <!--<module>X12RealTimeLargePayloadTest</module>-->
         <module>FHIRAdapters</module>
         <module>HPD-WS-Client</module>
+		<module>CONNECTUniversalClientGUI</module>
     </modules>
     <properties>
         <cxf.version>2.7.3</cxf.version>
