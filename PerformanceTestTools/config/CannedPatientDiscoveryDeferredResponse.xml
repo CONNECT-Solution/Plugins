@@ -1,0 +1,41 @@
+<MCCI_IN000002UV01 xmlns="urn:hl7-org:v3"
+	xmlns:ns2="urn:gov:hhs:fha:nhinc:common:nhinccommon" xmlns:ns3="urn:gov:hhs:fha:nhinc:common:patientcorrelationfacade"
+	xmlns:ns4="http://www.w3.org/2005/08/addressing" ITSVersion="XML_1.0">
+	<id extension="-1430d5ae:13a993d89af:-7fec" root="1.1"></id>
+	<creationTime value="20121025195054"></creationTime>
+	<interactionId extension="MCCIIN000002UV01" root="2.16.840.1.113883.1.6"></interactionId>
+	<processingCode code="T"></processingCode>
+	<processingModeCode code="T"></processingModeCode>
+	<acceptAckCode code="NE"></acceptAckCode>
+	<receiver typeCode="RCV">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="1.1"></id>
+			<asAgent classCode="AGNT">
+				<representedOrganization classCode="ORG"
+					determinerCode="INSTANCE">
+					<id root="1.1"></id>
+				</representedOrganization>
+			</asAgent>
+		</device>
+	</receiver>
+	<sender typeCode="SND">
+		<device classCode="DEV" determinerCode="INSTANCE">
+			<id root="2.2"></id>
+			<asAgent classCode="AGNT">
+				<representedOrganization classCode="ORG"
+					determinerCode="INSTANCE">
+					<id root="2.2"></id>
+				</representedOrganization>
+			</asAgent>
+		</device>
+	</sender>
+	<acknowledgement>
+		<typeCode code="CA"></typeCode>
+		<targetMessage>
+			<id extension="-5a3e95b1:11d1fa33d45:-8e45" root="2.2"></id>
+		</targetMessage>
+		<acknowledgementDetail typeCode="I">
+			<text>Success</text>
+		</acknowledgementDetail>
+	</acknowledgement>
+</MCCI_IN000002UV01>

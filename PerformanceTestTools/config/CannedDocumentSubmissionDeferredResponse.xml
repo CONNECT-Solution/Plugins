@@ -1,0 +1,3 @@
+<XDRAcknowledgement xmlns="http://www.hhs.gov/healthit/nhin">
+	<message status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:ResponseAccepted"/>
+</XDRAcknowledgement>
