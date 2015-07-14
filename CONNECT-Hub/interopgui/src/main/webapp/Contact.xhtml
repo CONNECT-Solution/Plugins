@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      lang="en">
+
+<h:body xmlns:v="http://java.sun.com/jsf/composite/view" xmlns:f="http://java.sun.com/jsf/core">
+
+  <ui:composition template="/resources/template/layout.xhtml">
+  <ui:define name="title">Contact</ui:define>
+  <ui:define name="content">
+  <f:event listener="#{register.loadDetail}" type="preRenderView" />
+
+  <div class="container">
+        <h1>Contact Us</h1>
+        <p>The CONNECT Product Team created this hub to enable cross-kiosk interoperability in the HIMSS Interoperability Showcase.
+        If you have questions, please come see us at Kiosk 25.</p>
+        
+        <p>Otherwise, you can contact us as below: </p>
+        
+        <div class="row">
+        	<div class="span4">
+				<p><b>Brian Humphrey</b> <br />
+		        CONNECT Architect<br />
+		        Phone: 301-996-5417<br />
+		        email: <a href="mailto:bhumphrey@5amsolutions.com">bhumphrey@5amsolutions.com</a>
+		        </p>
+        	</div>
+        	<div class="span4">
+        		<p><b>Matthew Weaver</b><br />
+		        CONNECT Lead Developer<br />
+		        Phone: 540-312-5087<br />
+		        email: <a href="matthew.weaver@cgifederal.com">matthew.weaver@cgifederal.com</a>
+		        </p>
+        	</div>   	
+        	<div class="span4">
+        		<p><b>Leslie Power</b> <br />
+		        CONNECT Development Manager<br />
+		        Phone: 202-359-0990<br />
+		        email: <a href="mailto:lpower@5amsolutions.com">lpower@5amsolutions.com</a>
+		        </p>
+		        <p><br /></p>
+		    </div>
+        </div>
+		<div class="row">
+        	<div class="span4">
+				<p><b>Michael Pafumi</b><br />
+		        CONNECT Program Manager<br />
+		        Phone: 703-568-6532<br />
+		        email: <a href="michael.pafumi@cgifederal.com">michael.pafumi@cgifederal.com</a>
+		        </p>
+		    </div>
+		    <div class="span4">
+				<p><b>Greg Turner</b><br />
+		        CONNECT Product Manager<br />
+		        Phone: 703-624-8069<br />
+		        email: <a href="greg.turner@cgifederal.com">greg.turner@cgifederal.com</a>
+		        </p>
+		    </div>
+		    <div class="span4">
+				<p><b>For more information on CONNECT</b>, please visit 
+				<a href="htpp://www.connectopensource.org" target="_blank">www.connectopensource.org</a> 
+				or email <a href="mailto:connect@hhs.gov">connect@hhs.gov</a>.</p>
+			</div>
+		</div>
+
+		<h2>Thank you!</h2>
+
+   </div>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js" type="text/javascript"></script>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

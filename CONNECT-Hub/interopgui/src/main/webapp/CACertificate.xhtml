@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      lang="en">
+
+<h:body xmlns:v="http://java.sun.com/jsf/composite/view" xmlns:f="http://java.sun.com/jsf/core">
+
+  <ui:composition template="/resources/template/layout.xhtml">
+  <ui:define name="title">CA Cert</ui:define>
+  <ui:define name="content">
+
+  <div class="container">
+        <h1>CONNECT Hub CA Certificate</h1>
+        <p>CONNECT is providing a Certificate Authority for HIMSS Interoperability Showcase
+        Exchanges (using NwHIN Exchange messages).</p>
+        <p>After you've registered your cert request, download the cert below. Place it in your trust store, and you'll be able to exchange
+        with any other Showcase participant who have registered with the CA.</p>
+
+		<p>
+      <!-- This has to be left-justy or whitespace will be rendered -->
+<pre>
+<h:outputText value="#{caCert.pemString}" />
+</pre>
+
+    </p>
+
+
+   </div>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js" type="text/javascript"></script>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

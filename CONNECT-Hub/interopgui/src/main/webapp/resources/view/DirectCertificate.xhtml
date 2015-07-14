@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:comp="http://java.sun.com/jsf/composite" xmlns:t="http://myfaces.apache.org/tomahawk">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>Direct Certificate Information</title>
+</head>
+<body>
+    <comp:interface>
+        <comp:attribute name="value" required="true" type="org.connectopensource.interopgui.view.DirectCertificate" />
+        <comp:attribute name="required" required="false" default="true" />
+        <comp:attribute name="requiredMessage" required="false" default="Required!" />
+    </comp:interface>
+    <comp:implementation>
+        <h:panelGroup>
+        <div class="control-group">
+          <label class="control-label" for="certFile">Anchor Certificate:</label>
+          <div class="controls">
+            <t:inputFileUpload id="certFile" value="#{cc.attrs.value.file}" styleClass="btn" />
+          </div>
+        </div>
+        </h:panelGroup>
+        <div class="control-group">
+          <label class="control-label" for="trustBundleUrl">Trust Bundle URL:</label>
+          <div class="controls">
+            <h:inputText styleClass="span4" value="#{cc.attrs.value.trustBundleUrl}"
+                   id="trustBundleUrl" />
+          </div>
+        </div>
+    </comp:implementation>
+</body>
+</html>

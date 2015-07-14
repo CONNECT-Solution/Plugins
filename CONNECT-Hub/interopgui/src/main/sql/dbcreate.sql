@@ -1,0 +1,7 @@
+CREATE USER interopguiuser IDENTIFIED BY 'interopguipass';
+
+CREATE DATABASE interopgui;
+
+GRANT CREATE,SELECT,INSERT,UPDATE,DELETE ON *.* TO 'interopguiuser'@'localhost' IDENTIFIED BY 'interopguipass' WITH GRANT OPTION;
+GRANT CREATE,SELECT,INSERT,UPDATE,DELETE ON *.* TO 'interopguiuser'@'127.0.0.1' IDENTIFIED BY 'interopguipass' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

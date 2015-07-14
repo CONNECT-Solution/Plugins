@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+
+<Configure id='wac_interopgui' class="org.eclipse.jetty.webapp.WebAppContext">
+    <New id="ds_interopgui" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg>jdbc/ds_interopgui</Arg>
+        <Arg>
+            <New class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+                <Set name="Url">jdbc:mysql://localhost:3306/interopgui</Set>
+                <Set name="User">interopguiuser</Set>
+                <Set name="Password">interopguipass</Set>
+            </New>
+        </Arg>
+    </New>
+</Configure>

@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      lang="en">
+
+<h:body xmlns:v="http://java.sun.com/jsf/composite/view" xmlns:f="http://java.sun.com/jsf/core">
+
+  <ui:composition template="/resources/template/layout.xhtml">
+  <ui:define name="title">Register Information</ui:define>
+  <ui:define name="content">
+  <f:event listener="#{register.loadDetail}" type="preRenderView" />
+
+  <div class="container">
+    <div class="row">
+      <div class="span10">
+        <h:panelGroup layout="block" styleClass="alert alert-success" rendered="#{register.alert != ''}">
+          <h:outputText value="#{register.alert}" />
+        </h:panelGroup>
+
+        <h1>Register</h1>
+        <p>To exchange with others in the HIMSS Interoperability Showcase, please enter your
+        information below. <b>For Exchange</b>, enter your endpoint information - you can look up
+        information using this web app, or via our UDDI. You can also add your certs or have a
+        cert signed by our CA. <b>For Direct</b>, enter your endpoint information and anchor cert or
+        a link to your trust bundle. And start exchanging!</p>
+        <h:form enctype="multipart/form-data" class="form-horizontal">
+            <div class="control-group">
+              <label class="control-label" for="orgName">Organization Name:</label>
+              <div class="controls">
+                <h:inputText id="orgName" value="#{register.orgName}" readonly="#{register.orgId != ''}" />
+              </div>
+            </div>
+          <fieldset>
+            <legend>Direct</legend>
+            <div class="accordion" id="accordion-directcert">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse"
+                          href="#collapseDirectCertificate"> Direct Certificate (click to show/hide) </a>
+                </div>
+                  <div id="collapseDirectCertificate" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+
+            <h:panelGroup layout="block" styleClass="control-group" rendered="#{not empty register.displayDirectCertificate.pemString}">
+              <label class="control-label" for="directPemString">Certificate PEM:</label>
+              <div class="controls">
+                    <pre><h:outputText id="directPemString" value="#{register.displayDirectCertificate.pemString}" /></pre>
+              </div>
+             </h:panelGroup>
+             <h:panelGroup layout="block" styleClass="control-group" rendered="#{not empty register.displayDirectCertificate.trustBundleUrl}">
+              <label class="control-label" for="trustBundle">Trust Bundle:</label>
+              <div class="controls">
+                    <pre><h:outputText id="trustBundle" value="#{register.displayDirectCertificate.trustBundleUrl}" /></pre>
+              </div>
+            </h:panelGroup>
+                     <v:DirectCertificate value="#{register.directCertificate}" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion" id="accordion-directendpoints">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse"
+                          href="#collapseDirectEndpoints"> Direct Endpoints (click to show/hide) </a>
+                  </div>
+                  <div id="collapseDirectEndpoints" class="accordion-body collapse in">
+                      <div class="accordion-inner">
+                      <h:dataTable value="#{register.directEndpoints}" var="e" class="table table-hover" rendered="#{not empty register.directEndpoints}">
+                      <h:column rendered="false">
+                            <f:facet name="header">
+                                <h:outputText value="ID" />
+                            </f:facet>
+                            <h:outputText value="#{e.id}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Endpoint" />
+                            </f:facet>
+                            <h:outputText value="#{e.endpoint}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DNS: Address" />
+                            </f:facet>
+                            <h:panelGroup rendered="#{e.dnsAddressBound}">
+                                <i class="icon-ok" />
+                            </h:panelGroup>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DNS: Domain" />
+                            </f:facet>
+                            <h:panelGroup rendered="#{e.dnsDomainBound}">
+                                <i class="icon-ok" />
+                            </h:panelGroup>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="LDAP: Address" />
+                            </f:facet>
+                            <h:panelGroup rendered="#{e.ldapAddressBound}">
+                                <i class="icon-ok" />
+                            </h:panelGroup>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="LDAP: Domain" />
+                            </f:facet>
+                            <h:panelGroup rendered="#{e.ldapDomainBound}">
+                                <i class="icon-ok" />
+                            </h:panelGroup>
+                        </h:column>
+                      </h:dataTable>
+                      <a href="#directEndpointModal" role="button" class="btn" data-toggle="modal">Add Direct Endpoint</a>
+                      <div id="directEndpointModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <h3 id="myModalLabel">Add Direct Endpoint</h3>
+                        </div>
+                        <div class="modal-body">
+                        <v:DirectEndpoint value="#{register.directEndpoint}"/>
+                        </div>
+                        <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        <h:commandButton value="Save" action="#{register.addDirectEndpoint}" class="btn btn-primary" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+</fieldset>
+<fieldset>
+            <legend>Exchange</legend>
+            <div class="control-group">
+              <label class="control-label" for="hcid">HCID:</label>
+              <div class="controls">
+                <h:inputText id="hcid" value="#{register.hcid}" readonly="#{register.hcid != ''}"/>
+              </div>
+            </div>
+
+            <div class="accordion" id="accordion-certificate">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse"
+                     href="#collapseCertificates"> Certificates (click to show/hide)</a>
+                </div>
+                <div id="collapseCertificates" class="accordion-body in">
+                  <div class="accordion-inner">
+                    <h:panelGroup layout="block" styleClass="control-group" rendered="#{not empty register.displayCertificate.pemString}">
+                        <label class="control-label" for="exchangePemString">Certificate PEM:</label>
+                        <div class="controls">
+                            <pre><h:outputText id="exchangePemString" value="#{register.displayCertificate.pemString}" /></pre>
+                        </div>
+                    </h:panelGroup>
+                    <v:Certificate value="#{register.certificate}"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion" id="accordion-endpoints">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse"
+                     href="#collapseEndpoints"> Endpoints (click to show/hide)</a>
+                </div>
+                <div id="collapseEndpoints" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+
+                    <h:dataTable value="#{register.endpoints}" var="endpoint" class="table table-hover"  rendered="#{not empty register.endpoints}">
+                      <h:column rendered="false">
+                        <f:facet name="header">
+                          <h:outputText value="ID" />
+                        </f:facet>
+                        <h:outputText value="#{endpoint.id}" />
+                      </h:column>
+                      <h:column>
+                        <f:facet name="header">
+                          <h:outputText value="Specification" />
+                        </f:facet>
+                        <h:outputText value="#{endpoint.specification.label}" />
+                      </h:column>
+                      <h:column>
+                        <f:facet name="header">
+                          <h:outputText value="Version" />
+                        </f:facet>
+                        <h:outputText value="#{endpoint.specVersion.label}" />
+                      </h:column>
+
+                      <h:column>
+                        <f:facet name="header">
+                          <h:outputText value="Endpoint" />
+                        </f:facet>
+                        <h:outputText value="#{endpoint.endpoint}" />
+                      </h:column>
+                    </h:dataTable>
+
+                    <h:panelGroup>
+                      <a href="#endpointmodal" role="button" class="btn" data-toggle="modal">Add Endpoint</a>
+                    </h:panelGroup>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion" id="accordion-patients">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <div class="row">
+                    <div class="span4">
+                      <a class="accordion-toggle" data-toggle="collapse"
+                         href="#collapsePatients"> Patients (click to show/hide) </a>
+                    </div>
+                  </div>
+                </div>
+                <div id="collapsePatients" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+                    <h:dataTable value="#{register.patients}" var="patient" class="table table-hover" rendered="#{not empty register.patients}">
+                      <h:column rendered="false">
+                        <f:facet name="header">
+                          <h:outputText value="ID" />
+                        </f:facet>
+                        <h:outputText value="#{patient.id}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="First Name" />
+                            </f:facet>
+                            <h:outputText value="#{patient.firstName}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Last Name" />
+                            </f:facet>
+                            <h:outputText value="#{patient.lastName}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Date of Birth" />
+                            </f:facet>
+                            <h:outputText value="#{patient.dateOfBirth}" >
+                                <f:convertDateTime pattern="MM-dd-yyyy" />
+                            </h:outputText>
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Gender" />
+                            </f:facet>
+                            <h:outputText value="#{patient.gender.label}" />
+                        </h:column>
+                      </h:dataTable>
+                      <h:panelGroup>
+                        <a href="#patientmodal" role="button" class="btn" data-toggle="modal">Add Patient</a>
+                      </h:panelGroup>
+                    </div>
+                  </div>
+                </div>
+          	</div>
+            <div class="accordion" id="accordion-docs">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                      <a class="accordion-toggle" data-toggle="collapse"
+                          href="#collapseDocuments"> Documents (click to show/hide)</a>
+                  </div>
+                  <div id="collapseDocuments" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      <h:dataTable value="#{register.documents}" var="document" class="table table-hover" rendered="#{not empty register.documents}">
+                        <h:column rendered="false">
+                            <f:facet name="header">
+                                <h:outputText value="ID" />
+                            </f:facet>
+                            <h:outputText value="#{document.id}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Document Id" />
+                            </f:facet>
+                            <h:outputText value="#{document.documentId}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Document Type" />
+                            </f:facet>
+                            <h:outputText value="#{document.documentType}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Comment" />
+                            </f:facet>
+                            <h:outputText value="#{document.comment}" />
+                        </h:column>
+                      </h:dataTable>
+                      <h:panelGroup>
+                        <a href="#documentmodal" role="button" class="btn" data-toggle="modal">Add Document</a>
+                      </h:panelGroup>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+          <h:commandButton value="Save" action="#{register.saveInfo}" styleClass="btn btn-primary" />
+
+          <v:Patient firstNamePrompt="First Name:" lastNamePrompt="Last Name:" dobPrompt="Date of Birth (MM-DD-YYYY):" genderPrompt="Gender:" orgId="#{register.orgId}"/>
+          <v:Document docIdPrompt="Document Id:" documentTypePrompt="Document Type:" commentPrompt="Comment:" orgId="#{register.orgId}"/>
+          <v:Endpoint specVersionPrompt="Version:" endpointPrompt="Endpoint:" specPrompt="Specification:" orgId="#{register.orgId}"/>
+
+        </h:form>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.0/js/bootstrap.min.js" type="text/javascript"></script>
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>
