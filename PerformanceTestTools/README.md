@@ -1,3 +1,20 @@
+PerformanceTestTools
+====================
+This Plugin was developed during 4.0 Release.
+
+CONNECT supported Release Version
+=================================
+CONNECT 4.0
+
+Build PerformanceTestTools
+==========================
+Navigate to <Install_Directory>\PerformanceTestTools. Build using following maven command "mvn clean install"
+
+A jar should be generated in <Install_Directory>\PerformanceTestTools\target. This jar needs to built in CONNECT ear to perform the tests.
+
+Tips
+====
+
 The files in the Performance Test Tools are used for performance testing CONNECT 4.0 on glassfish, Weblogic, and Websphere.
 
 The project located in CONNECTLoadTestJar is buildable using Netbeans clean and build.
