@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Register Information</title>
+</h:head>
+<h:body xmlns:v="http://java.sun.com/jsf/composite/view" xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/resources/template/layout.xhtml">
+
+        <ui:define name="content">
+
+            <div class="container">
+
+                <h1>CONNECT Hub Showcase Participant List</h1>
+                <p>This list shows all Interoperability Showcase participants who are game for doing
+                cross-kiosk exchanges. Click "Details" to get more information.</p>
+                <h:form class="form-horizontal">
+                    <h:dataTable value="#{listBean.orgSummaries}" var="org" class="table table-hover">
+                        <h:column rendered="false">
+                            <f:facet name="header">
+                                <h:outputText value="ID" />
+                            </f:facet>
+                            <h:outputText value="#{org.id}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Org Name" />
+                            </f:facet>
+                            <h:outputText value="#{org.organizationName}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Direct Endpoints" />
+                            </f:facet>
+                            <h:outputText value="#{org.countDirectEndpoints}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Exchange Endpoints" />
+                            </f:facet>
+                            <h:outputText value="#{org.countExchangeEndpoints}" />
+                        </h:column>
+
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="HCID" />
+                            </f:facet>
+                            <h:outputText value="#{org.hcid}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Patients" />
+                            </f:facet>
+                            <h:outputText value="#{org.countPatients}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Documents" />
+                            </f:facet>
+                            <h:outputText value="#{org.countDocuments}" />
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Details" />
+                            </f:facet>
+                            <h:commandButton value="Details" action="#{listBean.showDetails(org.id)}" />
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </div>
+            <script src="/js/jquery.js"></script>
+
+        </ui:define>
+    </ui:composition>
+</h:body>
+</html>

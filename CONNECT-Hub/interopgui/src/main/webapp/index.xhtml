@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <meta charset="utf-8" />
+    <title>CONNECT Hub</title>
+</h:head>
+<body>
+    <ui:composition template="/resources/template/layout.xhtml">
+
+        <ui:define name="content">
+
+            <div class="container">
+
+                <!-- Main hero unit for a primary marketing message or call to action -->
+                <div class="hero-unit">
+                	<h2><img src="../resources/img/connect-logo-bw.gif" width="200" /></h2>
+                    <h1>Interoperability Showcase Hub
+                    </h1>
+                    <p>Welcome to the CONNECT HIMSS Interoperability Showcase Hub. The purpose of this app is to
+                        allow any Showcase participant to easily share certificate, address, and data information to
+                        enable cross-demo exchanges, using both NwHIN Exchange and NwHIN Direct specifications.</p>
+
+                </div>
+
+                <!-- Example row of columns -->
+                <div class="row">
+                    <div class="span4">
+                        <h2>Direct</h2>
+                        <p>Enter your email addresses and certificate here.</p>
+                        <p>
+                            <a class="btn" href="/faces/RegisterInformation.xhtml">Register &raquo;</a>
+                        </p>
+                    </div>
+                    <div class="span4">
+                        <h2>Exchange</h2>
+                        <p>Enter your home community id (HCID), service endpoints, and even patient and document
+                            information.</p>
+                        <p>
+                            <a class="btn" href="/faces/RegisterInformation.xhtml">Register &raquo;</a>
+                        </p>
+                    </div>
+                    <div class="span4">
+                        <h2>Find exchange partner</h2>
+                        <p>View all who have registered information. Download certs and see all the information
+                            you'll need to interoperate with new partners.</p>
+                        <p>
+                            <a class="btn" href="/faces/ListInformation.xhtml">View details &raquo;</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- /container -->
+
+            <!-- Le javascript
+    ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script src="../resources/js/bootstrap.min.js"></script>
+        </ui:define>
+
+    </ui:composition>
+</body>
+</html>

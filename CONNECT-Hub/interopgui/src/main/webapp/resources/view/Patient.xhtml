@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:comp="http://java.sun.com/jsf/composite"
+    xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>Insert title here</title>
+</head>
+<body>
+
+    <comp:interface>
+      <comp:attribute name="orgId" required="true" />
+      <comp:attribute name="firstNamePrompt" required="true" />
+      <comp:attribute name="lastNamePrompt" required="true" />
+      <comp:attribute name="dobPrompt" required="true" />
+      <comp:attribute name="genderPrompt" required="true" />
+      <comp:attribute name="required" required="false" default="false" />
+      <comp:attribute name="requiredMessage" required="false" default="Required!" />
+    </comp:interface>
+    <comp:implementation>
+
+    <div id="patientmodal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+        <h3>Add Patient</h3>
+      </div>
+
+      <div class="modal-body">
+      <h:panelGroup>
+        <h:inputHidden value="#{register.orgId}" id="orgId" />
+
+        <div>#{cc.attrs.firstNamePrompt}</div>
+        <div>
+          <h:inputText value="#{register.patient.firstName}" id="firstName" required="#{cc.attrs.required}"
+                       requiredMessage="#{cc.attrs.requiredMessage}" />
+        </div>
+        <div>#{cc.attrs.lastNamePrompt}</div>
+        <div>
+          <h:inputText value="#{register.patient.lastName}" id="lastName" required="#{cc.attrs.required}"
+                       requiredMessage="#{cc.attrs.requiredMessage}" />
+        </div>
+        <div>#{cc.attrs.dobPrompt}</div>
+        <div>
+          <h:inputText value="#{register.patient.dateOfBirth}" id="dateOfBirth" required="#{cc.attrs.required}"
+                       requiredMessage="#{cc.attrs.requiredMessage}">
+            <f:convertDateTime pattern="MM-dd-yyyy" />
+          </h:inputText>
+        </div>
+        <div>#{cc.attrs.genderPrompt}</div>
+        <div>
+          <h:selectOneMenu id="gender" value="#{register.patient.gender}">
+            <f:selectItems value="#{register.patient.genders}" var="p"
+                           itemValue="#{p}" itemLabel="#{p.label}" />
+          </h:selectOneMenu>
+        </div>
+      </h:panelGroup>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <h:commandButton value="Save" action="#{register.addPatient()}" styleClass="btn btn-primary" />
+      </div>
+    </div>
+
+  </comp:implementation>
+
+</body>
+</html>

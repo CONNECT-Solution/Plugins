@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:comp="http://java.sun.com/jsf/composite">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>Endpoint Information</title>
+</head>
+<body>
+    <comp:interface>
+        <comp:attribute name="value" required="true" type="org.connectopensource.interopgui.view.DirectEndpoint" />
+        <comp:attribute name="required" required="false" default="false" />
+        <comp:attribute name="requiredMessage" required="false" default="Required!" />
+    </comp:interface>
+    <comp:implementation>
+
+
+        <div class="control-group">
+            <label class="control-label" for="endpoint">Direct Endpoint:</label>
+            <div class="controls">
+                <h:inputText value="#{cc.attrs.value.endpoint}" id="endpoint" required="#{cc.attrs.required}"
+                    requiredMessage="#{cc.attrs.requiredMessage}" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="endpoint">Certificate Discovery</label>
+            <div class="controls">
+                <h:selectBooleanCheckbox class="checkbox" value="#{cc.attrs.value.dnsAddressBound}" />Supports
+                    Address Bound DNS Certificate Discovery
+                <h:selectBooleanCheckbox class="checkbox" value="#{cc.attrs.value.dnsDomainBound}" />Supports
+                    Domain Bound DNS Certificate Discovery
+                <h:selectBooleanCheckbox class="checkbox" value="#{cc.attrs.value.ldapAddressBound}" />Supports
+                    Address Bound LDAP Certificate Discovery
+                <h:selectBooleanCheckbox class="checkbox" value="#{cc.attrs.value.ldapDomainBound}" />Supports
+                    Domain Bound LDAP Certificate Discovery
+            </div>
+        </div>
+    </comp:implementation>
+</body>
+</html>

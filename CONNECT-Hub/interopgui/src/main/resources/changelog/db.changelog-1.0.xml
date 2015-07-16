@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="mlandis">    
+        <createTable tableName="orginfo">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orgname" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hcid" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="certs">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orginfo_id" type="BIGINT">
+                <constraints references="orginfo(id)" foreignKeyName="certs_orginfo_fk" nullable="false"/>
+            </column>
+            <column name="cert" type="BLOB">
+                <constraints nullable="true"/>
+            </column>
+            <column name="certtype" type="varchar(32)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="alias" type="varchar(128)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="trustBundle" type="varchar(256)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="specification" type="varchar(8)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="patient">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orginfo_id" type="BIGINT">
+                <constraints references="orginfo(id)" foreignKeyName="patient_orginfo_fk" nullable="false"/>
+            </column>
+            <column name="first" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dob" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gender" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="document">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orginfo_id" type="BIGINT">
+                <constraints references="orginfo(id)" foreignKeyName="document_orginfo_fk" nullable="false"/>
+            </column>            
+            <column name="docid" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="doctype" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="CLOB">
+                <constraints nullable="true"/>
+            </column>            
+        </createTable>
+        <createTable tableName="directEndpoint">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orginfo_id" type="BIGINT">
+                <constraints references="orginfo(id)" foreignKeyName="directendpoint_orginfo_fk" nullable="false"/>
+            </column>
+            <column name="endpoint" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dnsAddressBound" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="dnsDomainBound" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="true"/>
+            </column>
+            <column name="ldapAddressBound" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ldapDomainBound" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="bhumphrey">    
+        <createTable tableName="endpoint">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orginfo_id" type="BIGINT">
+                <constraints references="orginfo(id)" foreignKeyName="endpoint_orginfo_fk" nullable="false"/>
+            </column>
+            <column name="endpoint" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specification" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+     </changeSet>
+
+</databaseChangeLog>

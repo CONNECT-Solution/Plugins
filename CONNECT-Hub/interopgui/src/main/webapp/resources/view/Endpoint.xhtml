@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="US-ASCII" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:comp="http://java.sun.com/jsf/composite">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=US-ASCII" />
+<title>Endpoint Information</title>
+</head>
+<body>
+   <comp:interface>
+      <comp:attribute name="orgId" required="true" />
+      <comp:attribute name="specVersionPrompt" required="true" />
+      <comp:attribute name="specPrompt" required="true" />
+      <comp:attribute name="endpointPrompt" required="true" />
+      <comp:attribute name="required" required="false" default="false" />
+      <comp:attribute name="requiredMessage" required="false" default="Required!" />
+   </comp:interface>
+   <comp:implementation>
+
+    <div id="endpointmodal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+        <h3>Add Endpoint</h3>
+      </div>
+
+      <div class="modal-body">
+        <h:panelGroup>
+          <h:inputHidden value="#{register.orgId}" id="orgId" />
+
+          <div class="control-group">
+             <label class="control-label" for="specVersion">#{cc.attrs.specPrompt}</label>
+             <div class="controls">
+                <h:selectOneMenu id="spec"
+                   value="#{register.endpoint.specification}">
+                   <f:selectItems value="#{register.endpoint.specifications}" var="sp"
+                                  itemValue="#{sp}" itemLabel="#{sp.label}" />
+                </h:selectOneMenu>
+             </div>
+          </div>
+          <div class="control-group">
+             <label class="control-label" for="specVersion">#{cc.attrs.specVersionPrompt}</label>
+             <div class="controls">
+                <h:selectOneMenu id="specVersion"
+                   value="#{register.endpoint.specVersion}">
+                   <f:selectItems value="#{register.endpoint.specVersions}" var="sv"
+                                  itemValue="#{sv}" itemLabel="#{sv.label}" />
+                </h:selectOneMenu>
+             </div>
+          </div>
+          <div class="control-group">
+             <label class="control-label" for="endpoint">#{cc.attrs.endpointPrompt}</label>
+             <div class="controls">
+                <h:inputText styleClass="span4" value="#{register.endpoint.endpoint}"
+                   id="endpoint" required="#{cc.attrs.required}"
+                   requiredMessage="#{cc.attrs.requiredMessage}" />
+             </div>
+          </div>
+
+        </h:panelGroup>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <h:commandButton value="Save" action="#{register.addEndpoint()}" styleClass="btn btn-primary" />
+      </div>
+    </div>
+
+   </comp:implementation>
+</body>
+</html>

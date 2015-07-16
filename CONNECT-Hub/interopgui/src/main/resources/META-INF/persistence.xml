@@ -1,0 +1,22 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+    
+    <persistence-unit name="org.connectopensource.interopgui.jpa" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <jta-data-source>java:comp/env/jdbc/ds_interopgui</jta-data-source>
+        <class>org.connectopensource.interopgui.dataobject.OrganizationInfo</class>
+        <class>org.connectopensource.interopgui.dataobject.CertificateInfo</class>
+        <class>org.connectopensource.interopgui.dataobject.PatientInfo</class>
+        <class>org.connectopensource.interopgui.dataobject.DocumentInfo</class>
+        <class>org.connectopensource.interopgui.view.impl.DirectEndpointImpl</class>
+        <class>org.connectopensource.interopgui.view.impl.EndpointImpl</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+            
+        <properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>

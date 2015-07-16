@@ -1,28 +1,19 @@
 Plugins
 =======
+The following Plugins are available to use with CONNECT ear. These Plugins are not Release tested and they may require some updates to work with current version of CONNECT.
 
-This repository has CONNECT HIEOS Adapter interfaces which supports to submit a Document to HIEOS repository. The CONNECT can use these adapters to do a Document lookup(DocumentQuery) using DocumentRegistry interface and CONNECT can retrieve a document from HIOES repository using DocRepository Adapter Repository.
-
-Build:
-
-Navigate to Directory where code is downloaded.
-
-mvn clean install
-
-Deploy the Artifacts to Glassfish
-
-Login to Glassfish Admin console
-
-Manually deploy the AdapterDocRepository2Soap12Web-4.3.0-SNAPSHOT.war and AdapterDocRegistry2Soap12Web-4.3.0-SNAPSHOT.war.
-
-Test HIEOS interfaces
-
-Navigate to CONNECT installed directory.
-
-Deploy CONNECT ear.
-
-HPD-WS-Client:
---------------
-The client cna be run using the following command: 
-mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient  //this will print out the usage information
-mvn exec:java -Dexec.mainClass=gov.hhs.onc.hpdclient.HPDClient -Dexec.args="professional givenName Thomas"
+  * CONNECT-AdapterCommonDataLayer
+  * CONNECT-AdapterDocumentAssemblyProxy
+  * CONNECT-AdapterDocumentRepository
+  * CONNECT-AdapterMpi
+  * CONNECT-DocumentManager
+  * CONNECT-Hub
+  * CONNECT-NHINAdapterService
+  * CONNECTUniversalClientGUI
+  * FHIRAdapters
+  * FHIRRestServer
+  * FHIRSoapTests
+  * GenericFileTransfer
+  * HPD-WS-Client
+  * PerformanceTestTools
+  * XDSBPlugin                  
