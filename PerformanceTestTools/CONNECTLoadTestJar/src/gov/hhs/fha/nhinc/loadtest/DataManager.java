@@ -27,6 +27,8 @@ import org.hl7.v3.PRPAIN201306UV02;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.DateConverter;
 import javax.xml.bind.JAXBElement;
+import org.caqh.soap.wsdl.corerule2_2_0.COREEnvelopeBatchSubmissionResponse;
+import org.caqh.soap.wsdl.corerule2_2_0.COREEnvelopeRealTimeResponse;
 import org.hl7.v3.RetrievePatientCorrelationsResponseType;
 
 public class DataManager {
@@ -44,12 +46,14 @@ public class DataManager {
     public static String CANNED_DS_DEFERRED_RESPONSE = "DocumentSubmissionDeferredResponse";
     public static String CANNED_DS_DEFERRED_REQUEST = "DocumentSubmissionDeferredRequest";
     public static String CANNED_PC_RESPONSE = "PatientCorrelationResponse";
-    
     public static String CANNED_QD_RESPONSE = "DocumentQueryResponse";
     public static String CANNED_EXTRINSIC_OBJECT = "ExtrinsicObject";
+    public static String CANNED_CORE_X12DSGenericBatchRequest = "CORE_X12DSGenericBatchRequest";
+    public static String CANNED_CORE_X12DSGenericBatchResponse = "CORE_X12DSGenericBatchResponse";
+    public static String CANNED_CORE_X12DSRealTime = "CORE_X12DSRealTime";
     /*public static String QUALIFIED_SUBMITTERS = "QualifiedSubmitters";
-    public static String INTERNAL_ENDPOINTS = "InternalEndpoints";
-    public static String SCHEMA_VALIDATOR_MAPPINGS = "SchemaValidatorMappings";*/
+     public static String INTERNAL_ENDPOINTS = "InternalEndpoints";
+     public static String SCHEMA_VALIDATOR_MAPPINGS = "SchemaValidatorMappings";*/
     private static final Logger LOG = Logger.getLogger(DataManager.class);
 
     public static synchronized DataManager getInstance() {
@@ -74,15 +78,18 @@ public class DataManager {
         PropertyFileMap.put(CANNED_PD_RESPONSE, "CannedPatientDiscoveryResponse.xml");
         PropertyFileMap.put(CANNED_PD_DEFERRED_RESPONSE, "CannedPatientDiscoveryDeferredResponse.xml");
         PropertyFileMap.put(CANNED_PD_DEFERRED_REQUEST, "CannedPatientDiscoveryDeferredRequest.xml");
-        
+
         PropertyFileMap.put(CANNED_DS_RESPONSE, "CannedDocumentSubmissionResponse.xml");
         PropertyFileMap.put(CANNED_DS_DEFERRED_RESPONSE, "CannedDocumentSubmissionDeferredResponse.xml");
         PropertyFileMap.put(CANNED_DS_DEFERRED_REQUEST, "CannedDocumentSubmissionDeferredRequest.xml");
-        
+
         PropertyFileMap.put(CANNED_QD_RESPONSE, "CannedDocumentQueryResponse.xml");
         PropertyFileMap.put(CANNED_EXTRINSIC_OBJECT, "CannedExtrinsicObject.xml");
         PropertyFileMap.put(CANNED_PC_RESPONSE, "CannedPatientCorrelationResponse.xml");
+        PropertyFileMap.put(CANNED_CORE_X12DSGenericBatchRequest, "CannedCORE_X12DSGenericBatch.xml");
+        PropertyFileMap.put(CANNED_CORE_X12DSGenericBatchResponse, "CannedCORE_X12DSGenericBatch.xml");
 
+        PropertyFileMap.put(CANNED_CORE_X12DSRealTime, "CannedCORE_X12DSRealTime.xml");
 
         propertyFileLocation = PropertyAccessor.getInstance().getPropertyFileLocation();
         if (propertyFileLocation == null) {
@@ -137,8 +144,7 @@ public class DataManager {
         PRPAIN201306UV02 prpa = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            prpa = ((PRPAIN201306UV02)
-                    jaxb.parseXML(xml, "org.hl7.v3"));
+            prpa = ((PRPAIN201306UV02) jaxb.parseXML(xml, "org.hl7.v3"));
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,11 +161,10 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedPatientDiscoveryResponse");
-        return readPatientDiscoveryResponseFromString((String)getPropertyConfig(CANNED_PD_RESPONSE));
+        return readPatientDiscoveryResponseFromString((String) getPropertyConfig(CANNED_PD_RESPONSE));
     }
 
-    public String getCannedPatientDiscoveryResponseString() throws Exception
-    {
+    public String getCannedPatientDiscoveryResponseString() throws Exception {
         LOG.debug("entering getCannedPatientDiscoveryResponseString");
         if (checkRefresh(CANNED_PD_RESPONSE)) {
             String xml = getXMLProperties(CANNED_PD_RESPONSE);
@@ -168,23 +173,22 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedPatientDiscoveryResponseString");
-        return (String)getPropertyConfig(CANNED_PD_RESPONSE);
+        return (String) getPropertyConfig(CANNED_PD_RESPONSE);
     }
-    
+
     /* ****** Patient Discovery Deferred Response ***** */
     private MCCIIN000002UV01 readPatientDiscoveryDeferredResponseFromString(String xml) {
-    	MCCIIN000002UV01 prpa = null;
+        MCCIIN000002UV01 prpa = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            prpa = ((MCCIIN000002UV01)
-                    jaxb.parseXML(xml, "org.hl7.v3"));
+            prpa = ((MCCIIN000002UV01) jaxb.parseXML(xml, "org.hl7.v3"));
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return prpa;
     }
-    
+
     public MCCIIN000002UV01 getCannedPatientDiscoveryDeferredResponse() throws Exception {
         LOG.debug("entering getCannedPatientDiscoveryResponse");
         if (checkRefresh(CANNED_PD_DEFERRED_RESPONSE)) {
@@ -194,23 +198,22 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedPatientDiscoveryResponse");
-        return readPatientDiscoveryDeferredResponseFromString((String)getPropertyConfig(CANNED_PD_DEFERRED_RESPONSE));
+        return readPatientDiscoveryDeferredResponseFromString((String) getPropertyConfig(CANNED_PD_DEFERRED_RESPONSE));
     }
-    
+
     /* ****** Patient Discovery Deferred Request ***** */
     private MCCIIN000002UV01 readPatientDiscoveryDeferredRequestFromString(String xml) {
-    	MCCIIN000002UV01 prpa = null;
+        MCCIIN000002UV01 prpa = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            prpa = ((MCCIIN000002UV01)
-                    jaxb.parseXML(xml, "org.hl7.v3"));
+            prpa = ((MCCIIN000002UV01) jaxb.parseXML(xml, "org.hl7.v3"));
             LOG.debug("returning from readPatientDiscoveryDeferredRequestFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return prpa;
     }
-    
+
     public MCCIIN000002UV01 getCannedPatientDiscoveryDeferredRequest() throws Exception {
         LOG.debug("entering getCannedPatientDiscoveryResponse");
         if (checkRefresh(CANNED_PD_DEFERRED_REQUEST)) {
@@ -220,7 +223,89 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedPatientDiscoveryResponse");
-        return readPatientDiscoveryDeferredRequestFromString((String)getPropertyConfig(CANNED_PD_DEFERRED_REQUEST));
+        return readPatientDiscoveryDeferredRequestFromString((String) getPropertyConfig(CANNED_PD_DEFERRED_REQUEST));
+    }
+
+    /* ****** Core X12 Batch Response  ***** */
+    private COREEnvelopeBatchSubmissionResponse readCoreX12BatchResponseFromString(String xml) {
+        COREEnvelopeBatchSubmissionResponse ahqr = null;
+        try {
+            JAXBXMLUtils jaxb = new JAXBXMLUtils();
+            ahqr = ((COREEnvelopeBatchSubmissionResponse) jaxb.parseXML(xml, "org.caqh.soap.wsdl.corerule2_2_0"));
+            LOG.debug("returning from readCOREEnvelopeRealTimeResponseFromString");
+        } catch (JAXBException ex) {
+            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ahqr;
+    }
+
+    // this method must return a new object for every call, therefore the xml will be stored
+    //(only file io on the first call), and the xml will be parsed everytime.
+    public COREEnvelopeBatchSubmissionResponse getCannedCoreX12BatchResponse() throws Exception {
+        LOG.debug("entering getCannedCoreX12BatchResponse");
+        if (checkRefresh(CANNED_CORE_X12DSGenericBatchResponse)) {
+            String xml = getXMLProperties(CANNED_CORE_X12DSGenericBatchResponse);
+            updatePropertyConfigMap(CANNED_CORE_X12DSGenericBatchResponse, xml);
+            updateLastModified(CANNED_CORE_X12DSGenericBatchResponse);
+        }
+
+        LOG.debug("returning from getCannedCoreX12BatchResponse");
+        return readCoreX12BatchResponseFromString((String) getPropertyConfig(CANNED_CORE_X12DSGenericBatchResponse));
+    }
+
+    /* ****** Core X12 Batch Request  ***** */
+    private COREEnvelopeBatchSubmissionResponse readCoreX12BatchRequestFromString(String xml) {
+        COREEnvelopeBatchSubmissionResponse ahqr = null;
+        try {
+            JAXBXMLUtils jaxb = new JAXBXMLUtils();
+            ahqr = ((COREEnvelopeBatchSubmissionResponse) jaxb.parseXML(xml, "org.caqh.soap.wsdl.corerule2_2_0"));
+            LOG.debug("returning from readCOREEnvelopeRealTimeResponseFromString");
+        } catch (JAXBException ex) {
+            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ahqr;
+    }
+
+    // this method must return a new object for every call, therefore the xml will be stored
+    //(only file io on the first call), and the xml will be parsed everytime.
+    public COREEnvelopeBatchSubmissionResponse getCannedCoreX12BatchRequest() throws Exception {
+        LOG.debug("entering getCannedCoreX12BatchResponse");
+        if (checkRefresh(CANNED_CORE_X12DSGenericBatchRequest)) {
+            String xml = getXMLProperties(CANNED_CORE_X12DSGenericBatchRequest);
+            updatePropertyConfigMap(CANNED_CORE_X12DSGenericBatchRequest, xml);
+            updateLastModified(CANNED_CORE_X12DSGenericBatchRequest);
+        }
+
+        LOG.debug("returning from getCannedCoreX12BatchResponse");
+        return readCoreX12BatchRequestFromString((String) getPropertyConfig(CANNED_CORE_X12DSGenericBatchRequest));
+    }
+
+
+    /* ****** Core X12 Real Time  ***** */
+    private COREEnvelopeRealTimeResponse readCoreX12RealTimeFromString(String xml) {
+        COREEnvelopeRealTimeResponse ahqr = null;
+        try {
+            JAXBXMLUtils jaxb = new JAXBXMLUtils();
+            ahqr = ((COREEnvelopeRealTimeResponse) jaxb.parseXML(xml, "org.caqh.soap.wsdl.corerule2_2_0"));
+            LOG.debug("returning from readCOREEnvelopeRealTimeResponseFromString");
+        } catch (JAXBException ex) {
+            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return ahqr;
+    }
+
+    // this method must return a new object for every call, therefore the xml will be stored
+    //(only file io on the first call), and the xml will be parsed everytime.
+    public COREEnvelopeRealTimeResponse getCannedCoreX12RealTime() throws Exception {
+        LOG.debug("entering getCannedCoreX12RealTime");
+        if (checkRefresh(CANNED_CORE_X12DSRealTime)) {
+            String xml = getXMLProperties(CANNED_CORE_X12DSRealTime);
+            updatePropertyConfigMap(CANNED_CORE_X12DSRealTime, xml);
+            updateLastModified(CANNED_CORE_X12DSRealTime);
+        }
+
+        LOG.debug("returning from getCannedCoreX12RealTime");
+        return readCoreX12RealTimeFromString((String) getPropertyConfig(CANNED_CORE_X12DSRealTime));
     }
 
     /* ****** Document Query ***** */
@@ -228,8 +313,7 @@ public class DataManager {
         AdhocQueryResponse ahqr = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            ahqr = ((AdhocQueryResponse) 
-                    jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.query._3"));
+            ahqr = ((AdhocQueryResponse) jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.query._3"));
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -247,16 +331,15 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedDocumentQueryResponse");
-        return readDocumentQueryResponseFromString((String)getPropertyConfig(CANNED_QD_RESPONSE));
+        return readDocumentQueryResponseFromString((String) getPropertyConfig(CANNED_QD_RESPONSE));
     }
-    
+
     /* ****** Document Retrieve ***** */
     private ExtrinsicObjectType readExtrinsicObjectFromString(String xml) {
         ExtrinsicObjectType eo = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            eo = ((JAXBElement<ExtrinsicObjectType>) 
-                    jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.rim._3")).getValue();
+            eo = ((JAXBElement<ExtrinsicObjectType>) jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.rim._3")).getValue();
             LOG.debug("returning from readExtrinsicObjectFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -274,16 +357,15 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedExtrinsicObject");
-        return readExtrinsicObjectFromString((String)getPropertyConfig(CANNED_EXTRINSIC_OBJECT));
+        return readExtrinsicObjectFromString((String) getPropertyConfig(CANNED_EXTRINSIC_OBJECT));
     }
-    
+
     /* ****** Document Submission ***** */
     private RegistryResponseType readDocumentSubmissionResponseFromString(String xml) {
-    	RegistryResponseType response = null;
+        RegistryResponseType response = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            response = ((JAXBElement<RegistryResponseType>) 
-                    jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.rs._3")).getValue();
+            response = ((JAXBElement<RegistryResponseType>) jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.rs._3")).getValue();
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -301,16 +383,15 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedDocumentQueryResponse");
-        return readDocumentSubmissionResponseFromString((String)getPropertyConfig(CANNED_DS_RESPONSE));
+        return readDocumentSubmissionResponseFromString((String) getPropertyConfig(CANNED_DS_RESPONSE));
     }
-    
+
     /* ****** Document Submission Deferred Response ***** */
     private XDRAcknowledgementType readDocumentSubmissionDeferredResponseFromString(String xml) {
-    	XDRAcknowledgementType response = null;
+        XDRAcknowledgementType response = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            response = ((JAXBElement<XDRAcknowledgementType>)
-                    jaxb.parseXML(xml, "gov.hhs.healthit.nhin")).getValue();
+            response = ((JAXBElement<XDRAcknowledgementType>) jaxb.parseXML(xml, "gov.hhs.healthit.nhin")).getValue();
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -328,16 +409,15 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedDocumentQueryResponse");
-        return readDocumentSubmissionDeferredResponseFromString((String)getPropertyConfig(CANNED_DS_DEFERRED_RESPONSE));
+        return readDocumentSubmissionDeferredResponseFromString((String) getPropertyConfig(CANNED_DS_DEFERRED_RESPONSE));
     }
-    
+
     /* ****** Document Submission Deferred Request ***** */
     private XDRAcknowledgementType readDocumentSubmissionDeferredRequestFromString(String xml) {
-    	XDRAcknowledgementType response = null;
+        XDRAcknowledgementType response = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            response = ((JAXBElement<XDRAcknowledgementType>)
-                    jaxb.parseXML(xml, "gov.hhs.healthit.nhin")).getValue();
+            response = ((JAXBElement<XDRAcknowledgementType>) jaxb.parseXML(xml, "gov.hhs.healthit.nhin")).getValue();
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -355,17 +435,17 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedDocumentQueryResponse");
-        return readDocumentSubmissionDeferredRequestFromString((String)getPropertyConfig(CANNED_DS_DEFERRED_REQUEST));
+        return readDocumentSubmissionDeferredRequestFromString((String) getPropertyConfig(CANNED_DS_DEFERRED_REQUEST));
     }
-    
-    /**** Patient Correlation ****/
-    
+
+    /**
+     * ** Patient Correlation ***
+     */
     private RetrievePatientCorrelationsResponseType readPatientCorrelationResponseFromString(String xml) {
-    	RetrievePatientCorrelationsResponseType response = null;
+        RetrievePatientCorrelationsResponseType response = null;
         try {
             JAXBXMLUtils jaxb = new JAXBXMLUtils();
-            response = ((JAXBElement<RetrievePatientCorrelationsResponseType>)
-                    jaxb.parseXML(xml, "org.hl7.v3")).getValue();
+            response = ((JAXBElement<RetrievePatientCorrelationsResponseType>) jaxb.parseXML(xml, "org.hl7.v3")).getValue();
             LOG.debug("returning from readPatientCorrelationResponseFromString");
         } catch (JAXBException ex) {
             java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -383,9 +463,9 @@ public class DataManager {
         }
 
         LOG.debug("returning from getCannedPatientCorrelationResponse");
-        return readPatientCorrelationResponseFromString((String)getPropertyConfig(CANNED_PC_RESPONSE));
+        return readPatientCorrelationResponseFromString((String) getPropertyConfig(CANNED_PC_RESPONSE));
     }
-    
+
     //Reads the specified property file as a String
     //Input
     //		String: The Property key (ie QUALIFIED_SUBMITTERS)
