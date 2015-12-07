@@ -12,8 +12,6 @@ import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-
 import javax.xml.bind.JAXBException;
 
 import oasis.names.tc.ebxml_regrep.xsd.query._3.AdhocQueryResponse;
@@ -147,7 +145,7 @@ public class DataManager {
             prpa = ((PRPAIN201306UV02) jaxb.parseXML(xml, "org.hl7.v3"));
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
         }
         return prpa;
     }
@@ -184,7 +182,8 @@ public class DataManager {
             prpa = ((MCCIIN000002UV01) jaxb.parseXML(xml, "org.hl7.v3"));
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return prpa;
     }
@@ -209,7 +208,8 @@ public class DataManager {
             prpa = ((MCCIIN000002UV01) jaxb.parseXML(xml, "org.hl7.v3"));
             LOG.debug("returning from readPatientDiscoveryDeferredRequestFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return prpa;
     }
@@ -234,7 +234,8 @@ public class DataManager {
             ahqr = ((COREEnvelopeBatchSubmissionResponse) jaxb.parseXML(xml, "org.caqh.soap.wsdl.corerule2_2_0"));
             LOG.debug("returning from readCOREEnvelopeRealTimeResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return ahqr;
     }
@@ -261,7 +262,8 @@ public class DataManager {
             ahqr = ((COREEnvelopeBatchSubmissionResponse) jaxb.parseXML(xml, "org.caqh.soap.wsdl.corerule2_2_0"));
             LOG.debug("returning from readCOREEnvelopeRealTimeResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return ahqr;
     }
@@ -289,7 +291,8 @@ public class DataManager {
             ahqr = ((COREEnvelopeRealTimeResponse) jaxb.parseXML(xml, "org.caqh.soap.wsdl.corerule2_2_0"));
             LOG.debug("returning from readCOREEnvelopeRealTimeResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return ahqr;
     }
@@ -316,7 +319,8 @@ public class DataManager {
             ahqr = ((AdhocQueryResponse) jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.query._3"));
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return ahqr;
     }
@@ -342,7 +346,8 @@ public class DataManager {
             eo = ((JAXBElement<ExtrinsicObjectType>) jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.rim._3")).getValue();
             LOG.debug("returning from readExtrinsicObjectFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return eo;
     }
@@ -368,7 +373,8 @@ public class DataManager {
             response = ((JAXBElement<RegistryResponseType>) jaxb.parseXML(xml, "oasis.names.tc.ebxml_regrep.xsd.rs._3")).getValue();
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return response;
     }
@@ -394,7 +400,8 @@ public class DataManager {
             response = ((JAXBElement<XDRAcknowledgementType>) jaxb.parseXML(xml, "gov.hhs.healthit.nhin")).getValue();
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return response;
     }
@@ -420,7 +427,8 @@ public class DataManager {
             response = ((JAXBElement<XDRAcknowledgementType>) jaxb.parseXML(xml, "gov.hhs.healthit.nhin")).getValue();
             LOG.debug("returning from readPatientDiscoveryResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return response;
     }
@@ -448,7 +456,8 @@ public class DataManager {
             response = ((JAXBElement<RetrievePatientCorrelationsResponseType>) jaxb.parseXML(xml, "org.hl7.v3")).getValue();
             LOG.debug("returning from readPatientCorrelationResponseFromString");
         } catch (JAXBException ex) {
-            java.util.logging.Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception parsing XML file: " + ex.getLocalizedMessage(), ex);
+
         }
         return response;
     }
