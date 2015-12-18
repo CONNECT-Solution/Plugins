@@ -49,7 +49,7 @@
     <!--
         Beans defined for adapterxdrresponse
     -->
-    <alias alias="adapterxdrresponse" name="adapterxdrresponsewssecured" />
+    <alias alias="adapterxdrresponse" name="adapterxdrresponsejava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.docsubmission.adapter.deferred.response.proxy.AdapterDocSubmissionDeferredResponseProxyNoOpImpl" id="adapterxdrresponsenoop" name="adapterxdrresponsenoop">
@@ -75,7 +75,7 @@
     <!--
         Beans defined for entityxdrasyncresp
     -->
-    <alias alias="entityxdrasyncresp" name="entityxdrasyncrespwssecured" />
+    <alias alias="entityxdrasyncresp" name="entityxdrasyncrespjava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.docsubmission.entity.deferred.response.proxy.EntityDocSubmissionDeferredResponseProxyNoOpImpl" id="entityxdrasyncrespnoop" name="entityxdrasyncrespnoop">

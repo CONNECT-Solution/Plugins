@@ -54,7 +54,7 @@
     <!--
         Beans defined for adapterdocumentrepository
     -->
-    <alias alias="adapterdocumentrepository" name="adapterdocumentrepositorywsunsecured" />
+    <alias alias="adapterdocumentrepository" name="adapterdocumentrepositoryjava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.docrepository.adapter.proxy.AdapterComponentDocRepositoryProxyNoOpImpl" id="adapterdocumentrepositorynoop" name="adapterdocumentrepositorynoop">

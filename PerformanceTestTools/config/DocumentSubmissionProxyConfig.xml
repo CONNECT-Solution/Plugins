@@ -80,7 +80,7 @@
     <!--
         Beans defined for entitydocsubmission
     -->
-    <alias alias="entitydocsubmission" name="entitydocsubmissionwssecured" />
+    <alias alias="entitydocsubmission" name="entitydocsubmissionjava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.docsubmission.entity.proxy.EntityDocSubmissionProxyNoOpImpl" id="entitydocsubmissionnoop" name="entitydocsubmissionnoop">

@@ -54,7 +54,7 @@
     <!--
         Beans defined for entitypatientdiscoveryasyncresp
     -->
-    <alias alias="entitypatientdiscoveryasyncresp" name="entitypatientdiscoveryasyncrespwssecured" />
+    <alias alias="entitypatientdiscoveryasyncresp" name="entitypatientdiscoveryasyncrespjava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.patientdiscovery.entity.deferred.response.proxy.EntityPatientDiscoveryDeferredResponseProxyNoOpImpl" id="entitypatientdiscoveryasyncrespnoop" name="entitypatientdiscoveryasyncrespnoop">

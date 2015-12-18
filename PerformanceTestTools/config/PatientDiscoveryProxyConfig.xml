@@ -54,7 +54,7 @@
     <!--
         Beans defined for entitypatientdiscovery
     -->
-    <alias alias="entitypatientdiscovery" name="entitypatientdiscoverywssecured" />
+    <alias alias="entitypatientdiscovery" name="entitypatientdiscoveryjava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.patientdiscovery.entity.proxy.EntityPatientDiscoveryProxyNoOpImpl" id="entitypatientdiscoverynoop" name="entitypatientdiscoverynoop">

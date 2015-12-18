@@ -39,7 +39,7 @@
     <!--
         Beans defined for entitydocquery
     -->
-    <alias alias="entitydocquery" name="entitydocquerywssecured" />
+    <alias alias="entitydocquery" name="entitydocqueryjava" />
 
     <!-- No-op Implementation -->
     <bean lazy-init="true" class="gov.hhs.fha.nhinc.docquery.entity.proxy.EntityDocQueryProxyNoOpImpl" id="entitydocquerynoop" name="entitydocquerynoop">
