@@ -3,17 +3,17 @@
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
     xmlns:ns1='http://www.caqh.org/SOAP/WSDL/CORERule2.2.0.xsd'
     xsi:schemaLocation='http://www.caqh.org/SOAP/WSDL/CORERule2.2.0.xsd'>
-   <PayloadType>X12_BatchReceiptConfirmation</PayloadType>
-            <ProcessingMode>Batch</ProcessingMode>
-            <PayloadID>f81d4fae-7dec-11d0-a765-00a0c91e6bf6</PayloadID>
-            <PayloadLength>1551254</PayloadLength>
-            <TimeStamp>2015-11-30 14:51:51.256</TimeStamp>
-            <SenderID>PayerB</SenderID>
-            <ReceiverID>HospitalA</ReceiverID>
-            <CORERuleVersion>2.2.0</CORERuleVersion>
-            <Payload>
-               <xop:Include href="cid:ba144eaf-8593-47c7-be51-15d3a48d074f-12@cxf.apache.org" xmlns:xop="http://www.w3.org/2004/08/xop/include"/>
-            </Payload>
-            <ErrorCode>Success</ErrorCode>
-            <ErrorMessage>None</ErrorMessage>
+    <PayloadType>X12_BatchReceiptConfirmation</PayloadType>
+    <ProcessingMode>Batch</ProcessingMode>
+    <PayloadID>f81d4fae-7dec-11d0-a765-00a0c91e6bf6</PayloadID>
+    <PayloadLength>1551254</PayloadLength>
+    <TimeStamp>2015-11-30 14:51:51.256</TimeStamp>
+    <SenderID>PayerB</SenderID>
+    <ReceiverID>HospitalA</ReceiverID>
+    <CORERuleVersion>2.2.0</CORERuleVersion>
+    <Payload>
+        <xop:Include href="cid:ba144eaf-8593-47c7-be51-15d3a48d074f-12@cxf.apache.org" xmlns:xop="http://www.w3.org/2004/08/xop/include"/>
+    </Payload>
+    <ErrorCode>Success</ErrorCode>
+    <ErrorMessage>None</ErrorMessage>
 </ns1:COREEnvelopeBatchSubmissionResponse>
