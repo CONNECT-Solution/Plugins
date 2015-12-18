@@ -12,34 +12,22 @@ http://www.springframework.org/schema/aop     http://www.springframework.org/sch
         The beans available in this file must be identified in the "description" element for the Spring configuration application. Beans are listed between braces
         in the description separated with a comma like the following sample: {somebean,anotherbean}
     -->
-    <description>Beans included in this file: {adaptercoreX12DSBatchRequest,adaptercore_x12dsgenericbatchrequest,nhincore_x12dsgenericbatchrequest,adaptercore_x12dsgenericbatchresponse,nhincore_x12dsgenericbatchresponse}</description>
+    <description>Beans included in this file: {adaptercore_x12dsgenericbatchrequest,nhincore_x12dsgenericbatchrequest,adaptercore_x12dsgenericbatchresponse,nhincore_x12dsgenericbatchresponse}</description>
 
     <aop:aspectj-autoproxy proxy-target-class="true" />
     <context:annotation-config />
 
     <import resource="classpath:CONNECT-context.xml" />
-	
-	<!-- Beans defined : adapter interface-->
-	<!-- No-op Implementation -->
-	
-	<alias alias="adaptercore_x12dsgenericbatchrequest" name="adaptercoreX12DSBatchRequestBOloadtest" />
-	
-	<bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.batch.request.loadtest.CORE_X12DSBatchRequestBO" id="adaptercoreX12DSBatchRequestBOloadtest" name="adaptercoreX12DSBatchRequestBOloadtest"> 
-		<meta key="impltype" value="noop"/>
-	</bean> 
-	
-	
-	 <alias alias="adaptercore_x12dsgenericbatchresponse" name="adaptercoreX12DSBatchResponseBOloadtest" />
-	
-	<bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.batch.response.loadtest.CORE_X12DSBatchResponseBO" id="adaptercoreX12DSBatchResponseBOloadtest" name="adaptercoreX12DSBatchResponseBOloadtest"> 
-		<meta key="impltype" value="noop"/>
-	</bean> 
-
 
     <!--
         Beans defined for adaptercore_x12dsgenericbatchrequest
     -->
-    <!-- <alias alias="adaptercore_x12dsgenericbatchrequest" name="adaptercore_x12dsenericbatchrequestwsunsecured" />  -->
+    <alias alias="adaptercore_x12dsgenericbatchrequest" name="adaptercoreX12DSBatchRequestBOloadtest" />
+
+    <!-- Load Test Implementation -->
+    <bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.batch.request.loadtest.CORE_X12DSBatchRequestBO" id="adaptercoreX12DSBatchRequestBOloadtest" name="adaptercoreX12DSBatchRequestBOloadtest">
+        <meta key="impltype" value="noop"/>
+    </bean>
 
     <!-- No-op Implementation -->
     <bean id="adaptercore_x12dsgenericbatchrequestnoop"
@@ -78,29 +66,34 @@ http://www.springframework.org/schema/aop     http://www.springframework.org/sch
         <meta key="impltype" value="wsunsecured" />
     </bean>
 
-	<!-- Adapter X12 Core DS Exception Builder -->
+    <!-- Adapter X12 Core DS Exception Builder -->
     <bean id="adaptercore_x12dsgenericbatchrequestproxybean"
           name="adaptercore_x12dsgenericbatchrequestproxybean"
           class="gov.hhs.fha.nhinc.corex12.docsubmission.genericbatch.request.adapter.proxy.AdapterCORE_X12DSGenericBatchRequestProxyBeanImpl"
           lazy-init="true">
 
-		<property name="payload" value="file:///c:/Temp/test.txt"/>
-		<property name="payloadId" value="f81d4fae-7dec-11d0-a765-00a0c91e6bf6" />
-		<property name="payloadType" value="X12_BatchReceiptConfirmation" />
-		<property name="coreRulesVersion" value="uri:" />
-		<property name="processingMode" value="Batch" />
-		<property name="payloadLength" value="1551254" />
-		<property name="senderId" value="PayerB" />
-		<property name="receiverId" value="HospitalA" />
-		<property name="checkSum" value="43B8485AB5" />
-		<property name="errorCode" value="Success" />
-		<property name="errorMessage" value="None" />		
+        <property name="payload" value="file:///c:/Temp/test.txt"/>
+        <property name="payloadId" value="f81d4fae-7dec-11d0-a765-00a0c91e6bf6" />
+        <property name="payloadType" value="X12_BatchReceiptConfirmation" />
+        <property name="coreRulesVersion" value="uri:" />
+        <property name="processingMode" value="Batch" />
+        <property name="payloadLength" value="1551254" />
+        <property name="senderId" value="PayerB" />
+        <property name="receiverId" value="HospitalA" />
+        <property name="checkSum" value="43B8485AB5" />
+        <property name="errorCode" value="Success" />
+        <property name="errorMessage" value="None" />
     </bean>
-	
+
     <!--
         Beans defined for adaptercore_x12dsgenericbatchresponse
-    --> 
-    <!-- <alias alias="adaptercore_x12dsgenericbatchresponse" name="adaptercore_x12dsgenericbatchresponsesecured" /> -->
+    -->
+    <alias alias="adaptercore_x12dsgenericbatchresponse" name="adaptercoreX12DSBatchResponseBOloadtest" />
+
+    <!-- Load Test Implementation -->
+    <bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.batch.response.loadtest.CORE_X12DSBatchResponseBO" id="adaptercoreX12DSBatchResponseBOloadtest" name="adaptercoreX12DSBatchResponseBOloadtest">
+        <meta key="impltype" value="noop"/>
+    </bean>
 
     <!-- No-op Implementation -->
     <bean id="adaptercore_x12dsgenericbatchresponsenoop"
@@ -110,7 +103,7 @@ http://www.springframework.org/schema/aop     http://www.springframework.org/sch
 
         <meta key="impltype" value="noop" />
     </bean>
-    
+
     <!-- Java Implementation -->
     <bean id="adaptercore_x12dsgenericbatchresponsejava"
           name="adaptercore_x12dsgenericbatchresponsejava"
@@ -130,25 +123,25 @@ http://www.springframework.org/schema/aop     http://www.springframework.org/sch
         <meta key="default" value="true" />
     </bean>
 
-	<!-- Adapter X12 Core DS Exception Builder -->
+    <!-- Adapter X12 Core DS Exception Builder -->
     <bean id="adaptercore_x12dsgenericbatchresponseproxybean"
           name="adaptercore_x12dsgenericbatchresponseproxybean"
           class="gov.hhs.fha.nhinc.corex12.docsubmission.genericbatch.response.adapter.proxy.AdapterCORE_X12DSGenericBatchResponseProxyBeanImpl"
           lazy-init="true">
 
-		<property name="payload" value="file:///c:/Temp/test.txt" />
-		<property name="payloadId" value="f81d4fae-7dec-11d0-a765-00a0c91e6bf6" />
-		<property name="payloadType" value="X12_BatchReceiptConfirmation" />
-		<property name="coreRulesVersion" value="uri:" />
-		<property name="processingMode" value="Batch" />
-		<property name="payloadLength" value="1551254" />
-		<property name="senderId" value="PayerB" />
-		<property name="receiverId" value="HospitalA" />
-		<property name="checkSum" value="43B8485AB5" />
-		<property name="errorCode" value="Success" />
-		<property name="errorMessage" value="None" />		
+        <property name="payload" value="file:///c:/Temp/test.txt" />
+        <property name="payloadId" value="f81d4fae-7dec-11d0-a765-00a0c91e6bf6" />
+        <property name="payloadType" value="X12_BatchReceiptConfirmation" />
+        <property name="coreRulesVersion" value="uri:" />
+        <property name="processingMode" value="Batch" />
+        <property name="payloadLength" value="1551254" />
+        <property name="senderId" value="PayerB" />
+        <property name="receiverId" value="HospitalA" />
+        <property name="checkSum" value="43B8485AB5" />
+        <property name="errorCode" value="Success" />
+        <property name="errorMessage" value="None" />
     </bean>
-	
+
     <!-- Unsecured web service Implementation -->
     <bean id="adaptercore_x12dsenericbatchresponsewsunsecured"
           name="adaptercore_x12dsenericbatchresponsewsunsecured"
@@ -157,7 +150,7 @@ http://www.springframework.org/schema/aop     http://www.springframework.org/sch
 
         <meta key="impltype" value="wsunsecured" />
     </bean>
-    
+
     <!--
         Beans defined for nhincore_x12dsgenericbatchrequest
     -->
@@ -205,6 +198,6 @@ http://www.springframework.org/schema/aop     http://www.springframework.org/sch
         <meta key="impltype" value="wssecured" />
         <meta key="default" value="true" />
     </bean>
-    
+
     <aop:aspectj-autoproxy />
 </beans>

@@ -16,20 +16,19 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true" />
     <context:annotation-config />
-	<!--
-        Beans defined for adaptercore_x12dsrealtime
-    -->
+
     <import resource="classpath:CONNECT-context.xml" />
 
-	<alias alias="adaptercore_x12dsrealtime" name="adaptercoreX12RealTimeBOloadtest" />
-	
-	<bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.loadtest.CORE_X12DSRealTimeBO" id="adaptercoreX12RealTimeBOloadtest" name="adaptercoreX12RealTimeBOloadtest"> 
-		<meta key="impltype" value="noop"/>
-	</bean> 
     <!--
         Beans defined for adaptercore_x12dsrealtime
     -->
-   
+    <alias alias="adaptercore_x12dsrealtime" name="adaptercoreX12RealTimeBOloadtest" />
+
+    <!-- Load Test Implementation -->
+    <bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.loadtest.CORE_X12DSRealTimeBO" id="adaptercoreX12RealTimeBOloadtest" name="adaptercoreX12RealTimeBOloadtest">
+        <meta key="impltype" value="noop"/>
+    </bean>
+
     <!-- No-op Implementation -->
     <bean id="adaptercore_x12dsrealtimenoop"
           name="adaptercore_x12dsrealtimenoop"
@@ -47,8 +46,8 @@
 
         <meta key="impltype" value="java" />
     </bean>
-	
-	<!-- Payload Java Implementation -->
+
+    <!-- Payload Java Implementation -->
     <bean id="adaptercore_x12dsrealtimepayloadjava"
           name="adaptercore_x12dsrealtimepayloadjava"
           class="gov.hhs.fha.nhinc.corex12.docsubmission.realtime.adapter.proxy.AdapterCORE_X12DSRealTimeProxyJavaPayloadImpl"
