@@ -8,28 +8,27 @@
         http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-<!--
-    The beans available in this file must be identified in the "description" element for the Spring configuration application. Beans are listed between braces
-    in the description separated with a comma like the following sample: {somebean,anotherbean}
--->
+    <!--
+        The beans available in this file must be identified in the "description" element for the Spring configuration application. Beans are listed between braces
+        in the description separated with a comma like the following sample: {somebean,anotherbean}
+    -->
     <description>Beans included in this file: {adaptercore_x12dsrealtime,nhincore_x12dsrealtime}</description>
 
     <aop:aspectj-autoproxy proxy-target-class="true" />
     <context:annotation-config />
-	<!--
-        Beans defined for adaptercore_x12dsrealtime
-    -->
+
     <import resource="classpath:CONNECT-context.xml" />
 
-	<alias alias="adaptercore_x12dsrealtime" name="adaptercoreX12RealTimeBOloadtest" />
-	
-	<bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.loadtest.CORE_X12DSRealTimeBO" id="adaptercoreX12RealTimeBOloadtest" name="adaptercoreX12RealTimeBOloadtest"> 
-		<meta key="impltype" value="noop"/>
-	</bean> 
     <!--
         Beans defined for adaptercore_x12dsrealtime
     -->
-   
+    <alias alias="adaptercore_x12dsrealtime" name="adaptercoreX12RealTimeBOloadtest" />
+
+    <!-- Load Test Implementation -->
+    <bean lazy-init="true" class="gov.hhs.fha.nhinc.corex12.loadtest.CORE_X12DSRealTimeBO" id="adaptercoreX12RealTimeBOloadtest" name="adaptercoreX12RealTimeBOloadtest">
+        <meta key="impltype" value="noop"/>
+    </bean>
+
     <!-- No-op Implementation -->
     <bean id="adaptercore_x12dsrealtimenoop"
           name="adaptercore_x12dsrealtimenoop"
@@ -47,8 +46,8 @@
 
         <meta key="impltype" value="java" />
     </bean>
-	
-	<!-- Payload Java Implementation -->
+
+    <!-- Payload Java Implementation -->
     <bean id="adaptercore_x12dsrealtimepayloadjava"
           name="adaptercore_x12dsrealtimepayloadjava"
           class="gov.hhs.fha.nhinc.corex12.docsubmission.realtime.adapter.proxy.AdapterCORE_X12DSRealTimeProxyJavaPayloadImpl"
@@ -77,7 +76,7 @@
     </bean>
 
     <!--
-        Beans defined for nhincore_x12ds
+        Beans defined for nhincore_x12dsrealtime
     -->
     <alias alias="nhincore_x12dsrealtime" name="nhincore_x12dsrealtimewssecured" />
 
@@ -100,5 +99,6 @@
         <meta key="default" value="true" />
     </bean>
 
+    <!-- Aspect Service -->
     <aop:aspectj-autoproxy />
 </beans>

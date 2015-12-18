@@ -62,7 +62,7 @@
                 <patientId>V006^^^&amp;19.1.1.2&amp;ISO</patientId>
             </Patient>
         </entry>
-        
+
         <!-- Internal Test -->
         <entry>
             <string>'V002^^^&amp;19.1.1.2&amp;ISO'</string>
@@ -72,7 +72,7 @@
                 	<string>V002a</string>
                 </documentIds>
             </DocumentMetaData>
-        </entry>        
+        </entry>
         <entry>
             <string>'V003^^^&amp;19.1.1.2&amp;ISO'</string>
             <DocumentMetaData>
@@ -107,7 +107,7 @@
                 </documentIds>
             </DocumentMetaData>
         </entry>
-        
+
         <!-- End to End Test -->
         <entry>
             <string>V002^^^&amp;19.1.2.2&amp;ISO</string>
@@ -117,7 +117,7 @@
                 	<string>V002a</string>
                 </documentIds>
             </DocumentMetaData>
-        </entry>        
+        </entry>
         <entry>
             <string>V003^^^&amp;19.1.2.2&amp;ISO</string>
             <DocumentMetaData>
@@ -152,7 +152,7 @@
                 </documentIds>
             </DocumentMetaData>
         </entry>
-        
+
         <entry>
             <string>V005a</string>
             <Document>
