@@ -1,20 +1,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+
     <groupId>org.connectopensource</groupId>
     <artifactId>Plugins</artifactId>
-    <version>4.5.0-SNAPSHOT</version>
+    <version>4.6.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
     <name>CONNECT Plugins</name>
     <url>www.connectopensource.org</url>
     <description>These plugins can be used along with CONNECT.</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- JDK Versions -->
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+
+        <!-- CONNECT Dependency Versions -->
+        <connect.webservices.version>4.3.0-SNAPSHOT</connect.webservices.version>
+        <connect.commontypes.version>4.3.0-SNAPSHOT</connect.commontypes.version>
+        <cxf.version>2.7.3</cxf.version>
+        <spring.version>3.0.7.RELEASE</spring.version>
+        <slf4j.version>1.7.13</slf4j.version>
+    </properties>
+
     <modules>
         <module>XDSbPlugin</module>
-        <!--<module>X12RealTimeLargePayloadTest</module>-->
         <module>FHIRAdapters</module>
         <module>HPD-WS-Client</module>
-		<module>CONNECTUniversalClientGUI</module>
+        <module>PerformanceTestTools</module>
+        <!--module>CONNECTUniversalClientGUI</module-->
+        <!--module>X12RealTimeLargePayloadTest</module-->
     </modules>
-    <properties>
-        <cxf.version>2.7.3</cxf.version>
-    </properties>
 </project>
