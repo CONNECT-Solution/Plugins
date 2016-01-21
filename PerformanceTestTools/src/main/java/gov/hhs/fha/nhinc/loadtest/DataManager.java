@@ -302,40 +302,7 @@ public final class DataManager {
         return readPatientCorrelationResponseFromString((String) getStringPropertyConfig(CANNED_PC_RESPONSE));
     }
 
-    /**
-     * Reads the specified property file as a String
-     *
-     * @param m_sPropertyFile the Property key (ie QUALIFIED_SUBMITTERS)
-     * @return the file's XML read as a string
-     */
-    /*private String getXMLPropertiesOld(String m_sPropertyFile) {
-        String xml = null;
-        try {
-            File file = new File(propFileLocation + propFileMap.get(m_sPropertyFile));
-            if (file.exists()) {
-                // Open the file
-                FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
-
-                // Get the object of DataInputStream
-                DataInputStream in = new DataInputStream(fstream);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-                //Read File Line By Line
-                String line;
-                while ((line = br.readLine()) != null) {
-                    if (xml == null) {
-                        xml = "";
-                    }
-                    xml += line;
-                }
-                in.close();
-            }
-        } catch (Exception e) {
-            LOG.error("Exception getting XML properties: {}", e.getLocalizedMessage(), e);
-        }
-
-        return xml;
-    }*/
+    
     private String readXmlPropsFromFile(String m_sPropertyFile) throws IOException {
         return FileUtils.readFileToString(new File(propFileLocation + propFileMap.get(m_sPropertyFile)), "UTF-8");
     }
