@@ -1,84 +1,97 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.connectopensource</groupId>
+    <parent>
+        <groupId>org.connectopensource</groupId>
+        <artifactId>Plugins</artifactId>
+        <version>4.6.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>PerformanceTestTools</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <name>PerformanceTestTools</name>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+        <slf4j.version>1.7.13</slf4j.version>
+    </properties>
 
     <dependencies>
+        <!-- CONNECT Modules / Web Services -->
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>PatientDiscoveryCore</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>DocumentQueryCore</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>DocumentRetrieveCore</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>PatientCorrelationCore</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>DocumentSubmissionCore</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>CORE_X12DocumentSubmissionCore</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCoreLib</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.connectopensource</groupId>
             <artifactId>CONNECTCommonTypesLib</artifactId>
             <version>4.3.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-        </dependency>
+
+        <!-- XML -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.4.4</version>
         </dependency>
+
+        <!-- Logging -->
         <dependency>
-            <groupId>org.connectopensource</groupId>
-            <artifactId>CORE_X12DocumentSubmissionCore</artifactId>
-            <version>4.6.0-SNAPSHOT</version>
-            <type>jar</type>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <sourceDirectory>CONNECTLoadTestJar/src</sourceDirectory>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source/>
-                    <target/>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+    
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
