@@ -143,6 +143,9 @@ public final class DataManager {
         if (!propFileLocation.endsWith(File.separator)) {
             propFileLocation += File.separator;
         }
+        if (propertyConfigMap == null){
+            propertyConfigMap = new ConcurrentHashMap<>();
+        }
 
         updatePropertyConfigMap(LOAD_TEST_DATA, (LoadTestData) getLoadTestData());
     }
