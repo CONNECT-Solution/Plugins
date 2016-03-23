@@ -41,7 +41,7 @@
     <!-- Java Implementation -->
     <bean id="adaptercore_x12dsrealtimejava"
           name="adaptercore_x12dsrealtimejava"
-          class="gov.hhs.fha.nhinc.corex12.ds.realtime.adapter.proxy.AdapterCORE_X12DSRealTimeProxyJavaImpl"
+          class="gov.hhs.fha.nhinc.corex12.ds.realtime.adapter.proxy.AdapterX12RealTimeProxyJavaImpl"
           lazy-init="true">
 
         <meta key="impltype" value="java" />
