@@ -4,9 +4,9 @@
         <version>4.6.0-SNAPSHOT</version> </parent> -->
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.connectopensource</groupId>
-    <artifactId>CONNECT-PMPCore</artifactId>
+    <artifactId>PrescriptionDrugMonitoringCore</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>CONNECT-PMPCore</name>
+    <name>PrescriptionDrugMonitoringCore</name>
     <packaging>jar</packaging>
     <properties>
         <compiler.source>1.7</compiler.source>
