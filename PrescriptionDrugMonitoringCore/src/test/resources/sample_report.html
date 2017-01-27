@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PMP Gateway Data Report</title>
+        <script type="text/javascript" src="https://gateway-prep.pmp.appriss.com/narx-content/content/201507/jquery-ui-1.11.4/external/jquery/jquery.js"></script>
+        <script type="text/javascript" src="https://gateway-prep.pmp.appriss.com/narx-content/content/201507/jquery-ui-1.11.4/jquery-ui.js"></script>
+        <script type="text/javascript" src="https://gateway-prep.pmp.appriss.com/narx-content/scripts/jquery.tablesorter.min.js"></script>
+        <link rel="stylesheet" href="https://gateway-prep.pmp.appriss.com/narx-content/content/201507/jquery-ui-1.11.4/jquery-ui.css" type="text/css" media="all" />
+        <style type="text/css">
+        /* common styles */
+
+        div.pr_content * {
+            font-family:Arial,Verdana,sans-serif;
+        }
+
+        div.pr_content {
+            width: 1005px;
+           /* Centering */
+           margin: 0 auto 0 auto;
+        }
+
+        div.pr_content table.layout {
+            width: 1005px;
+            min-width: 1005px;
+            font-size: 14px;
+        }
+
+        div.pr_content table,
+        div.pr_content th,
+        div.pr_content td {
+            border-collapse: collapse; 
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+
+        /* Datatable */
+        div.pr_content .datatable {
+            margin:0px;
+            width:100%;
+            width: 1005px;
+            font-size: 14px;
+        }
+
+        div.pr_content table.datatable td {
+            text-align: left;
+        }
+      
+      
+        div.pr_content table.datatable thead tr .header {
+            padding-right: 15px;
+         background-image: url(https://gateway-prep.pmp.appriss.com/narx-content/content/bg.gif);
+         background-repeat: no-repeat;
+         background-position: center right;
+         cursor: pointer;
+        }
+
+        div.pr_content table.datatable thead tr .headerSortDown, table.datatable thead tr .headerSortUp {
+             background-color: #d9dfea;
+             border-top-left-radius: 5px;
+             border-top-right-radius: 5px;
+        }
+
+        div.pr_content table.datatable thead tr .headerSortUp {
+         background-image: url(https://gateway-prep.pmp.appriss.com/narx-content/content/asc.gif);
+        }
+        div.pr_content table.datatable thead tr .headerSortDown {
+         background-image: url(https://gateway-prep.pmp.appriss.com/narx-content/content/desc.gif);
+        }
+
+        /* End Datatable */
+
+        #data-analysis {
+          cursor: pointer;
+        }
+
+      #prescriptions-table thead tr th,
+        #prescriptions-table tbody tr td 
+        {
+            font-size:12px;
+        }
+
+        #providers-table thead tr th,
+      #providers-table tbody tr td {
+            font-size:12px;
+        }
+      
+        #pharmacies-table thead tr th,
+      #pharmacies-table tbody tr td {
+            font-size:12px;
+        }
+
+        div.pr_content th {
+            text-align: left;
+            font-weight: normal;
+            border-bottom: 1px solid #ccc;
+        }
+
+        div.pr_content hr {
+            height: 1px;
+            border-color:#ccc;
+            border:0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+        }
+
+
+        div.pr_content .left {
+            text-align: left;
+            padding-left: 0px;
+        }
+
+        div.pr_content .right {
+            text-align: right !important;
+            padding-right: 0px;
+        }
+
+         div.pr_content .centered {
+            text-align: center !important;
+        }
+
+        div.pr_content .wide {
+            width: 300px;
+        }
+
+        div.pr_content .error {
+            color: red;
+        }
+
+
+        #canvas_container {
+            width: 100%;
+            margin-left:0px;
+            padding-left:0px;
+        }
+        div.pr_content .score_label {
+            font-size:32px;
+            font-weight:bold;
+            width:125px;
+        }
+
+        div.pr_content .score {
+            font-size:32px;
+            font-weight:bold;
+            width:75px;
+            min-width:100px;
+            text-align: center;
+        }
+
+        div.pr_content .score_legend {
+            font-size:12px;
+        }
+
+        div.pr_content .drug_odd {
+            background-color:#FFFFFF;
+        }
+
+        div.pr_content .drug_even {
+            background-color:#f8f8f8;
+        }
+
+        div.pr_content .hidden {
+            display:none;
+        }
+
+        #hovertable {
+            font-size:10px;
+            padding:5px;
+            text-align:left;
+            border:1px solid #ccc;
+            width:800px;
+            background-color:white;
+            margin:0px;
+            margin-right:10px;
+        }
+
+        #hovertable thead tr {
+            border-bottom:1px solid #ccc;
+            background-color:#050054;
+            color:white;
+        }
+
+        #dochovertable {
+            font-size:10px;
+            padding:5px;
+            text-align:left;
+            border:1px solid #ccc;
+            width:800px;
+        }
+
+        #dochovertable thead tr {
+            border-bottom:1px solid #ccc;
+            background-color:#050054;
+            color:white;
+        }
+
+        div.pr_content a:hover {
+            cursor:pointer;
+        }
+
+        div.pr_content .shadow {
+           -moz-box-shadow: 3px 3px 4px #cccccc;
+           -webkit-box-shadow: 3px 3px 4px #cccccc;
+           box-shadow: 3px 3px 4px #cccccc;
+           /* For IE 8 */
+           -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#cccccc')";
+           /* For IE 5.5 - 7 */
+           filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#cccccc');
+        }
+
+        div.pr_content .title {
+           float:left;
+           font-size:16px;
+           font-weight:bold;
+           white-space: nowrap;
+        }
+        div.pr_content .title-space {
+           width:120px;
+        }
+
+        div.pr_content .title-extra{
+           float:left;
+           margin-left:20px;
+           white-space: nowrap;
+        }
+
+        div.pr_content .title-extra-right{
+           white-space: nowrap;
+           float:right;
+        }
+
+        div.pr_content .narx-table-title-bar {
+            font-size: 14px;
+            margin-top: 15px;
+            margin-bottom: 45px;
+        }
+        div.pr_content .narx-table-title-bar span:first-child {
+            margin-left: 10px;
+        }
+
+        div.pr_content .clear {
+            clear:both;
+        }
+
+        div.pr_content .font14 {
+           font-size:14px;
+        }
+        div.pr_content .font12 {
+           font-size:12px;
+        }
+
+        div.pr_content .gray {
+            color:#ccc;
+        }
+        div.pr_content .superscript{
+            font-size:large;
+            vertical-align:top;
+        }
+        div.pr_content .darkred {
+            color:darkred;
+        }
+
+        div.pr_content .align-right {
+            text-align: right;
+        }
+
+        div.pr_content .historical-score-title {
+           color:#ccc;
+           font-size:14px;
+           text-align:center;
+           padding-top:0px;
+           padding-bottom:0px;
+        }
+
+        div.pr_content .border-bottom {
+           border-bottom:1px solid #ccc;
+        }
+
+        div.pr_content .border-top {
+           border-top:1px solid #ccc;
+        }
+
+        div.pr_content .border-top-space {
+           border-top:1px solid #ccc;
+        }
+
+        div.pr_content .border {
+           border:1px solid #ccc;
+        }
+
+        div.pr_content .title-bar {
+           height: 35px;
+        }
+
+        div.pr_content .title-bar::after{
+           clear:both;
+        }
+
+        div.pr_content .patient-title {
+           font-size:22px;
+           font-weight: bold;
+           margin-top: 25px;
+           margin-left: 10px;
+        }
+
+        div.pr_content .float-left {
+           float:left;
+        }
+
+        div.pr_content .float-right {
+           float:right;
+        }
+
+        div.pr_content .bold {
+           font-weight:bold;
+        }
+
+        #note-overlay {
+           width:800px;
+           display:none;
+           text-align:left;
+           background-color:#fffdce;
+           padding:0px;
+        }
+
+
+        div.pr_content .visit_odd {
+            background-color:#ffffff;
+        }
+
+        div.pr_content .visit_even {
+            background-color:#f8f8f8;
+        }
+
+
+
+        #visit-table {
+            width:798px;
+            margin:0px 1px 0px 1px;
+            font-size: 12px;
+        }
+
+        #visit-overlay {
+           display:none;
+           background-color:#fefefe;
+           padding:0px;
+        }
+
+        #visit-titlebar{
+             text-align:right;
+             background-color:#eeeeee;
+             height:20px;
+             line-height:20px;
+             width:800px;
+             cursor:move;
+        }
+
+        div.pr_content .hover-title {
+           float:left;
+           margin-left:10px;
+           font-size:12px;
+           font-weight:bold;
+        }
+
+        div.pr_content .close-button {
+          float:right;
+ 
+          text-decoration:none;
+          cursor:pointer;
+        }
+
+        #demo-overlay {
+            display:none;
+            background-color:#fefefe;
+            padding:0px;
+            margin:0px;
+        }
+        #demo-titlebar {
+            text-align:right;
+            background-color:#eeeeee;
+            height:20px;
+            padding-right:0px;
+            line-height:20px;
+            width:800px;
+            cursor:move;
+        }
+
+        #demo-table {
+            margin-left:1px;
+            margin-right:1px;
+            width: 798px;
+        }
+
+        #data-analysis {
+          margin-left:10px;
+        }
+
+        div.pr_content .control_link {
+          text-decoration:none;
+          cursor:pointer;
+        }
+
+        div.pr_content .pr_alert {
+           background:#FFFBDE;
+          border: 1px  dotted #C9AF00;
+          color: #A69000;
+           padding: 5px 5px 5px 10px;
+        }
+
+        #demobar  {
+           border-bottom: 1px solid #ccc;
+           border-top: 1px solid #ccc;
+           margin-top: 5px;
+           margin-bottom: 10px;
+           padding: 5px 5px 5px 10px; 
+           font-size: 14px;
+        }
+
+        #demobar .demoitem{
+            margin-left: 18px;
+        }
+
+        #demobar .demodate{
+            float:right;
+            padding: 0;
+        }
+        #demobar .demodate:after{
+            clear:both;
+        }
+
+        
+    </style>
+        <style type="text/css">
+        /* data report specific styles */
+
+    </style>
+    </head>
+    <body>
+        <div class="pr_content">
+            <div class="patient-title">
+                <b>TESTPATIENT, BOB</b>
+            </div>
+            <div id="demobar">
+                <span>Age: 117</span>
+                <span  style="margin-left:150px;">
+                    <a href="#" class="control_link demo-toggle">demographics</a>
+                </span>
+                <span style="float:right;">Data as of: 1/26/2017</span>
+            </div>
+            <!-- Report Message -->
+            <!-- Data Tables -->
+            <div class="narx-table-title-bar">
+                <span class="title title-space">Prescriptions</span>
+                <span class="title-extra">Total Prescriptions: 5</span>
+            </div>
+            <table id="prescriptions-table" class="datatable">
+                <thead>
+                    <tr>
+                        <th>Fill Date</th>
+                        <th style="margin:0;padding:0;">&nbsp;</th>
+                        <th class="">Drug</th>
+                        <th class="centered">Qty</th>
+                        <th class="centered">Days</th>
+                        <th>Prescriber</th>
+                        <th>Pharmacy</th>
+                        <th class="centered">Refill</th>
+                        <th class="right">MgEq</th>
+                        <th class="right">MgEq/Day</th>
+                        <th class="left" style="padding-left:10px;">Pymt Type</th>
+                        <th class="centered" title="The State that provided this prescription record">PMP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="drug_even">
+                        <td class="">06/16/2016</td>
+                        <td style="margin:0;padding:0;">
+                            <span class="superscript darkred"> </span>
+                        </td>
+                        <td class="left" style="min-width:290px;">ZOLPIDEM TART ER 12.5 MG TAB</td>
+                        <td class="centered">30</td>
+                        <td class="centered">30</td>
+                        <td class="html-tooltip" data-for-sort="TESTPRESCRIBER, ALICE" title="TESTPRESCRIBER, ALICE[br]1111 FAKE ST[br]WICHITA[br]KS 67203[br]DEA #:BR1111111">AL TES</td>
+                        <td>Alice&#39;</td>
+                        <td class="centered">0</td>
+                        <td class="right">18.75</td>
+                        <td class="right">-</td>
+                        <td style="cursor:help;min-width:98px;" title="Patient paid for drug via cash, check, debit or credit card" data-for-sort="Private Pay">Private Pay</td>
+                        <td class="centered">KS</td>
+                    </tr>
+                    <tr class="drug_odd">
+                        <td class="">06/16/2016</td>
+                        <td style="margin:0;padding:0;">
+                            <span class="superscript darkred"> </span>
+                        </td>
+                        <td class="left" style="min-width:290px;">ENDOCET 10-325 MG TABLET</td>
+                        <td class="centered">8</td>
+                        <td class="centered">30</td>
+                        <td class="html-tooltip" data-for-sort="TESTPRESCRIBER, CAROL" title="TESTPRESCRIBER, CAROL[br]2910 HIGH ST[br]WICHITA[br]KS 67203[br]DEA #:XC5555555">CA TES</td>
+                        <td>Bob&#39;s </td>
+                        <td class="centered">1</td>
+                        <td class="right">120.00</td>
+                        <td class="right">4.00</td>
+                        <td style="cursor:help;min-width:98px;" title="Patient paid for drug via cash, check, debit or credit card" data-for-sort="Private Pay">Private Pay</td>
+                        <td class="centered">KS</td>
+                    </tr>
+                    <tr class="drug_even">
+                        <td class="">05/30/2016</td>
+                        <td style="margin:0;padding:0;">
+                            <span class="superscript darkred"> </span>
+                        </td>
+                        <td class="left" style="min-width:290px;">ENDOCET 10-325 MG TABLET</td>
+                        <td class="centered">8</td>
+                        <td class="centered">30</td>
+                        <td class="html-tooltip" data-for-sort="TESTPRESCRIBER, BOB" title="TESTPRESCRIBER, BOB[br]8888 NOWHERE ST[br]WICHITA[br]KS 67203[br]DEA #:XR1111111">BO TES</td>
+                        <td>Alice&#39;</td>
+                        <td class="centered">1</td>
+                        <td class="right">120.00</td>
+                        <td class="right">4.00</td>
+                        <td style="cursor:help;min-width:98px;" title="Patient paid for drug via cash, check, debit or credit card" data-for-sort="Private Pay">Private Pay</td>
+                        <td class="centered">KS</td>
+                    </tr>
+                    <tr class="drug_odd">
+                        <td class="">05/05/2016</td>
+                        <td style="margin:0;padding:0;">
+                            <span class="superscript darkred"> </span>
+                        </td>
+                        <td class="left" style="min-width:290px;">ZOLPIDEM TART ER 12.5 MG TAB</td>
+                        <td class="centered">30</td>
+                        <td class="centered">30</td>
+                        <td class="html-tooltip" data-for-sort="TESTPRESCRIBER, ALICE" title="TESTPRESCRIBER, ALICE[br]1111 FAKE ST[br]WICHITA[br]KS 67203[br]DEA #:BR1111111">AL TES</td>
+                        <td>Alice&#39;</td>
+                        <td class="centered">1</td>
+                        <td class="right">18.75</td>
+                        <td class="right">-</td>
+                        <td style="cursor:help;min-width:98px;" title="Patient paid for drug via cash, check, debit or credit card" data-for-sort="Private Pay">Private Pay</td>
+                        <td class="centered">KS</td>
+                    </tr>
+                    <tr class="drug_even">
+                        <td class="">04/30/2016</td>
+                        <td style="margin:0;padding:0;">
+                            <span class="superscript darkred"> </span>
+                        </td>
+                        <td class="left" style="min-width:290px;">ACETAMINOPHEN-COD #3 TABLET</td>
+                        <td class="centered">120</td>
+                        <td class="centered">30</td>
+                        <td class="html-tooltip" data-for-sort="TESTPRESCRIBER, ALICE" title="TESTPRESCRIBER, ALICE[br]1111 FAKE ST[br]WICHITA[br]KS 67203[br]DEA #:BR1111111">AL TES</td>
+                        <td>Alice&#39;</td>
+                        <td class="centered">0</td>
+                        <td class="right">540.00</td>
+                        <td class="right">18.00</td>
+                        <td style="cursor:help;min-width:98px;" title="Patient paid for drug via cash, check, debit or credit card" data-for-sort="Private Pay">Private Pay</td>
+                        <td class="centered">KS</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <div class="narx-table-title-bar">
+                <span class="title title-space">Providers</span>
+                <span class="title-extra">Total Providers: 3</span>
+            </div>
+            <table id="providers-table" class="datatable">
+                <thead>
+                    <tr>
+                        <th style="width:300px;">Name</th>
+                        <th style="width:220px;">Address</th>
+                        <th style="width:140px;">City</th>
+                        <th style="width:100px;">State</th>
+                        <th style="width:100px;">Zipcode</th>
+                        <th style="width:100px;">DEA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="drug_even">
+                        <td>TESTPRESCRIBER, ALICE</td>
+                        <td>1111 FAKE ST</td>
+                        <td>WICHITA</td>
+                        <td>KS</td>
+                        <td>67203</td>
+                        <td>BR1111111</td>
+                    </tr>
+                    <tr class="drug_odd">
+                        <td>TESTPRESCRIBER, BOB</td>
+                        <td>8888 NOWHERE ST</td>
+                        <td>WICHITA</td>
+                        <td>KS</td>
+                        <td>67203</td>
+                        <td>XR1111111</td>
+                    </tr>
+                    <tr class="drug_even">
+                        <td>TESTPRESCRIBER, CAROL</td>
+                        <td>2910 HIGH ST</td>
+                        <td>WICHITA</td>
+                        <td>KS</td>
+                        <td>67203</td>
+                        <td>XC5555555</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <div class="narx-table-title-bar">
+                <span class="title title-space">Pharmacies</span>
+                <span class="title-extra">Total Pharmacies: 2</span>
+            </div>
+            <table id="pharmacies-table" class="datatable">
+                <thead>
+                    <tr>
+                        <th style="width:300px;">Name</th>
+                        <th style="width:220px;">Address</th>
+                        <th style="width:140px;">City</th>
+                        <th style="width:100px;">State</th>
+                        <th style="width:100px;">Zipcode</th>
+                        <th style="width:100px;">DEA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="drug_even">
+                        <td>Alice&#39;s PHARMACY</td>
+                        <td>1111 FAKE ST SEC A</td>
+                        <td>WICHITA</td>
+                        <td>KS</td>
+                        <td>67202</td>
+                        <td>ZZ1234567</td>
+                    </tr>
+                    <tr class="drug_odd">
+                        <td>Bob&#39;s PHARMACY</td>
+                        <td>1234 NOT-A-REAL-PLACE DR </td>
+                        <td>WICHITA</td>
+                        <td>KS</td>
+                        <td>67202</td>
+                        <td>ZB1111111</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr />
+            <!-- Overlays -->
+            <div id="demo-overlay" class="shadow border font12">
+                <div id="demo-titlebar" class="border-bottom ui-dialog-titlebar ui-widget-header">
+                    <div class="hover-title">Patient Demographics</div>
+                    <span class="ui-icon ui-icon-close close-button" onclick="demoClose();">&nbsp;</span>
+                </div>
+                <div style="max-height:200px;overflow-y:auto;overflow-x:hidden;">
+                    <table id="demo-table">
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Zip</th>
+                            <th>DOB</th>
+                            <th>Prescriptions Count</th>
+                        </tr>
+                        <tr class="drug_odd">
+                            <td>BOB</td>
+                            <td>TESTPATIENT</td>
+                            <td>1023 NOT REAL ST</td>
+                            <td>WITCHITA</td>
+                            <td>KS</td>
+                            <td>67203</td>
+                            <td>1/1/1900</td>
+                            <td>5</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+
+        var demoOverlayOpen = false;
+
+        //Demographics
+
+        function demoClose() {
+            $("#demo-overlay").fadeOut();
+            demoOverlayOpen=false;
+        }
+
+        $(".demo-toggle").click(function(evt){
+            if(demoOverlayOpen){
+                demoClose();
+                return;
+            }
+            demoOverlayOpen=true;
+
+            var offset=$('.demo-toggle').offset();
+
+            var e=evt || window.event;
+            var docX,docY;
+
+            if (e.pageX == null)
+            {
+                // IE case
+                var d= (document.documentElement &&
+                        document.documentElement.scrollLeft != null) ?
+                       document.documentElement : document.body;
+                docX= e.clientX + d.scrollLeft;
+                docY= e.clientY + d.scrollTop;
+            }
+            else
+            {
+                // all other browsers
+                docX= e.pageX;
+                docY= e.pageY;
+            }
+
+            $("#demo-overlay").css({
+                position: 'absolute',
+                display: 'none',
+                top: docY+20,
+                left: offset.left + 10,
+                'font-size': '14px;',
+                'font-family': 'Arial, Verdana, sans-serif'
+            }).fadeIn(175);
+        });
+
+
+
+        function init_table_sorting() {
+            // SEE http://tablesorter.com/docs/
+
+            // new zebra widget to keep the unidentified drugs.
+            $.tablesorter.addWidget({
+                // give the widget a id
+                id: "prescriptionZebra",
+                format: function (table) {
+                    var $tr, row = -1,
+                        odd;
+                    // loop through the visible rows
+                    $("tr:visible", table.tBodies[0]).each(function (i) {
+                        $tr = $(this);
+                        // style children rows the same way the parent
+                        // row was styled
+                        if (!$tr.hasClass(table.config.cssChildRow)) row++;
+                        odd = (row % 2 == 0);
+
+                        $tr.removeClass(table.config.widgetZebra.css[odd ? 0 : 1]).
+                                addClass(table.config.widgetZebra.css[odd ? 1 : 0]);
+                    });
+                }
+            });
+
+            //Write table parser
+            // add parser through the tablesorter addParser method
+            $.tablesorter.addParser({
+                id: 'data-for-sort',
+                is: function (s) {
+                    // return false so this parser is not auto detected
+                    return false;
+                },
+                format: function (s, item, td) {
+                    //return td.dataset.forSort; //this is the "correct" way to do but not until ie11+.
+                    return td.getAttribute("data-for-sort"); //slower way to do it.
+                },
+                type: 'text'
+            });
+
+
+
+            // Table sorting
+            $("#prescriptions-table").tablesorter({
+                textExtraction: "complex",
+                headers: {
+                    5: {
+                        sorter: 'data-for-sort'
+                    },
+                    10: {
+                        sorter: 'data-for-sort'
+                    }
+                },
+                widgets: ['prescriptionZebra'], //defined above.
+                widgetZebra: {
+                    css: ["drug_even", "drug_odd"]
+                }
+            });
+
+            $("#providers-table").tablesorter({
+                widgets: ['zebra'],
+                widgetZebra: {
+                    css: ["drug_even", "drug_odd"]
+                }
+            });
+
+            $("#pharmacies-table").tablesorter({
+                widgets: ['zebra'],
+                widgetZebra: {
+                    css: ["drug_even", "drug_odd"]
+                }
+            });
+
+        }
+
+
+        $(document).ready(function () {
+
+            $('#demo-overlay').draggable({ containment: 'window', scroll: false, handle: '#demo-titlebar' });
+            init_table_sorting();
+
+            $(document).tooltip();
+            $('.html-tooltip').tooltip({
+                content: function () {
+                    //Need to handle each tag we will allow manually replace the markup.
+                    var tooltipContent = $(this).attr('title').replace(/\[br\]/g, "
+            <br />");
+                    return tooltipContent;
+                },
+            });
+        });
+        </script>
+    </body>
+</html>
