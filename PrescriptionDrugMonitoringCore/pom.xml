@@ -35,6 +35,7 @@
                     <strict>${xjc.strict}</strict>
                     <schemaIncludes>
                         <include>**/*.xsd</include>
+                        <include>CDASchemas/**/*.xsd</include>
                     </schemaIncludes>
                     <source>${compiler.source}</source>
                     <target>${compiler.target}</target>
@@ -121,5 +122,15 @@
             <artifactId>jsoup</artifactId>
             <version>${html.parser.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.connectopensource</groupId>
+            <artifactId>CONNECTCommonTypesLib</artifactId>
+            <version>4.4.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.5</version>
+</dependency>
     </dependencies>
 </project>

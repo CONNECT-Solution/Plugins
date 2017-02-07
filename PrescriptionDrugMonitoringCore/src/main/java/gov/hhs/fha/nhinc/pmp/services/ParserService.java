@@ -14,7 +14,6 @@ import java.util.List;
  */
 public interface ParserService {
 
-
     public List<PrescriptionReport> getAllPrescriptions();
 
     public List<ProviderReport> getAllProviders();

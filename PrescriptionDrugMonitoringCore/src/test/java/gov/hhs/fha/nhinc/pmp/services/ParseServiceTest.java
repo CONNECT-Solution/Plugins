@@ -44,7 +44,7 @@ public class ParseServiceTest {
 
         URL url = getClass().getClassLoader().getResource(htmlSourceFile);
         final String htmlSourcePath = url.getPath();
-        ParserService htmlParser = ParserServiceFactory.getHTMLParser(htmlSourcePath);
+        ParserService htmlParser = ParserServiceFactory.getInstance().getHTMLParser(htmlSourcePath);
         try {
             List<PrescriptionReport> prescriptionList = htmlParser.getAllPrescriptions();
             assertTrue(prescriptionList.size() == 5);
@@ -74,7 +74,7 @@ public class ParseServiceTest {
 
         URL url = getClass().getClassLoader().getResource(htmlSourceFile);
         final String htmlSourcePath = url.getPath();
-        ParserService htmlParser = ParserServiceFactory.getHTMLParser(htmlSourcePath);
+        ParserService htmlParser = ParserServiceFactory.getInstance().getHTMLParser(htmlSourcePath);
         try {
             List<ProviderReport> providerList = htmlParser.getAllProviders();
             assertTrue(providerList.size() == 3);
@@ -96,7 +96,7 @@ public class ParseServiceTest {
 
         URL url = getClass().getClassLoader().getResource(htmlSourceFile);
         final String htmlSourcePath = url.getPath();
-        ParserService htmlParser = ParserServiceFactory.getHTMLParser(htmlSourcePath);
+        ParserService htmlParser = ParserServiceFactory.getInstance().getHTMLParser(htmlSourcePath);
         try {
             List<ProviderReport> pharmacies = htmlParser.getAllPharmacies();
             assertTrue(pharmacies.size() == 2);
