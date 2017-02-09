@@ -71,7 +71,7 @@ public class ParseServiceTest {
 
     @Test
     public final void testGetAllProviders() {
-
+        // https://dailymed.nlm.nih.gov/dailymed/app-support-web-services.cfm
         URL url = getClass().getClassLoader().getResource(htmlSourceFile);
         final String htmlSourcePath = url.getPath();
         ParserService htmlParser = ParserServiceFactory.getInstance().getHTMLParser(htmlSourcePath);

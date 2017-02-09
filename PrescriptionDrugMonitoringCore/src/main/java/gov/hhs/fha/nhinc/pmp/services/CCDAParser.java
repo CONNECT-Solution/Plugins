@@ -36,7 +36,7 @@ public class CCDAParser {
      * @param ccDAInputStream
      */
     public CCDAParser(InputStream ccDAInputStream) {
-        CCDADocument = CCDAParserUtil.convertXMLToCCDA(ccDAInputStream);
+        CCDADocument = CCDAParserUtil.convertXMLToCCDA(ccDAInputStream, POCDMT000040ClinicalDocument.class);
     }
 
     /**
