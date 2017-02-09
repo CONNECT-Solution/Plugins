@@ -4,7 +4,6 @@
 package gov.hhs.fha.nhinc.pmp.services;
 
 import org.junit.BeforeClass;
-
 import org.junit.AfterClass;
 import java.io.IOException;
 import gov.hhs.fha.nhinc.pmp.dto.PrescriptionReport;
@@ -32,7 +31,7 @@ public class CCDAParserTest {
      */
     @BeforeClass
     public static void setUp() throws Exception {
-        CCDASourceFileName = "sample_ccda.xml";
+        CCDASourceFileName = "sample_ccda_copy.xml";
         ccdaParser = retrieveCCDAParser(CCDASourceFileName);
 
     }
@@ -63,10 +62,10 @@ public class CCDAParserTest {
         }
     }
 
+
     @Test
     public void testRetrieveCCDAMedication() {
         CCDADoc ccDA = ccdaParser.getMedicationHistory();
-        // CCDADoc ccDA = CCDAParserUtil.convertXMLToCCDA(ccDAInputStream);
         Assert.assertNotNull(ccDA);
         Assert.assertEquals(3, ccDA.getMedications().size());
     }
@@ -75,10 +74,14 @@ public class CCDAParserTest {
     public void testAddMedicationSection() {
         PrescriptionReport prescription = new PrescriptionReport();
         prescription.setDrugName("Prednisone YYYYYYY");
+        prescription.setDrugBrandName("CGI Drug BrandName");
         prescription.setDrugCount(3);
+        prescription.setOrderUnit("Chewable Tablet");
+        prescription.setDrugExpiration("20170209");
         boolean status = ccdaParser.addMedicationSection(prescription);
         Assert.assertTrue("It should be true after adding medication successful ", status);
     }
+
 
     @Test
     public void testDisplayCCDA() {

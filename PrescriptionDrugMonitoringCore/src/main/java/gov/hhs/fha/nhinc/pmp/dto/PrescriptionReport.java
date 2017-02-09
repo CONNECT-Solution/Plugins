@@ -19,6 +19,9 @@ public class PrescriptionReport {
     private String mgEdPerDay;
     private String paymentType;
     private String pmpState;
+    private String drugBrandName;
+    private String orderUnit;
+    private String drugExpiration;
 
 
     /**
@@ -175,6 +178,48 @@ public class PrescriptionReport {
      */
     public void setPmpState(String pmpState) {
         this.pmpState = pmpState;
+    }
+
+    /**
+     * @return the drugBrandName
+     */
+    public String getDrugBrandName() {
+        return drugBrandName;
+    }
+
+    /**
+     * @param drugBrandName the drugBrandName to set
+     */
+    public void setDrugBrandName(String drugBrandName) {
+        this.drugBrandName = drugBrandName;
+    }
+
+    /**
+     * @return the orderUnit
+     */
+    public String getOrderUnit() {
+        return orderUnit;
+    }
+
+    /**
+     * @param orderUnit the orderUnit to set
+     */
+    public void setOrderUnit(String orderUnit) {
+        this.orderUnit = orderUnit;
+    }
+
+    /**
+     * @return the drugExpiration
+     */
+    public String getDrugExpiration() {
+        return drugExpiration;
+    }
+
+    /**
+     * @param drugExpiration the drugExpiration to set
+     */
+    public void setDrugExpiration(String drugExpiration) {
+        this.drugExpiration = drugExpiration;
     }
 
 }

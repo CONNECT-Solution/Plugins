@@ -3,12 +3,16 @@
  */
 package gov.hhs.fha.nhinc.pmp.services;
 
-import org.hl7.v3.EDExplicit;
+import org.w3c.dom.Node;
 import gov.hhs.fha.nhinc.pmp.dto.PrescriptionReport;
 import java.io.InputStream;
 import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import org.hl7.v3.CEExplicit;
 import org.hl7.v3.CS;
+import org.hl7.v3.EDExplicit;
 import org.hl7.v3.EntityDeterminerDetermined;
 import org.hl7.v3.II;
 import org.hl7.v3.IVLPQ;
@@ -23,6 +27,10 @@ import org.hl7.v3.RoleClassManufacturedProduct;
 import org.hl7.v3.XDocumentSubstanceMood;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 
 /**
  * @author mpnguyen
@@ -125,10 +133,82 @@ public class CCDAParser {
             if (MEDICATION_SECTION_ID.equalsIgnoreCase(templateDrugId)) {
                 logger.debug("Preparing to add medication history ");
                 component.getSection().getEntry().add(medicationSection);
+                logger.debug("Add Text elements");
+                Element drugElementText = component.getSection().getText();
+                Document document = null;
+                if (drugElementText == null) {
+                    // This means there is no Medical history in CCDA document. Prepare to add one
+                    document = createCCDATextDocument();
+                    // need to find how to get rid of namespace in text element
+                    drugElementText = document.createElement("text");
+
+                    // Create Table element
+                    Element tableElement = document.createElement("table");
+                    tableElement.setAttribute("border", "1");
+                    tableElement.setAttribute("width", "100%");
+                    Element tHeadElement = (Element) createElement(document, "thead", null);
+                    Element tHeadRowElement = (Element) createElement(document, "tr", null);
+                    tHeadRowElement.appendChild(createElement(document, "th", "Product Display Name"));
+                    tHeadRowElement.appendChild(createElement(document, "th", "Free Text Brand Name"));
+                    tHeadRowElement.appendChild(createElement(document, "th", "Ordered Value"));
+                    tHeadRowElement.appendChild(createElement(document, "th", "Ordered Unit"));
+                    tHeadRowElement.appendChild(createElement(document, "th", "Expiration Time"));
+                    tHeadElement.appendChild(tHeadRowElement);
+                    tableElement.appendChild(tHeadElement);
+                    tableElement.appendChild(createElement(document, "tbody", null));
+                    drugElementText.appendChild(tableElement);
+
+                }
+                // Add new drug into table
+                document = drugElementText.getOwnerDocument();
+                Element tr = document.createElement("tr");
+                NodeList tableBodyNodeList = drugElementText.getElementsByTagName("tbody");
+                Element tableBody = (Element) tableBodyNodeList.item(0);
+
+                // create new td
+                tr.appendChild(createTDElement(document, prescription.getDrugName()));
+                tr.appendChild(createTDElement(document, prescription.getDrugBrandName()));
+                tr.appendChild(createTDElement(document, String.valueOf(prescription.getDrugCount())));
+                tr.appendChild(createTDElement(document, prescription.getOrderUnit()));
+                tr.appendChild(createTDElement(document, prescription.getDrugExpiration()));
+                tableBody.appendChild(tr);
+                component.getSection().setText(drugElementText);
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * @param document
+     * @param string
+     * @param object
+     * @return
+     */
+    private static Node createElement(Document document, String tagName, String tagValue) {
+        Element element = document.createElement(tagName);
+        element.setTextContent(tagValue);
+        return element;
+    }
+
+    /**
+     * @return
+     */
+    private static Document createCCDATextDocument() {
+
+        DocumentBuilderFactory factory = null;
+        DocumentBuilder builder = null;
+        Document ret;
+        try {
+            factory = DocumentBuilderFactory.newInstance();
+            factory.setNamespaceAware(true);
+            builder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            logger.error(e.getLocalizedMessage(), e);
+        }
+        ret = builder.newDocument();
+
+        return ret;
     }
 
     /**
@@ -138,5 +218,12 @@ public class CCDAParser {
         return CCDAParserUtil.convertCCDAToXML(CCDADocument);
 
     }
+
+    private static Element createTDElement(Document doc, String value) {
+        Element element = doc.createElement("td");
+        element.setTextContent(value);
+        return element;
+    }
+
 
 }
