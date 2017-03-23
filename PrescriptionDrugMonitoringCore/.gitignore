@@ -1,0 +1,13 @@
+/bin/
+.classpath
+.project
+.settings
+.metadata
+.checkstyle
+.pmd
+*.log
+MANIFEST.MF
+# Netbeans
+nbproject/
+nb-configuration.xml
+nbactions.xml
