@@ -9,3 +9,5 @@ target/
 
 # IDE Files #
 nb-configuration.xml
+/CONNECT-AdapterDocumentAssemblyProxy/nbproject/private/
+/CONNECT-AdapterDocumentAssemblyProxy/DocumentAssemblyManagerEJB/nbproject/private/

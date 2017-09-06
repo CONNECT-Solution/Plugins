@@ -32,5 +32,6 @@
         <module>PerformanceTestTools</module>
         <!--module>CONNECTUniversalClientGUI</module-->
         <!--module>X12RealTimeLargePayloadTest</module-->
+        <module>PolicyEngineXACML</module>
     </modules>
 </project>
