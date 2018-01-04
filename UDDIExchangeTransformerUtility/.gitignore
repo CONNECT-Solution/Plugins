@@ -1,0 +1,33 @@
+.classpath
+.project
+.settings
+.metadata
+.checkstyle
+.DS_Store
+.pmd
+*.log
+MANIFEST.MF
+maven-eclipse.xml
+build/
+dist/
+lib/
+bin/
+build.generated/
+ivy-cache/
+ivy-project-cache/
+target/
+
+
+## IDE-Specific Files and Folders
+
+# Netbeans
+nbproject/
+nb-configuration.xml
+nbactions.xml
+
+# Intellij
+.idea/
+*.iml
+*.iws
+#Fortify scan
+*.fpr
