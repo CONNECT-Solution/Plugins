@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+        <groupId>org.connectopensource</groupId>
+        <artifactId>Plugins</artifactId>
+        <version>4.6.0-SNAPSHOT</version>
+    </parent>
+	<groupId>gov.hhs.fha.nhinc</groupId>
+	<artifactId>UDDIExchangeTransformerUtility</artifactId>
+	<modelVersion>4.0.0</modelVersion>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name> CONNECT UDDI Exchange Transformer Utility </name>
+
+	<prerequisites>
+		<maven>3.0.4</maven>
+	</prerequisites>
+
+	<licenses>
+		<license>
+			<name>CONNECT License Agreement</name>
+			<url>http://www.connectopensource.org/product/licensing</url>
+		</license>
+	</licenses>
+
+	<properties>
+		<compiler.source>1.7</compiler.source>
+		<compiler.target>1.7</compiler.target>
+	</properties>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>${compiler.source}</source>
+					<target>${compiler.target}</target>
+					 
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<archive>
+								<manifest>
+									<mainClass>gov.hhs.fha.nhinc.transformerutility.UDDIExchangeTransformerUtility</mainClass>
+								</manifest>
+							</archive>
+							 
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>gov.hhs.fha.nhinc.transformerutility.UDDIExchangeTransformerUtility</mainClass>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+						</manifest>
+					</archive>
+    				 
+				</configuration>
+				<!-- <executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>  -->
+			</plugin>
+		</plugins>
+	</build>
+
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.connectopensource</groupId>
+			<artifactId>CONNECTCoreLib</artifactId>
+			<version>5.1.0-SNAPSHOT</version>
+			<classifier>transformer</classifier>
+		</dependency>
+		<dependency>
+			<groupId>org.connectopensource</groupId>
+			<artifactId>CONNECTCommonTypesLib</artifactId>
+			<version>5.1.0-SNAPSHOT</version>
+			<classifier>transformer</classifier>
+		</dependency>
+	</dependencies>
+</project>
