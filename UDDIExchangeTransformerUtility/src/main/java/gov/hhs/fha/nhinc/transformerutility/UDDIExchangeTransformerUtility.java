@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2017, United States Government, as represented by the Secretary of Health and Human Services.
+ * Copyright (c) 2009-2018, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,92 +54,93 @@ import org.apache.commons.io.filefilter.IOFileFilter;
  */
 public class UDDIExchangeTransformerUtility {
 
-	private static final String ADAPTER = "adapter";
-	private static final String LOCAL = "local";
-	private static final String UDDI = "uddi";
-	private static final String EXCHANGE_1 = "Exchange 1";
-	private static final String PLACE_HOLDER = "<Enter>";
+    private static final String ADAPTER = "adapter";
+    private static final String LOCAL = "local";
+    private static final String UDDI = "uddi";
+    private static final String EXCHANGE_1 = "Exchange 1";
+    private static final String PLACE_HOLDER = "<Enter>";
 
-	public static void main(String[] args) {
-		try {
-			if(args.length > 0) {
-				fetchFiles(args[0]);
-			}
-		} catch (ConnectionManagerException | ExchangeManagerException | ExchangeTransformException ex) {
-			Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.SEVERE, "Exception thrown in UDDIExchangeTransformerUtility", ex);
-		}
-	}
+    public static void main(String[] args) {
+        try {
+            if(args.length > 0) {
+                fetchFiles(args[0]);
+            }
+        } catch (ConnectionManagerException | ExchangeManagerException | ExchangeTransformException ex) {
+            Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.SEVERE, "Exception thrown in UDDIExchangeTransformerUtility", ex);
+        }
+    }
 
-	private static void fetchFiles(String path) throws ConnectionManagerException, ExchangeManagerException, ExchangeTransformException {
-		File aFile = new File(path);
-		Collection<File> list = FileUtils.listFiles(aFile, getConnectionInfoFileFilter(),
-				DirectoryFileFilter.INSTANCE);
+    private static void fetchFiles(String path) throws ConnectionManagerException, ExchangeManagerException, ExchangeTransformException {
+        File aFile = new File(path);
+        Collection<File> list = FileUtils.listFiles(aFile, getConnectionInfoFileFilter(),
+            DirectoryFileFilter.INSTANCE);
 
-		UDDITransform transfomer = new UDDITransform();
-		UddiConnectionInfoDAOFileImpl uddiDAO = UddiConnectionInfoDAOFileImpl.getInstance();
-		InternalConnectionInfoDAOFileImpl inDAO = InternalConnectionInfoDAOFileImpl.getInstance();
-		ExchangeInfoDAOFileImpl exDAO = ExchangeInfoDAOFileImpl.getInstance();
+        UDDITransform transfomer = new UDDITransform();
+        UddiConnectionInfoDAOFileImpl uddiDAO = UddiConnectionInfoDAOFileImpl.getInstance();
+        InternalConnectionInfoDAOFileImpl inDAO = InternalConnectionInfoDAOFileImpl.getInstance();
+        ExchangeInfoDAOFileImpl exDAO = ExchangeInfoDAOFileImpl.getInstance();
 
-		for (File vfile : list) {
-			ExchangeInfoType exInfo = null;
-			if (isInternalConnectionInfo(vfile)) {
-				inDAO.setFileName(vfile.getAbsolutePath());
-				exInfo = buildExchangeInfo(LOCAL, ADAPTER,
-						transfomer.transform(inDAO.loadBusinessDetail()), false);
-			} else {
-				uddiDAO.setFileName(vfile.getAbsolutePath());
-				exInfo = buildExchangeInfo(UDDI, EXCHANGE_1, transfomer.transform(uddiDAO.loadBusinessDetail()), true);
-			}
-			exDAO.setFileName(transformedFileName(vfile));
-			exDAO.saveExchangeInfo(exInfo);
-			Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.INFO, "FileName: " + vfile.getAbsolutePath() + "---> Transformed File Name: "
-					+ transformedFileName(vfile));
-		}
-	}
+        for (File vfile : list) {
+            ExchangeInfoType exInfo = null;
+            if (isInternalConnectionInfo(vfile)) {
+                inDAO.setFileName(vfile.getAbsolutePath());
+                exInfo = buildExchangeInfo(LOCAL, ADAPTER,
+                    transfomer.transform(inDAO.loadBusinessDetail()), false);
+            } else {
+                uddiDAO.setFileName(vfile.getAbsolutePath());
+                exInfo = buildExchangeInfo(UDDI, EXCHANGE_1, transfomer.transform(uddiDAO.loadBusinessDetail()), true);
+            }
+            exDAO.setFileName(transformedFileName(vfile));
+            exDAO.saveExchangeInfo(exInfo);
+            Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.INFO, "FileName: " + vfile.getAbsolutePath() + "---> Transformed File Name: "
+                + transformedFileName(vfile));
+        }
+    }
 
-	private static String transformedFileName(File afile) {
-		String filename = afile.getAbsolutePath();
-		if (filename.contains("internalConnectionInfo")) {
-			return filename.replaceAll("internalConnectionInfo", "internalExchangeInfo");
-		}
-		return filename.replaceAll("uddiConnectionInfo", "exchangeInfo");
-	}
+    private static String transformedFileName(File afile) {
+        String filename = afile.getAbsolutePath();
+        if (filename.contains("internalConnectionInfo")) {
+            return filename.replaceAll("internalConnectionInfo", "internalExchangeInfo");
+        }
+        return filename.replaceAll("uddiConnectionInfo", "exchangeInfo");
+    }
 
-	private static boolean isInternalConnectionInfo(File aFile) {
-		if (aFile.getName().contains("internalConnectionInfo")) {
-			return true;
-		}
-		return false;
-	}
+    private static boolean isInternalConnectionInfo(File aFile) {
+        if (aFile.getName().contains("internalConnectionInfo")) {
+            return true;
+        }
+        return false;
+    }
 
-	private static ExchangeInfoType buildExchangeInfo(String type, String exchangeName, OrganizationListType orgList, boolean uddiFile) {
-		ExchangeInfoType exinfo = new ExchangeInfoType();
-		ExchangeListType exList = new ExchangeListType();
-		ExchangeType exchange = new ExchangeType();
-		exchange.setType(type);
-		exchange.setName(exchangeName);
-		exchange.setOrganizationList(orgList);
-		exList.getExchange().add(exchange);
-		if(uddiFile){
-			exchange.setUrl(PLACE_HOLDER);
-			exinfo.setRefreshInterval(0l);
-			exinfo.setMaxNumberOfBackups(BigInteger.ZERO);
-		}
-		exinfo.setExchanges(exList);
-		return exinfo;
-	}
+    private static ExchangeInfoType buildExchangeInfo(String type, String exchangeName, OrganizationListType orgList, boolean uddiFile) {
+        ExchangeInfoType exinfo = new ExchangeInfoType();
+        ExchangeListType exList = new ExchangeListType();
+        ExchangeType exchange = new ExchangeType();
+        exchange.setType(type);
+        exchange.setName(exchangeName);
+        exchange.setOrganizationList(orgList);
+        exchange.setDisabled(true);
+        exList.getExchange().add(exchange);
+        if(uddiFile){
+            exchange.setUrl(PLACE_HOLDER);
+            exinfo.setRefreshInterval(1440l);
+            exinfo.setMaxNumberOfBackups(BigInteger.ONE);
+        }
+        exinfo.setExchanges(exList);
+        return exinfo;
+    }
 
-	private static IOFileFilter getConnectionInfoFileFilter() {
-		return new AbstractFileFilter() {
-			@Override
-			public boolean accept(File file) {
-				if (file.getName().contains("ConnectionInfo") && file.isFile() && FilenameUtils.isExtension(file.
-						getAbsolutePath(), "xml")) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		};
-	}
+    private static IOFileFilter getConnectionInfoFileFilter() {
+        return new AbstractFileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if (file.getName().contains("ConnectionInfo") && file.isFile() && FilenameUtils.isExtension(file.
+                    getAbsolutePath(), "xml")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        };
+    }
 }
