@@ -96,7 +96,7 @@
 							<classpathPrefix>lib/</classpathPrefix>
 						</manifest>
 					</archive>
-                    </configuration>
+                </configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -108,13 +108,11 @@
 			<groupId>org.connectopensource</groupId>
 			<artifactId>CONNECTCoreLib</artifactId>
 			<version>${connectcorelib.version}</version>
-			<classifier>transformer</classifier>
 		</dependency>
 		<dependency>
 			<groupId>org.connectopensource</groupId>
 			<artifactId>CONNECTCommonTypesLib</artifactId>
 			<version>${connectcommontypes.version}</version>
-			<classifier>transformer</classifier>
 		</dependency>
 	</dependencies>
 </project>
