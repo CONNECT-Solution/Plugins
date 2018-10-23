@@ -24,13 +24,25 @@
         <spring.version>3.0.7.RELEASE</spring.version>
         <slf4j.version>1.7.13</slf4j.version>
     </properties>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javax</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>6.0</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <modules>
         <module>XDSbPlugin</module>
         <module>FHIRAdapters</module>
         <module>HPD-WS-Client</module>
         <module>PerformanceTestTools</module>
-        <!--module>CONNECTUniversalClientGUI</module-->
+        <module>PDMP</module>
+        <module>PDMP-Demo</module>
         <!--module>X12RealTimeLargePayloadTest</module-->
     </modules>
 </project>
