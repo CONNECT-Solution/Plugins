@@ -65,8 +65,10 @@ public class Document {
     // unique ID from document
     private String documentId;
     private String patientId;
-
+    // raw CDA xml content
     private byte[] documentContent;
+    // CDA in html format after applying xslt
+    private byte[] htmlContent;
     private boolean documentRetrieved;
 
     private String contentType;
@@ -584,7 +586,14 @@ public class Document {
     public void setDocumentTypeName(String documentTypeName) {
         this.documentTypeName = documentTypeName;
     }
-    
-    
+
+    public byte[] getHtmlContent() {
+        return htmlContent;
+    }
+
+    public void setHtmlContent(byte[] htmlContent) {
+        this.htmlContent = htmlContent;
+    }
+
 
 }
