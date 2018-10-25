@@ -26,28 +26,28 @@
  */
 package gov.hhs.fha.nhinc.pdmp.managed;
 
-import gov.hhs.fha.nhinc.admingui.constant.NavigationConstant;
-import gov.hhs.fha.nhinc.pdmp.services.GatewayService;
-import gov.hhs.fha.nhinc.pdmp.model.Document;
-import gov.hhs.fha.nhinc.pdmp.model.Patient;
+import static gov.hhs.fha.nhinc.util.StreamUtils.closeStreamSilently;
+
 import gov.hhs.fha.nhinc.admingui.util.ConnectionHelper;
-import gov.hhs.fha.nhinc.pdmp.util.XSLTransformHelper;
 import gov.hhs.fha.nhinc.nhinclib.NhincConstants;
 import gov.hhs.fha.nhinc.nhinclib.NullChecker;
 import gov.hhs.fha.nhinc.pdmp.AddressRequiredZipType;
 import gov.hhs.fha.nhinc.pdmp.PatientType;
+import gov.hhs.fha.nhinc.pdmp.model.Document;
+import gov.hhs.fha.nhinc.pdmp.model.Patient;
 import gov.hhs.fha.nhinc.pdmp.model.PdmpPatient;
 import gov.hhs.fha.nhinc.pdmp.model.PrescriptionInfo;
 import gov.hhs.fha.nhinc.pdmp.services.CDAParserService;
 import gov.hhs.fha.nhinc.pdmp.services.CDAParserServiceImpl;
+import gov.hhs.fha.nhinc.pdmp.services.GatewayService;
 import gov.hhs.fha.nhinc.pdmp.services.PdmpService;
 import gov.hhs.fha.nhinc.pdmp.services.PdmpServiceImpl;
 import gov.hhs.fha.nhinc.pdmp.services.PrescriptionClassSearch;
 import gov.hhs.fha.nhinc.pdmp.services.PrescriptionClassSearchImpl;
 import gov.hhs.fha.nhinc.pdmp.util.HtmlParserUtil;
+import gov.hhs.fha.nhinc.pdmp.util.XSLTransformHelper;
 import gov.hhs.fha.nhinc.properties.PropertyAccessException;
 import gov.hhs.fha.nhinc.properties.PropertyAccessor;
-import static gov.hhs.fha.nhinc.util.StreamUtils.closeStreamSilently;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -227,7 +227,7 @@ public class PatientSearchBean {
                         drug.setDrugClass(drugClassService.searchForDrugClass(namePart));
                     }
                     if (NullChecker.isNotNullish(drug.getDrugClass())
-                            && drug.getDrugClass().toLowerCase().contains("opioid".toLowerCase())) {
+                        && drug.getDrugClass().toLowerCase().contains("opioid".toLowerCase())) {
                         drug.setIsOpioid(true);
                         opioidList.add(drug);
                     } else {
@@ -249,13 +249,14 @@ public class PatientSearchBean {
         String updatedDoc = cdaParser.addMedicationSection(stream, selectedDrugs);
         if (NullChecker.isNotNullish(updatedDoc)) {
             Document document = getDocumentList().get(getSelectedDocument());
-            document.setDocumentContent(convertXmlToHtml(updatedDoc.getBytes()));
+            document.setDocumentContent(updatedDoc.getBytes());
+            document.setHtmlContent(convertXmlToHtml(updatedDoc.getBytes()));
         }
     }
-    
+
     public byte[] convertXmlToHtml(byte[] originalDocument) {
         final InputStream xsl = FacesContext.getCurrentInstance().getExternalContext()
-                .getResourceAsStream(DEFAULT_XSL_FILE);
+            .getResourceAsStream(DEFAULT_XSL_FILE);
         final InputStream xml = new ByteArrayInputStream(originalDocument);
         byte[] convertXmlToHtml = null;
         if (xsl != null) {
@@ -460,7 +461,7 @@ public class PatientSearchBean {
         this.opioidsOnly = opioidsOnly;
     }
 
-    
+
     public void changeTableForOpioidValues() {
         if(opioidsOnly) {
             prescriptionList = opioidList;
@@ -687,7 +688,7 @@ public class PatientSearchBean {
         try {
             // Load the documentType.properties file
             Properties localDocumentTypeProperties = PropertyAccessor.getInstance()
-                    .getProperties(NhincConstants.DOCUMENT_TYPE_PROPERTY_FILE);
+                .getProperties(NhincConstants.DOCUMENT_TYPE_PROPERTY_FILE);
             Iterator<Entry<Object, Object>> it = localDocumentTypeProperties.entrySet().iterator();
             while (it.hasNext()) {
                 Entry<Object, Object> property = it.next();
@@ -757,12 +758,12 @@ public class PatientSearchBean {
     public StreamedContent getDocumentImage() {
         // return the content only if its an image file
         if (getSelectedCurrentDocument().getContentType() != null && (getSelectedCurrentDocument().getContentType()
-                .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG))) {
+            .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG))) {
             byte[] imageInByteArray = getSelectedCurrentDocument().getDocumentContent();
             return new DefaultStreamedContent(new ByteArrayInputStream(imageInByteArray),
-                    getSelectedCurrentDocument().getContentType());
+                getSelectedCurrentDocument().getContentType());
         }
         return null;
     }
@@ -772,9 +773,9 @@ public class PatientSearchBean {
      */
     public boolean isRenderDocumentimage() {
         return getSelectedCurrentDocument().getContentType() != null && (getSelectedCurrentDocument().getContentType()
-                .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG));
+            .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG));
     }
 
     /**
@@ -782,7 +783,7 @@ public class PatientSearchBean {
      */
     public boolean isRenderDocumentPdf() {
         return getSelectedCurrentDocument().getContentType() != null
-                && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF);
+            && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF);
     }
 
     /**
@@ -790,7 +791,7 @@ public class PatientSearchBean {
      */
     public boolean isRenderDocumentText() {
         return getSelectedCurrentDocument().getContentType() != null
-                && (getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
+            && (getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
                 || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_HTML)
                 || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_PLAIN)
                 || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_XML));
@@ -802,10 +803,10 @@ public class PatientSearchBean {
     public StreamedContent getDocumentPdf() {
         // return the content only if its an pdf file
         if (getSelectedCurrentDocument().getContentType() != null
-                && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF)) {
+            && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF)) {
             byte[] imageInByteArray = getSelectedCurrentDocument().getDocumentContent();
             return new DefaultStreamedContent(new ByteArrayInputStream(imageInByteArray),
-                    getSelectedCurrentDocument().getContentType());
+                getSelectedCurrentDocument().getContentType());
         }
         return null;
     }
@@ -816,13 +817,13 @@ public class PatientSearchBean {
     public String getDocumentXml() {
         // return the content only if its an pdf file
         if (getSelectedCurrentDocument().getContentType() != null && (getSelectedCurrentDocument().getContentType()
-                .equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_HTML)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_PLAIN)
-                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_XML))) {
-            
-            
-            return new String(getSelectedCurrentDocument().getDocumentContent());
+            .equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_HTML)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_PLAIN)
+            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_XML))) {
+
+
+            return new String(getSelectedCurrentDocument().getHtmlContent());
         }
         return null;
     }

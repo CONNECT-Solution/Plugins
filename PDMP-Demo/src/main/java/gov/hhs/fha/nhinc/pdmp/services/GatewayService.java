@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2009-2018, United States Government, as represented by the Secretary of Health and Human Services.
  * All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above
@@ -12,7 +12,7 @@
  *     * Neither the name of the United States Government nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,14 +28,7 @@ package gov.hhs.fha.nhinc.pdmp.services;
 
 import static gov.hhs.fha.nhinc.util.StreamUtils.closeStreamSilently;
 
-import gov.hhs.fha.nhinc.pdmp.managed.PatientSearchBean;
-import gov.hhs.fha.nhinc.pdmp.model.Document;
-import gov.hhs.fha.nhinc.pdmp.model.Patient;
 import gov.hhs.fha.nhinc.admingui.services.exception.DocumentMetadataException;
-import gov.hhs.fha.nhinc.pdmp.services.impl.DocumentQueryServiceImpl;
-import gov.hhs.fha.nhinc.pdmp.services.impl.DocumentRetrieveServiceImpl;
-import gov.hhs.fha.nhinc.pdmp.services.impl.PatientServiceImpl;
-import gov.hhs.fha.nhinc.pdmp.util.XSLTransformHelper;
 import gov.hhs.fha.nhinc.docquery.builder.impl.FindDocumentsAdhocQueryRequestBuilder;
 import gov.hhs.fha.nhinc.docquery.model.DocumentMetadata;
 import gov.hhs.fha.nhinc.docquery.model.DocumentMetadataResult;
@@ -44,6 +37,13 @@ import gov.hhs.fha.nhinc.docquery.model.builder.impl.DocumentMetadataResultsMode
 import gov.hhs.fha.nhinc.docretrieve.model.DocumentRetrieve;
 import gov.hhs.fha.nhinc.docretrieve.model.DocumentRetrieveResults;
 import gov.hhs.fha.nhinc.patientdiscovery.model.PatientSearchResults;
+import gov.hhs.fha.nhinc.pdmp.managed.PatientSearchBean;
+import gov.hhs.fha.nhinc.pdmp.model.Document;
+import gov.hhs.fha.nhinc.pdmp.model.Patient;
+import gov.hhs.fha.nhinc.pdmp.services.impl.DocumentQueryServiceImpl;
+import gov.hhs.fha.nhinc.pdmp.services.impl.DocumentRetrieveServiceImpl;
+import gov.hhs.fha.nhinc.pdmp.services.impl.PatientServiceImpl;
+import gov.hhs.fha.nhinc.pdmp.util.XSLTransformHelper;
 import gov.hhs.fha.nhinc.util.format.UTCDateUtil;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -203,6 +203,7 @@ public class GatewayService {
         final DocumentRetrieveResults response = documentRetrieveService.retrieveDocuments(docRetrieve);
         // set the retrieved document to the UI patient bean
         if (response.getDocument() != null) {
+            patientQuerySearch.getSelectedCurrentDocument().setDocumentContent(response.getDocument());
             if (response.getContentType() != null && (response.getContentType().equals(CONTENT_TYPE_APPLICATION_XML)
                 || response.getContentType().equals(CONTENT_TYPE_TEXT_HTML)
                 || response.getContentType().equals(CONTENT_TYPE_TEXT_PLAIN)
@@ -215,9 +216,7 @@ public class GatewayService {
                     convertXmlToHtml = transformer.convertXMLToHTML(xml, xsl);
                     closeStreamSilently(xsl);
                 }
-                patientQuerySearch.getSelectedCurrentDocument().setDocumentContent(convertXmlToHtml);
-            } else {
-                patientQuerySearch.getSelectedCurrentDocument().setDocumentContent(response.getDocument());
+                patientQuerySearch.getSelectedCurrentDocument().setHtmlContent(convertXmlToHtml);
             }
             patientQuerySearch.getSelectedCurrentDocument().setDocumentRetrieved(true);
             LOG.debug("Successfully retrieved the content of document with documentid: {}", response.getContentType());
