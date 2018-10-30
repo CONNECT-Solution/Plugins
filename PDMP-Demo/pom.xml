@@ -293,7 +293,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>4.0</version>
+            <version>6.2</version>
         </dependency>
         <dependency>
             <groupId>org.primefaces.themes</groupId>
@@ -344,18 +344,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- FHIR -->
-        <dependency>
-            <groupId>me.fhir</groupId>
-            <artifactId>fhir-0.12</artifactId>
-            <version>0.3</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>net.sf.saxon</groupId>
-                    <artifactId>Saxon-HE</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!--  AntiSamy -->
         <dependency>
             <groupId>org.owasp.antisamy</groupId>
