@@ -1,0 +1,24 @@
+-classpath
+'C:/Users/jassmit/.m2/repository/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar;C:/Users/jassmit/.m2/repository/org/apache/cxf/cxf-rt-rs-client/3.1.9/cxf-rt-rs-client-3.1.9.jar;C:/Users/jassmit/.m2/repository/javax/ws/rs/javax.ws.rs-api/2.0.1/javax.ws.rs-api-2.0.1.jar;C:/Users/jassmit/.m2/repository/commons-configuration/commons-configuration/1.9/commons-configuration-1.9.jar;C:/Users/jassmit/.m2/repository/javax/annotation/javax.annotation-api/1.2/javax.annotation-api-1.2.jar;C:/Users/jassmit/.m2/repository/org/jsoup/jsoup/1.10.2/jsoup-1.10.2.jar;C:/Users/jassmit/.m2/repository/org/codehaus/woodstox/woodstox-core-asl/4.4.1/woodstox-core-asl-4.4.1.jar;C:/Users/jassmit/.m2/repository/org/connectopensource/CONNECTCommonTypesLib/5.1.0/CONNECTCommonTypesLib-5.1.0.jar;C:/Users/jassmit/.m2/repository/org/apache/cxf/cxf-rt-transports-http/3.1.9/cxf-rt-transports-http-3.1.9.jar;C:/Users/jassmit/.m2/repository/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar;C:/Users/jassmit/.m2/repository/org/apache/cxf/cxf-rt-frontend-jaxrs/3.1.9/cxf-rt-frontend-jaxrs-3.1.9.jar;C:/Users/jassmit/.m2/repository/org/slf4j/slf4j-api/1.7.13/slf4j-api-1.7.13.jar;C:/Users/jassmit/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar;C:/Users/jassmit/.m2/repository/org/apache/ws/xmlschema/xmlschema-core/2.2.1/xmlschema-core-2.2.1.jar;C:/Users/jassmit/.m2/repository/org/apache/cxf/cxf-core/3.1.9/cxf-core-3.1.9.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'C:/Plugins/Plugins/PDMP/PDMP-Lib/src/main/java;C:/Plugins/Plugins/PDMP/PDMP-Lib/target/generated-sources'
+-author
+-bottom
+'Copyright &#169; 2018. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'C:/Plugins/Plugins/PDMP/PDMP-Lib/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'pdmp-lib 4.6.0-SNAPSHOT API'
+-linkoffline
+'https://docs.oracle.com/javase/8/docs/api' 'C:/Plugins/Plugins/PDMP/PDMP-Lib/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'pdmp-lib 4.6.0-SNAPSHOT API'

@@ -40,6 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Searches for patient prescription results and parses the found HTML for the prescription list.
+ * 
  * @author mpnguyen
  *
  */
@@ -47,6 +49,14 @@ public class HtmlParserUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(HtmlParserUtil.class);
 
+    /**
+     * Retrieves patient prescription report from the given URL and adds extracts the prescriptions from the report HTML using the JSoup library
+     * 
+     * @param htmlUrl URL provided for retrieving prescription data
+     * @return list of prescriptions for the searched patient
+     * @throws MalformedURLException
+     * @throws IOException 
+     */
     public static List<PrescriptionInfo> getAllPrescriptions(String htmlUrl) throws MalformedURLException, IOException {
         Document htmlDocument = Jsoup.parse(new URL(htmlUrl), 10000);
         return populatePrescriptionList(htmlDocument);

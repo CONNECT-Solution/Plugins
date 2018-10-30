@@ -62,7 +62,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implementation for PDMP Service
+ * {@inheritDoc}
  * @author jassmit
  */
 public class PdmpServiceImpl implements PdmpService {
@@ -75,6 +76,9 @@ public class PdmpServiceImpl implements PdmpService {
 
     private static final Logger LOG = LoggerFactory.getLogger(PdmpServiceImpl.class);
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public PdmpPatient searchForPdmpInfo(PatientType patient, DateRangeType dateRange) {
 
@@ -111,11 +115,17 @@ public class PdmpServiceImpl implements PdmpService {
         return resultPatient;
     }
     
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public List<PrescriptionInfo> getAllPrescriptions(PdmpPatient patient) throws IOException {
         return HtmlParserUtil.getAllPrescriptions(patient.getReportUrl());
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public XMLGregorianCalendar getGregorianCalendar(Date date) {
         try {
@@ -126,7 +136,10 @@ public class PdmpServiceImpl implements PdmpService {
         }
         return null;
     }
-
+    
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public SexCodeType getSexCodeType(String gender) {
         if ("M".equalsIgnoreCase(gender)) {
@@ -138,6 +151,9 @@ public class PdmpServiceImpl implements PdmpService {
         }
     }
 
+    /**
+     * @{inheritDoc}
+     */
     @Override
     public DateRangeType buildDateRange(Date beginRange, Date endRange) {
         DateRangeType dateRange = null;

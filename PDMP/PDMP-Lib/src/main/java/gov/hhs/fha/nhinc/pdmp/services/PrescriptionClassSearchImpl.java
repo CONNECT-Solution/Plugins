@@ -35,7 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implements the Prescription Class Search
+ * {@inheritDoc}
  * @author jassmit
  */
 public class PrescriptionClassSearchImpl implements PrescriptionClassSearch {
@@ -44,6 +45,9 @@ public class PrescriptionClassSearchImpl implements PrescriptionClassSearch {
     //TODO Change Service URL to property
     private static final String SERVICE_URL_KEY = "drugNameServiceUrl";
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String searchForDrugClass(String drugName) {
         WebClient restClient = WebClient.create(getServiceUrl() + drugName)

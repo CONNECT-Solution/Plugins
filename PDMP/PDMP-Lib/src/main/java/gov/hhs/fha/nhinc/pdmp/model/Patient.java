@@ -30,7 +30,7 @@ import java.util.Date;
 
 /**
  *
- * POJO class used by the UI to render the data
+ * POJO class for storing patient data.
  *
  * @author Naresh Subramanyan
  */

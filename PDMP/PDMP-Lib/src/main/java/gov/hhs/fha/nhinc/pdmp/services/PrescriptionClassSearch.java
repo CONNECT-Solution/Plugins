@@ -27,10 +27,15 @@
 package gov.hhs.fha.nhinc.pdmp.services;
 
 /**
- *
+ * Searches for drug classifications using NIH's RXNav
  * @author jassmit
  */
 public interface PrescriptionClassSearch {
     
+    /**
+     * 
+     * @param name Name of the prescription drug
+     * @return classifications of the provided prescription drug
+     */
     public String searchForDrugClass(String name);
 }

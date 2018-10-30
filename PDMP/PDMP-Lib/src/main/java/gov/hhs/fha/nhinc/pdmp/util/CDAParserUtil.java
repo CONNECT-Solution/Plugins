@@ -47,13 +47,11 @@ public class CDAParserUtil {
     private final static Logger logger = LoggerFactory.getLogger(CDAParserUtil.class);
 
     /**
-     * Convert xml into object
+     * Convert xml into CDA object
      *
-     * @param <T>
-     *
-     * @param cdaInputStream
-     * @return
-     * @return
+     * @param <T> the class type of the object that the XML is convverted to
+     * @param cdaInputStream the XML input to be converted to a document
+     * @return the unmarshalled document object
      */
     public static <T> T convertXMLToCDA(InputStream cdaInputStream, Class<T> responseClass) {
         try {
@@ -68,8 +66,10 @@ public class CDAParserUtil {
 
     }
     /**
-     * @param ccDAInputStream
-     * @return
+     * Converts a CDA document object to XML
+     * 
+     * @param ccDAInputStream the document stream to be converted to XML
+     * @return the marshalled XML object
      */
     public static String convertCDAToXML(POCDMT000040ClinicalDocument cdaDoc) {
         try {

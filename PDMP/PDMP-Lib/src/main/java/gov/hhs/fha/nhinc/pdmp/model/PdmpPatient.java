@@ -29,7 +29,10 @@ package gov.hhs.fha.nhinc.pdmp.model;
 import java.util.List;
 
 /**
- *
+ * Extends patient POJO with additional prescription information.
+ * 
+ * {@inheritDoc}
+ * 
  * @author jassmit
  */
 public class PdmpPatient extends Patient {
@@ -41,42 +44,82 @@ public class PdmpPatient extends Patient {
     private String reportUrl;
     private List<String> disallowedPmps;
 
+    /**
+     * 
+     * @return narcotics score for determining narcotics risk for patient 
+     */
     public String getNarcoticsScore() {
         return narcoticsScore;
     }
 
+    /**
+     * 
+     * @param narcoticsScore the narcotics score set for patient 
+     */
     public void setNarcoticsScore(String narcoticsScore) {
         this.narcoticsScore = narcoticsScore;
     }
 
+    /**
+     * 
+     * @return stimulant score for determining stimulant risk for patient
+     */
     public String getStimulantsScore() {
         return stimulantsScore;
     }
 
+    /**
+     * 
+     * @param stimulantsScore the stimulant score set for patient 
+     */
     public void setStimulantsScore(String stimulantsScore) {
         this.stimulantsScore = stimulantsScore;
     }
 
+    /**
+     * 
+     * @return sedatives score for determining sedatives risk for patient
+     */
     public String getSedativesScore() {
         return sedativesScore;
     }
 
+    /**
+     * 
+     * @param sedativesScore the sedatives score set for patient
+     */
     public void setSedativesScore(String sedativesScore) {
         this.sedativesScore = sedativesScore;
     }
 
+    /**
+     * 
+     * @return report URL for patient prescription results
+     */
     public String getReportUrl() {
         return reportUrl;
     }
 
+    /**
+     * 
+     * @param reportUrl the report URL set for the patient prescription results
+     */
     public void setReportUrl(String reportUrl) {
         this.reportUrl = reportUrl;
     }
 
+    /**
+     * 
+     * @return the PMP registries the patient is not allowed to access 
+     */
     public List<String> getDisallowedPmps() {
         return disallowedPmps;
     }
 
+    /**
+     * 
+     * @param disallowedPmps the registries set that the patient can not access
+     */
     public void setDisallowedPmps(List<String> disallowedPmps) {
         this.disallowedPmps = disallowedPmps;
     }

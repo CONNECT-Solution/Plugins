@@ -27,6 +27,8 @@
 package gov.hhs.fha.nhinc.pdmp.model;
 
 /**
+ * POJO data for a specific prescription provided to a patient
+ * 
  * @author mpnguyen
  *
  */
@@ -61,157 +63,173 @@ public class PrescriptionInfo {
     }
 
     /**
-     * @return the drugName
+     * @return the name of the drug prescribed
      */
     public String getDrugName() {
         return drugName;
     }
 
     /**
-     * @param drugName the drugName to set
+     * @param drugName name of the prescribed drug to set
      */
     public void setDrugName(String drugName) {
         this.drugName = drugName;
     }
 
     /**
-     * @return the drugCount
+     * @return the count of drug prescribed
      */
     public int getDrugCount() {
         return drugCount;
     }
 
     /**
-     * @param drugCount the drugCount to set
+     * @param drugCount the prescribed drug count to set
      */
     public void setDrugCount(int drugCount) {
         this.drugCount = drugCount;
     }
 
     /**
-     * @return the drugDuration
+     * @return the duration of the drug prescribed
      */
     public int getDrugDuration() {
         return drugDuration;
     }
 
     /**
-     * @param drugDuration the drugDuration to set
+     * @param drugDuration the duration for the drug to set
      */
     public void setDrugDuration(int drugDuration) {
         this.drugDuration = drugDuration;
     }
 
     /**
-     * @return the prescriber
+     * @return the name of the prescriber
      */
     public String getPrescriber() {
         return prescriber;
     }
 
     /**
-     * @param prescriber the prescriber to set
+     * @param prescriber the name of the prescriber to set
      */
     public void setPrescriber(String prescriber) {
         this.prescriber = prescriber;
     }
 
     /**
-     * @return the pharmacyName
+     * @return the pharmacy name
      */
     public String getPharmacyName() {
         return pharmacyName;
     }
 
     /**
-     * @param pharmacyName the pharmacyName to set
+     * @param pharmacyName the pharmacy name to set
      */
     public void setPharmacyName(String pharmacyName) {
         this.pharmacyName = pharmacyName;
     }
 
     /**
-     * @return the refill
+     * @return the number of refills for the prescription
      */
     public String getRefill() {
         return refill;
     }
 
     /**
-     * @param refill the refill to set
+     * @param refill the prescription refills to set
      */
     public void setRefill(String refill) {
         this.refill = refill;
     }
 
     /**
-     * @return the mgEq
+     * @return the amount in milligrams of prescribed drug
      */
     public double getMgEq() {
         return mgEq;
     }
 
     /**
-     * @param mgEq the mgEq to set
+     * @param mgEq amount in milligrams of drug to set
      */
     public void setMgEq(double mgEq) {
         this.mgEq = mgEq;
     }
 
     /**
-     * @return the mgEdPerDay
+     * @return the amount in milligrams of the drug to be taken daily
      */
     public String getMgEdPerDay() {
         return mgEdPerDay;
     }
 
     /**
-     * @param mgEdPerDay the mgEdPerDay to set
+     * @param mgEdPerDay the amount in milligrams of the drug to be taken daily to set
      */
     public void setMgEdPerDay(String mgEdPerDay) {
         this.mgEdPerDay = mgEdPerDay;
     }
 
     /**
-     * @return the paymentType
+     * @return the payment type used to purchase the prescription
      */
     public String getPaymentType() {
         return paymentType;
     }
 
     /**
-     * @param paymentType the paymentType to set
+     * @param paymentType the payment type used to purchase the prescription to set
      */
     public void setPaymentType(String paymentType) {
         this.paymentType = paymentType;
     }
 
     /**
-     * @return the pmpState
+     * @return the US state the prescription was registered
      */
     public String getPmpState() {
         return pmpState;
     }
 
     /**
-     * @param pmpState the pmpState to set
+     * @param pmpState the US State the prescription was registered to set
      */
     public void setPmpState(String pmpState) {
         this.pmpState = pmpState;
     }
 
+    /**
+     * 
+     * @return the classification of the drug prescribed 
+     */
     public String getDrugClass() {
         return drugClass;
     }
 
+    /**
+     * 
+     * @param drug classification to set 
+     */
     public void setDrugClass(String drugClass) {
         this.drugClass = drugClass;
     }
 
+    /**
+     * 
+     * @return if the drug prescribed is classified as an opioid 
+     */
     public boolean isIsOpioid() {
         return isOpioid;
     }
 
+    /**
+     * 
+     * @param is Opioid to set if drug is categorized as an opioid
+     */
     public void setIsOpioid(boolean isOpioid) {
         this.isOpioid = isOpioid;
     }
