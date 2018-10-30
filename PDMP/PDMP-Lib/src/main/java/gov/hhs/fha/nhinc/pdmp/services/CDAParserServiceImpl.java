@@ -56,6 +56,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
+ * Implementation for CDA Parser Service
+ * {@inheritDoc}
  * @author mpnguyen
  *
  */
@@ -65,9 +67,8 @@ public class CDAParserServiceImpl implements CDAParserService {
     private final static String MEDICATION_SECTION_ID = "2.16.840.1.113883.10.20.1.8";
 
     /**
-     * @param prescription
-     * @param cdaDocument
-     * @return
+     * {@inheritDoc}
+     * 
      */
     @Override
     public String addMedicationSection(InputStream stream, List<PrescriptionInfo> prescriptions) {

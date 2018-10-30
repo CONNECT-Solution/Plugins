@@ -37,14 +37,46 @@ import java.util.List;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
- *
+ * Performs lookup on PDMP service for all prescription data for a given patient
  * @author jassmit
  */
 public interface PdmpService {
     
+    /**
+     * Searchs for prescription data using a patient demographics and a given date range for date of prescription
+     * @param patient demographics including name, gender, date of birth used to find prescription data for patient
+     * @param dateRange search parameter for date range of when prescription was prescribed
+     * @return 
+     */
     public PdmpPatient searchForPdmpInfo(PatientType patient, DateRangeType dateRange);
+    
+    /**
+     * Transforms date to Gregorian Calendar
+     * @param date 
+     * @return 
+     */
     public XMLGregorianCalendar getGregorianCalendar(Date date);
+    
+    /**
+     * Transforms user input on gender type to gender type object used by PDMP service
+     * @param gender
+     * @return 
+     */
     public SexCodeType getSexCodeType(String gender);
+    
+    /**
+     * Transforms user provided dates for range to PDMP service date range parameter
+     * @param beginRange
+     * @param endRange
+     * @return 
+     */
     public DateRangeType buildDateRange(Date beginRange, Date endRange);
+    
+    /**
+     * Parses the specific prescriptions from the found patient prescription results
+     * @param patient
+     * @return
+     * @throws IOException 
+     */
     public List<PrescriptionInfo> getAllPrescriptions(PdmpPatient patient) throws IOException;
 }

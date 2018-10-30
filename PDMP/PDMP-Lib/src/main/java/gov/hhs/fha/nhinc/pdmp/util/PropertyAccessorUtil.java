@@ -33,7 +33,9 @@ import org.apache.commons.configuration.reloading.FileChangedReloadingStrategy;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Accesses property file in nhinc.properties.dir location that includes URL and needed information for prescription service query.
+ * Accessor caches and reloads the property data using apache commons library
+ * 
  * @author jassmit
  */
 public class PropertyAccessorUtil {
@@ -66,11 +68,19 @@ public class PropertyAccessorUtil {
         public static final PropertyAccessorUtil INSTANCE = new PropertyAccessorUtil();
     }
 
-    // singleton
+    /**
+     * 
+     * @return Singleton of Property Accessor 
+     */
     public static PropertyAccessorUtil getInstance() {
         return PropertyAccessorUtil.SingletonHolder.INSTANCE;
     }
     
+    /**
+     * 
+     * @param key 
+     * @return  the value in property file for the key
+     */
     public String getProperty(String key) {
         return properties.getString(key);
     }

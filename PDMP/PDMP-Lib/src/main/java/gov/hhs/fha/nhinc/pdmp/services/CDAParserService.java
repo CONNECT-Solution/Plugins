@@ -31,15 +31,18 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- *
+ * Parses a given input stream to a CDA document and adds the provided prescriptions to the documents medications section.
+ * 
  * @author jassmit
  */
 public interface CDAParserService {
 
     /**
-     * @param stream
-     * @param prescriptions
-     * @return
+     * Adds the prescriptions provided to the CDA document included in the input stream
+     * 
+     * @param stream the document stream to be transformed to CDA document
+     * @param prescriptions the prescriptions to add to the CDA document
+     * @return the updated document with prescriptions added
      */
     public String addMedicationSection(InputStream stream, List<PrescriptionInfo> prescriptions);
 
