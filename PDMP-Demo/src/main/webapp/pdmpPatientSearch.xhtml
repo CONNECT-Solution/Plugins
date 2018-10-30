@@ -47,7 +47,7 @@
                     <div class="tab-content">
                         <!-- BEGIN:  PATIENT SEARCH TAB -->
                         <p:tab title="Patient Search" closable="false">
-                            <h:form class="form-horizontal" role="form" id="patientDiecovryForm">
+                            <h:form class="form-horizontal" role="form" id="patientDiscoveryForm">
                                 <div class="tab-pane active" id="patient">
                                     <div class="content-block">
                                         <h2 class="subsection-header">Search Wizard</h2>
@@ -214,7 +214,7 @@
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
                                                         <div class="form-button-row">
-                                                            <p:commandButton id="ResetDocumentQeryTab" value="Clear" styleClass="btn btn-default" action="#{patientSearchBean.clearDocumentQueryTab()}" update="docPanel"/>
+                                                            <p:commandButton id="ResetDocumentQeryTab" value="Clear" styleClass="btn btn-default" action="#{patientSearchBean.clearDocumentQueryTab()}" update="docPanel,drugPanel"/>
                                                             <p:commandButton id="documentQuerySearch" update=":patientSearchTabView,patientDocumentResult,patientDocumentMessage" value="Search" styleClass="btn btn-primary" icon="ui-icon-search" action="#{patientSearchBean.searchPatientDocument()}"/>
                                                         </div>
                                                     </div>
@@ -273,19 +273,25 @@
                                             <!-- BEGIN: PDMP Search -->
                                             <h2>Prescription Drug Search</h2>
                                             <p>Search for current patient's prescription drug history using state exchange connection.</p>
-                                            <div class="form-block center-block">
-                                                <div class="form-group">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-button-row">
-                                                            <p:commandButton id="ResetPrescriptionsBtn" value="Clear" styleClass="btn btn-default" action="#{patientSearchBean.clearPrescriptions()}" update="drugPanel"/>
-                                                            <p:commandButton id="drugSearchBtn" update=":patientSearchTabView, pdmpPrescResult" value="Search Meds" styleClass="btn btn-primary" icon="ui-icon-search" action="#{patientSearchBean.searchForPrescriptions()}"/>
-                                                            
-                                                            <p:commandButton id="addDrugBtn" value="Add Med" styleClass="btn btn-continue pull-left" icon="ui-icon-plus" action="#{patientSearchBean.addPrescriptionsToDoc()}" oncomplete="PF('documentContent').show();" update=":documentDialog" rendered="#{patientSearchBean.drugsFound}"/>                                                       
+                                            <h:panelGroup id="drugPanel" layout="block">
+                                                <div class="form-block center-block">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-button-row">
+                                                                <p:commandButton id="ResetPrescriptionsBtn" value="Clear" styleClass="btn btn-default" action="#{patientSearchBean.clearPrescriptions()}" update="drugPanel"/>
+                                                                <p:commandButton id="drugSearchBtn" update=":patientSearchTabView, pdmpPrescResult" value="Search Meds" styleClass="btn btn-primary" icon="ui-icon-search" action="#{patientSearchBean.searchForPrescriptions()}"/>
+                                                                <h:selectOneMenu id="selectOneDoc" value="#{patientSearchBean.selectedDocId}" rendered="#{patientSearchBean.drugsAndDocumentFound}" styleClass="form-control pull-left" style="width:auto;">
+                                                                    <f:selectItem itemLabel="Select Document" itemValue="" noSelectionOption="true" />
+                                                                    <f:selectItems value="#{patientSearchBean.documentIdList}"/>
+                                                                </h:selectOneMenu>
+                                                                <p:commandButton id="addPrescriptionToDoc" value="Add Prescription To Document" styleClass="btn btn-continue pull-left" icon="ui-icon-plus" iconPos="right" action="#{patientSearchBean.addPrescriptionsToDoc()}" oncomplete="PF('documentContent').show();" update=":documentDialog" rendered="#{patientSearchBean.drugsAndDocumentFound}">
+                                                                    <f:setPropertyActionListener target="#{patientSearchBean.selectedDocument}" value="#{patientDocument.documentIndex}"/>
+                                                                </p:commandButton>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <h:panelGroup id="drugPanel" layout="block">
+
                                                 <div class="form-group">
                                                     <div class="col-sm-12">
                                                         <div class="table-responsive table-props">
@@ -397,7 +403,11 @@
                 <div class="modal-copyright-prime modal-uc-docs">
                     <p:dialog header="#{patientSearchBean.documentInfoModalWindowHeader}" widgetVar="documentContent" id="documentDialog" modal="true" style="height:80%;">
                         <div class="uc-doc-list">
-                            <p:commandButton id="downloadDocument" value="Download" styleClass="btn-default" immediate="true" rendered="false"/>
+                            <h:form>
+                                <p:commandButton id="downloadDocument" value="Download" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" styleClass="btn btn-primary" icon="ui-icon-arrowthickstop-1-s" iconPos="right">
+                                    <p:fileDownload value="#{patientSearchBean.file}" />
+                                </p:commandButton>
+                            </h:form>
                             <h:outputText value=" #{patientSearchBean.documentXml}" escape="false" rendered="#{patientSearchBean.renderDocumentText}"/>
                             <!--All image files should be displayed displayed here-->
                             <p:scrollPanel rendered="#{patientSearchBean.renderDocumentimage}">

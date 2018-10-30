@@ -65,6 +65,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import org.primefaces.model.ByteArrayContent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.slf4j.Logger;
@@ -138,6 +139,7 @@ public class PatientSearchBean {
     private List<PrescriptionInfo> fullPrescriptionList;
 
     private List<PrescriptionInfo> selectedDrugs;
+    private String selectedDocId;
 
     /**
      * Instantiate all the variables and load the lookup Data
@@ -227,7 +229,7 @@ public class PatientSearchBean {
                         drug.setDrugClass(drugClassService.searchForDrugClass(namePart));
                     }
                     if (NullChecker.isNotNullish(drug.getDrugClass())
-                        && drug.getDrugClass().toLowerCase().contains("opioid".toLowerCase())) {
+                            && drug.getDrugClass().toLowerCase().contains("opioid".toLowerCase())) {
                         drug.setIsOpioid(true);
                         opioidList.add(drug);
                     } else {
@@ -243,6 +245,7 @@ public class PatientSearchBean {
     }
 
     public void addPrescriptionsToDoc() {
+        setSelectedDocument();
         retrieveDocument();
         InputStream stream = new ByteArrayInputStream(getDocumentList().get(getSelectedDocument()).getDocumentContent());
 
@@ -254,9 +257,20 @@ public class PatientSearchBean {
         }
     }
 
+    private void setSelectedDocument() {
+        if (NullChecker.isNotNullish(selectedDocId)) {
+            for (Document doc : documentList) {
+                if (selectedDocId.equalsIgnoreCase(doc.getDocumentId())) {
+                    selectedDocument = doc.getDocumentIndex();
+                    return;
+                }
+            }
+        }
+    }
+
     public byte[] convertXmlToHtml(byte[] originalDocument) {
         final InputStream xsl = FacesContext.getCurrentInstance().getExternalContext()
-            .getResourceAsStream(DEFAULT_XSL_FILE);
+                .getResourceAsStream(DEFAULT_XSL_FILE);
         final InputStream xml = new ByteArrayInputStream(originalDocument);
         byte[] convertXmlToHtml = null;
         if (xsl != null) {
@@ -316,7 +330,6 @@ public class PatientSearchBean {
      */
     public void clearDocumentQueryTab() {
         documentFound = false;
-        drugsFound = false;
         documentRangeFrom = null;
         documentRangeTo = null;
 
@@ -339,6 +352,7 @@ public class PatientSearchBean {
         prescriptionList.clear();
         fullPrescriptionList.clear();
         opioidList.clear();
+        selectedDocId = "";
     }
 
     /**
@@ -437,12 +451,35 @@ public class PatientSearchBean {
         this.drugsFound = drugsFound;
     }
 
+    public boolean isDrugsAndDocumentFound() {
+        return drugsFound && documentFound;
+    }
+
     public List<PrescriptionInfo> getPrescriptionList() {
         return prescriptionList;
     }
 
     public void setPrescriptionList(List<PrescriptionInfo> prescriptionList) {
         this.prescriptionList = prescriptionList;
+    }
+
+    public List<String> getDocumentIdList() {
+        List<String> documentIds = new ArrayList<>();
+        List<Document> docList = getDocumentList();
+        if (docList != null) {
+            for (Document doc : docList) {
+                documentIds.add(doc.getDocumentId());
+            }
+        }
+        return documentIds;
+    }
+
+    public String getSelectedDocId() {
+        return selectedDocId;
+    }
+
+    public void setSelectedDocId(String selectedDocId) {
+        this.selectedDocId = selectedDocId;
     }
 
     public String getDrugsResultUrl() {
@@ -461,9 +498,8 @@ public class PatientSearchBean {
         this.opioidsOnly = opioidsOnly;
     }
 
-
     public void changeTableForOpioidValues() {
-        if(opioidsOnly) {
+        if (opioidsOnly) {
             prescriptionList = opioidList;
         } else {
             prescriptionList = fullPrescriptionList;
@@ -688,7 +724,7 @@ public class PatientSearchBean {
         try {
             // Load the documentType.properties file
             Properties localDocumentTypeProperties = PropertyAccessor.getInstance()
-                .getProperties(NhincConstants.DOCUMENT_TYPE_PROPERTY_FILE);
+                    .getProperties(NhincConstants.DOCUMENT_TYPE_PROPERTY_FILE);
             Iterator<Entry<Object, Object>> it = localDocumentTypeProperties.entrySet().iterator();
             while (it.hasNext()) {
                 Entry<Object, Object> property = it.next();
@@ -758,12 +794,12 @@ public class PatientSearchBean {
     public StreamedContent getDocumentImage() {
         // return the content only if its an image file
         if (getSelectedCurrentDocument().getContentType() != null && (getSelectedCurrentDocument().getContentType()
-            .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG))) {
+                .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG))) {
             byte[] imageInByteArray = getSelectedCurrentDocument().getDocumentContent();
             return new DefaultStreamedContent(new ByteArrayInputStream(imageInByteArray),
-                getSelectedCurrentDocument().getContentType());
+                    getSelectedCurrentDocument().getContentType());
         }
         return null;
     }
@@ -773,9 +809,9 @@ public class PatientSearchBean {
      */
     public boolean isRenderDocumentimage() {
         return getSelectedCurrentDocument().getContentType() != null && (getSelectedCurrentDocument().getContentType()
-            .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG));
+                .equals(GatewayService.CONTENT_TYPE_IMAGE_PNG)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_GIF)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_IMAGE_JPEG));
     }
 
     /**
@@ -783,7 +819,7 @@ public class PatientSearchBean {
      */
     public boolean isRenderDocumentPdf() {
         return getSelectedCurrentDocument().getContentType() != null
-            && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF);
+                && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF);
     }
 
     /**
@@ -791,7 +827,7 @@ public class PatientSearchBean {
      */
     public boolean isRenderDocumentText() {
         return getSelectedCurrentDocument().getContentType() != null
-            && (getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
+                && (getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
                 || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_HTML)
                 || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_PLAIN)
                 || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_XML));
@@ -803,10 +839,10 @@ public class PatientSearchBean {
     public StreamedContent getDocumentPdf() {
         // return the content only if its an pdf file
         if (getSelectedCurrentDocument().getContentType() != null
-            && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF)) {
+                && getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF)) {
             byte[] imageInByteArray = getSelectedCurrentDocument().getDocumentContent();
             return new DefaultStreamedContent(new ByteArrayInputStream(imageInByteArray),
-                getSelectedCurrentDocument().getContentType());
+                    getSelectedCurrentDocument().getContentType());
         }
         return null;
     }
@@ -815,13 +851,13 @@ public class PatientSearchBean {
      * @return the XML Clinical document in HTML format
      */
     public String getDocumentXml() {
-        // return the content only if its an pdf file
-        if (getSelectedCurrentDocument().getContentType() != null && (getSelectedCurrentDocument().getContentType()
-            .equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_HTML)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_PLAIN)
-            || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_XML))) {
-
+        // return the content only if its an xml file
+        if (getSelectedCurrentDocument().getContentType() != null && getSelectedCurrentDocument().getHtmlContent() != null
+                && (getSelectedCurrentDocument().getContentType()
+                        .equals(GatewayService.CONTENT_TYPE_APPLICATION_XML)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_HTML)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_PLAIN)
+                || getSelectedCurrentDocument().getContentType().equals(GatewayService.CONTENT_TYPE_TEXT_XML))) {
 
             return new String(getSelectedCurrentDocument().getHtmlContent());
         }
@@ -878,6 +914,32 @@ public class PatientSearchBean {
         return modal;
     }
 
+    public StreamedContent getFile() {
+        return new ByteArrayContent(getSelectedCurrentDocument().getDocumentContent(), getSelectedCurrentDocument().getContentType(), 
+                getDocumentName(getSelectedCurrentDocument().getContentType()));
+    }
+    
+    private String getDocumentName(String contentType) {
+        StringBuilder sBuilder = new StringBuilder();
+        sBuilder.append(getPatientList().get(0).getFirstName().toLowerCase());
+        sBuilder.append("_");
+        sBuilder.append(getPatientList().get(0).getLastName().toLowerCase());
+        sBuilder.append(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
+        sBuilder.append(".");
+        
+        if(contentType.equals(GatewayService.CONTENT_TYPE_APPLICATION_PDF)) {
+            sBuilder.append("pdf");
+        } else if (contentType.equals(GatewayService.CONTENT_TYPE_APPLICATION_XML) ||
+                contentType.equals(GatewayService.CONTENT_TYPE_TEXT_XML) ||
+                contentType.equals(GatewayService.CONTENT_TYPE_APPLICATION_OCTET_STREAM)) {
+            sBuilder.append("xml");
+        } else {
+            sBuilder.append("txt");
+        }
+        
+        return sBuilder.toString();
+    }
+    
     private String parseDrugName(String drugName) {
         String arr[] = drugName.split(" ");
         if (arr != null && arr.length > 0) {
