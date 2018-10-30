@@ -2,13 +2,13 @@
 
     <parent>
         <groupId>org.connectopensource</groupId>
-        <artifactId>Plugins</artifactId>
+        <artifactId>PDMP</artifactId>
         <version>4.6.0-SNAPSHOT</version>
     </parent>
 
 
-    <artifactId>PDMP-Demo</artifactId>
-    <name>PDMP Demo GUI</name>
+    <artifactId>pdmp-demo</artifactId>
+    <name>${project.artifactId}</name>
     <packaging>war</packaging>
     <modelVersion>4.0.0</modelVersion>
     
@@ -26,7 +26,7 @@
         
         <dependency>
             <groupId>${parent.groupId}</groupId>
-            <artifactId>PDMP</artifactId>
+            <artifactId>pdmp-lib</artifactId>
             <version>${parent.version}</version>
         </dependency>
         <!-- Java EE APIs -->
