@@ -62,15 +62,18 @@ public class UDDIExchangeTransformerUtility {
 
     public static void main(String[] args) {
         try {
-            if(args.length > 0) {
+            if (args.length > 0) {
                 fetchFiles(args[0]);
             }
         } catch (ConnectionManagerException | ExchangeManagerException | ExchangeTransformException ex) {
-            Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.SEVERE, "Exception thrown in UDDIExchangeTransformerUtility", ex);
+            Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.SEVERE,
+                "Exception thrown in UDDIExchangeTransformerUtility", ex);
         }
     }
 
-    private static void fetchFiles(String path) throws ConnectionManagerException, ExchangeManagerException, ExchangeTransformException {
+    private static void fetchFiles(String path) throws ExchangeManagerException,
+        ExchangeTransformException,
+        ConnectionManagerException {
         File aFile = new File(path);
         Collection<File> list = FileUtils.listFiles(aFile, getConnectionInfoFileFilter(),
             DirectoryFileFilter.INSTANCE);
@@ -92,7 +95,8 @@ public class UDDIExchangeTransformerUtility {
             }
             exDAO.setFileName(transformedFileName(vfile));
             exDAO.saveExchangeInfo(exInfo);
-            Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.INFO, "FileName: " + vfile.getAbsolutePath() + "---> Transformed File Name: "
+            Logger.getLogger(UDDIExchangeTransformerUtility.class.getName()).log(Level.INFO, "FileName: " + vfile.
+                getAbsolutePath() + "---> Transformed File Name: "
                 + transformedFileName(vfile));
         }
     }
@@ -112,7 +116,8 @@ public class UDDIExchangeTransformerUtility {
         return false;
     }
 
-    private static ExchangeInfoType buildExchangeInfo(String type, String exchangeName, OrganizationListType orgList, boolean uddiFile) {
+    private static ExchangeInfoType buildExchangeInfo(String type, String exchangeName, OrganizationListType orgList,
+        boolean uddiFile) {
         ExchangeInfoType exinfo = new ExchangeInfoType();
         ExchangeListType exList = new ExchangeListType();
         ExchangeType exchange = new ExchangeType();
@@ -121,10 +126,11 @@ public class UDDIExchangeTransformerUtility {
         exchange.setOrganizationList(orgList);
         exchange.setDisabled(true);
         exList.getExchange().add(exchange);
-        if(uddiFile){
+        if (uddiFile) {
             exchange.setUrl(PLACE_HOLDER);
             exinfo.setRefreshInterval(1440l);
             exinfo.setMaxNumberOfBackups(BigInteger.ONE);
+            exinfo.setDefaultExchange(exchangeName);
         }
         exinfo.setExchanges(exList);
         return exinfo;
