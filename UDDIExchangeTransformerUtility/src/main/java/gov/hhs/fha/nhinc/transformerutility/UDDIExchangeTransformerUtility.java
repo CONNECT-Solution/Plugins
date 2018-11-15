@@ -58,7 +58,7 @@ public class UDDIExchangeTransformerUtility {
     private static final String LOCAL = "local";
     private static final String UDDI = "uddi";
     private static final String EXCHANGE_1 = "Exchange 1";
-    private static final String PLACE_HOLDER = "<Enter>";
+    private static final String PLACE_HOLDER = "https://testurl/uddi/list";
 
     public static void main(String[] args) {
         try {
@@ -126,11 +126,11 @@ public class UDDIExchangeTransformerUtility {
         exchange.setOrganizationList(orgList);
         exchange.setDisabled(true);
         exList.getExchange().add(exchange);
+        exinfo.setDefaultExchange(exchangeName);
         if (uddiFile) {
             exchange.setUrl(PLACE_HOLDER);
             exinfo.setRefreshInterval(1440l);
             exinfo.setMaxNumberOfBackups(BigInteger.ONE);
-            exinfo.setDefaultExchange(exchangeName);
         }
         exinfo.setExchanges(exList);
         return exinfo;
