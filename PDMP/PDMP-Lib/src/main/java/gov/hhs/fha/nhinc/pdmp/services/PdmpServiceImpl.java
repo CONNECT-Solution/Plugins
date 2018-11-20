@@ -71,6 +71,13 @@ public class PdmpServiceImpl implements PdmpService {
     private static final String URL_PROP_NAME = "pdmpUrl";
     private static final String USER_PROP_NAME = "pdmpUser";
     private static final String PASS_PROP_NAME = "pdmpPass";
+    private static final String STATE_PROP_NAME = "pdmpState";
+    private static final String LOC_TYPE_PROP_NAME = "pdmpLocationType";
+    private static final String LOC_DEA_NUMBER_PROP_NAME = "pdmpLocationDeaNumber";
+    private static final String PROVIDER_ROLE_PROP_NAME = "pdmpProviderRole";
+    private static final String PROVIDER_FIRST_PROP_NAME = "pdmpProviderFirstName";
+    private static final String PROVIDER_LAST_PROP_NAME = "pdmpProviderLastName";
+    private static final String PROVIDER_DEA_NUMBER_PROP_NAME = "pdmpProviderDeaNumber";
 
     gov.hhs.fha.nhinc.pdmp.ObjectFactory of = new gov.hhs.fha.nhinc.pdmp.ObjectFactory();
 
@@ -213,19 +220,26 @@ public class PdmpServiceImpl implements PdmpService {
     private LocationType buildLocation() {
         LocationType location = new LocationType();
         Address address = new Address();
-        address.setStateCode(USStateCodeType.KS);
-        location.getContent().add(of.createLocationTypeName("Federal Agency"));
-        location.getContent().add(of.createLocationTypeDEANumber("AB1234579"));
+        address.setStateCode(USStateCodeType.fromValue(getPropertyAccessor()
+                .getProperty(STATE_PROP_NAME)));
+        location.getContent().add(of.createLocationTypeName(getPropertyAccessor()
+                .getProperty(LOC_TYPE_PROP_NAME)));
+        location.getContent().add(of.createLocationTypeDEANumber(getPropertyAccessor()
+                .getProperty(LOC_DEA_NUMBER_PROP_NAME)));
         location.getContent().add(of.createLocationTypeAddress(address));
         return location;
     }
 
     private ProviderType buildProvider() {
         ProviderType provider = new ProviderType();
-        provider.getContent().add(of.createProviderTypeRole(RoleType.PHYSICIAN));
-        provider.getContent().add(of.createProviderTypeFirstName("Jason"));
-        provider.getContent().add(of.createProviderTypeLastName("Smith"));
-        provider.getContent().add(of.createProviderTypeDEANumber("AB1234579"));
+        provider.getContent().add(of.createProviderTypeRole(getRoleType(getPropertyAccessor()
+                .getProperty(PROVIDER_ROLE_PROP_NAME))));
+        provider.getContent().add(of.createProviderTypeFirstName(getPropertyAccessor()
+                .getProperty(PROVIDER_FIRST_PROP_NAME)));
+        provider.getContent().add(of.createProviderTypeLastName(getPropertyAccessor()
+                .getProperty(PROVIDER_LAST_PROP_NAME)));
+        provider.getContent().add(of.createProviderTypeDEANumber(getPropertyAccessor()
+                .getProperty(PROVIDER_DEA_NUMBER_PROP_NAME)));
         return provider;
     }
 
@@ -271,6 +285,16 @@ public class PdmpServiceImpl implements PdmpService {
         reportRequest.setRequester(requester);
 
         return reportRequest;
+    }
+    
+    private RoleType getRoleType(String value) {
+        RoleType type = null;
+        try {
+            type = RoleType.valueOf(value);
+        } catch (IllegalArgumentException ex) {
+            LOG.warn("No roletype for value {}", value, ex);
+        }
+        return type;
     }
 
 }
