@@ -229,7 +229,7 @@ public class PatientSearchBean {
                         drug.setDrugClass(drugClassService.searchForDrugClass(namePart));
                     }
                     if (NullChecker.isNotNullish(drug.getDrugClass())
-                            && drug.getDrugClass().toLowerCase().contains("opioid".toLowerCase())) {
+                            && drug.getDrugClass().toLowerCase().contains("opioid")) {
                         drug.setIsOpioid(true);
                         opioidList.add(drug);
                     } else {

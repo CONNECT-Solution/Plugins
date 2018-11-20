@@ -31,7 +31,6 @@
         <module>HPD-WS-Client</module>
         <module>PerformanceTestTools</module>
         <module>PDMP</module>
-        <module>PDMP-Demo</module>
         <!--module>X12RealTimeLargePayloadTest</module-->
     </modules>
 </project>
