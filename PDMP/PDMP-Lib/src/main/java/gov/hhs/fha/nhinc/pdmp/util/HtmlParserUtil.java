@@ -27,21 +27,27 @@
 package gov.hhs.fha.nhinc.pdmp.util;
 
 import gov.hhs.fha.nhinc.pdmp.model.PrescriptionInfo;
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Searches for patient prescription results and parses the found HTML for the prescription list.
- * 
+ *
  * @author mpnguyen
  *
  */
@@ -50,41 +56,64 @@ public class HtmlParserUtil {
     private static final Logger logger = LoggerFactory.getLogger(HtmlParserUtil.class);
 
     /**
-     * Retrieves patient prescription report from the given URL and adds extracts the prescriptions from the report HTML using the JSoup library
-     * 
+     * Retrieves patient prescription report from the given URL and adds extracts the prescriptions from the report HTML
+     * using the JSoup library
+     *
      * @param htmlUrl URL provided for retrieving prescription data
      * @return list of prescriptions for the searched patient
      * @throws MalformedURLException
-     * @throws IOException 
+     * @throws IOException
      */
     public static List<PrescriptionInfo> getAllPrescriptions(String htmlUrl) throws MalformedURLException, IOException {
         Document htmlDocument = Jsoup.parse(new URL(htmlUrl), 10000);
         return populatePrescriptionList(htmlDocument);
     }
 
-    private static List<PrescriptionInfo> populatePrescriptionList(Document htmlDocument) throws NumberFormatException {
-        Element prescriptionTable = htmlDocument.getElementById("prescriptions-table");
-        Elements prescriptionRows = prescriptionTable.select("tbody > tr");
-        List<PrescriptionInfo> prescriptionList = new ArrayList<>();
-        for (Element row : prescriptionRows) {
+    /**
+     * Use for junit test
+     *
+     * @param fileName
+     * @return
+     * @throws MalformedURLException
+     * @throws IOException
+     */
+    public static List<PrescriptionInfo> getAllPrescriptionsFromFile(String fileName)
+        throws MalformedURLException, IOException {
+        File file = new File(fileName);
+        logger.debug("File Location {} ", file.toPath());
+        Document htmlDocument = Jsoup.parse(new File(fileName), "UTF-8");
+        return populatePrescriptionList(htmlDocument);
+    }
 
-            prescriptionList.add(populatePrescriptionInfo(row));
+    private static List<PrescriptionInfo> populatePrescriptionList(Document htmlDocument) {
+        Elements elements = htmlDocument.select("script");
+        Element data = elements.get(1);
+        List<Node> childNodes = data.childNodes();
+        Node node = childNodes.get(0);
+        List<PrescriptionInfo> prescriptionList = new ArrayList<>();
+        if (node instanceof DataNode) {
+            DataNode childDataNode = (DataNode) node;
+            String content = childDataNode.getWholeData();
+            content = StringUtils.trim(content);
+            content = StringUtils.removeStart(content, "window.DataReportPageSetup()(");
+            content = StringUtils.removeEnd(content, ");");
+            JSONObject jsonObject = new JSONObject(content);
+            JSONArray prescriptions = jsonObject.getJSONObject("rx").getJSONArray("prescriptions");
+            prescriptions.forEach(prescription -> {
+                JSONObject obj = (JSONObject) prescription;
+                prescriptionList.add(populatePrescriptionInfo(obj));
+            });
         }
         return prescriptionList;
     }
 
-    private static PrescriptionInfo populatePrescriptionInfo(Element row) throws NumberFormatException {
+    private static PrescriptionInfo populatePrescriptionInfo(JSONObject row) {
         PrescriptionInfo prescriptionInfo = new PrescriptionInfo();
-        // retrieve TD tag Cell as lists
-        Elements tDCells = row.select("td");
-        prescriptionInfo.setFileStrDate(tDCells.get(0).ownText());
-        prescriptionInfo.setDrugName(tDCells.get(3).ownText());
-        prescriptionInfo.setDrugCount(Integer.parseInt(tDCells.get(4).ownText()));
-        prescriptionInfo.setDrugDuration(Integer.parseInt(tDCells.get(5).ownText()));
-        prescriptionInfo.setPrescriber(tDCells.get(6).ownText());
-        prescriptionInfo.setPharmacyName(tDCells.get(7).ownText());
-        prescriptionInfo.setPmpState(tDCells.get(12).ownText());
+        prescriptionInfo.setFileStrDate(row.getString("filled_at"));
+        prescriptionInfo.setDrugName(row.getJSONObject("drug").getString("product_name"));
+        prescriptionInfo.setDrugCount(row.getJSONObject("drug").getInt("quantity"));
+        prescriptionInfo.setDrugDuration(row.getInt("days_supply"));
+        prescriptionInfo.setPmpState(row.getString("source_state_code"));
         return prescriptionInfo;
     }
-
 }
