@@ -17,3 +17,5 @@ The following Plugins are available to use with CONNECT ear. These Plugins are n
   * HPD-WS-Client
   * PerformanceTestTools
   * XDSBPlugin                  
+
+When deploying to CONNECT, copy the project properties file into nhinc.properties.dir.
